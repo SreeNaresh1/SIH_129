@@ -1,0 +1,352 @@
+.government-review-page {
+  min-height: 100vh;
+  background: #f5f7fb;
+  padding: 35px 45px;
+  color: #102a43;
+}
+
+
+/* HEADER */
+
+.government-review-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 30px;
+}
+
+.government-review-header h1 {
+  margin: 0;
+  font-size: 36px;
+  font-weight: 700;
+}
+
+.government-review-header p {
+  margin-top: 8px;
+  color: #607d9b;
+  font-size: 17px;
+}
+
+.back-button {
+  border: none;
+  background: transparent;
+  color: #2563eb;
+  font-size: 17px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+
+/* STATUS */
+
+.review-status {
+  padding: 22px 26px;
+  border-radius: 14px;
+  margin-bottom: 24px;
+}
+
+.review-status strong {
+  font-size: 20px;
+}
+
+.review-status p {
+  margin: 8px 0 0;
+  font-size: 15px;
+}
+
+.status-pending {
+  background: #fff7df;
+  border: 1px solid #f1d78a;
+  color: #8a6400;
+}
+
+.status-approved {
+  background: #e7f8ee;
+  border: 1px solid #a8dfbf;
+  color: #08783f;
+}
+
+.status-changes {
+  background: #fff0e8;
+  border: 1px solid #f0bea4;
+  color: #a44119;
+}
+
+
+/* CARDS */
+
+.review-card {
+  background: white;
+  border: 1px solid #dce4ef;
+  border-radius: 16px;
+  padding: 30px;
+  margin-bottom: 24px;
+  box-shadow: 0 2px 8px rgba(16, 42, 67, 0.03);
+}
+
+.review-card h2 {
+  margin: 0 0 22px;
+  font-size: 24px;
+}
+
+.review-card h3 {
+  margin-bottom: 10px;
+}
+
+
+/* CHALLENGE */
+
+.challenge-info {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 22px;
+}
+
+.challenge-info div {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.challenge-info span,
+.info-row span,
+.detail-box span {
+  color: #7186a0;
+  font-size: 14px;
+}
+
+.challenge-info strong,
+.info-row strong {
+  font-size: 16px;
+}
+
+.problem-description {
+  border-top: 1px solid #e4eaf2;
+  margin-top: 25px;
+  padding-top: 22px;
+}
+
+.problem-description p {
+  color: #526d89;
+  font-size: 16px;
+}
+
+
+/* TEAM */
+
+.team-review {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.info-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 17px 20px;
+  background: #f5f8fd;
+  border-radius: 10px;
+}
+
+
+/* CARD TITLE */
+
+.card-title {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 25px;
+}
+
+.card-title h2 {
+  margin-bottom: 6px;
+}
+
+.card-title p {
+  margin: 0;
+  color: #7186a0;
+}
+
+.completed-badge {
+  background: #e6f7ed;
+  color: #08783f;
+  padding: 8px 14px;
+  border-radius: 20px;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+
+/* DETAILS */
+
+.proposal-content,
+.prototype-content {
+  display: flex;
+  flex-direction: column;
+  gap: 17px;
+}
+
+.detail-box {
+  padding: 18px 20px;
+  background: #f7f9fc;
+  border: 1px solid #e3e9f1;
+  border-radius: 10px;
+}
+
+.detail-box strong {
+  display: block;
+  margin-top: 7px;
+  font-size: 17px;
+}
+
+.detail-box p {
+  margin: 8px 0 0;
+  color: #526d89;
+  line-height: 1.6;
+  white-space: pre-wrap;
+}
+
+
+/* EMPTY */
+
+.empty-message {
+  padding: 25px;
+  background: #f7f9fc;
+  border-radius: 10px;
+  color: #7186a0;
+}
+
+
+/* ACTIONS */
+
+.review-actions-card {
+  background: white;
+  border: 1px solid #dce4ef;
+  border-radius: 16px;
+  padding: 30px;
+  margin-bottom: 30px;
+}
+
+.review-actions-card h2 {
+  margin: 0 0 8px;
+}
+
+.review-actions-card p {
+  color: #607d9b;
+}
+
+.review-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 15px;
+  margin-top: 25px;
+}
+
+.changes-button,
+.approve-button {
+  border: none;
+  padding: 13px 24px;
+  border-radius: 9px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.changes-button {
+  background: #fff0e8;
+  color: #a44119;
+  border: 1px solid #f0bea4;
+}
+
+.approve-button {
+  background: #2563eb;
+  color: white;
+}
+
+.approve-button:hover {
+  background: #1d4ed8;
+}
+
+.changes-button:hover {
+  background: #ffe5d8;
+}
+
+
+/* APPROVED */
+
+.approved-card {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  padding: 25px 30px;
+  background: #e7f8ee;
+  border: 1px solid #a8dfbf;
+  border-radius: 16px;
+}
+
+.approved-icon {
+  width: 55px;
+  height: 55px;
+  border-radius: 50%;
+  background: #22a862;
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.approved-card h2 {
+  margin: 0 0 5px;
+  color: #08783f;
+}
+
+.approved-card p {
+  margin: 0;
+  color: #357455;
+}
+
+
+/* RESPONSIVE */
+
+@media (max-width: 800px) {
+
+  .government-review-page {
+    padding: 25px 18px;
+  }
+
+  .government-review-header {
+    flex-direction: column;
+    gap: 15px;
+  }
+
+  .government-review-header h1 {
+    font-size: 29px;
+  }
+
+  .challenge-info {
+    grid-template-columns: 1fr;
+  }
+
+  .card-title {
+    flex-direction: column;
+    gap: 15px;
+  }
+
+  .info-row {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+
+  .review-actions {
+    flex-direction: column;
+  }
+
+  .changes-button,
+  .approve-button {
+    width: 100%;
+  }
+}

@@ -1,0 +1,45 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  width: 100%;
+  min-height: 100%;
+}
+
+body {
+  font-family: Arial, Helvetica, sans-serif;
+  background: #f5f7fb;
+  color: #172033;
+}
+
+
+/* Make form text visible */
+
+input,
+textarea,
+select,
+button {
+  font-family: inherit;
+}
+
+input,
+textarea,
+select {
+  color: #172033;
+  background: white;
+}
+
+input::placeholder,
+textarea::placeholder {
+  color: #7a8392;
+  opacity: 1;
+}
+
+button {
+  color: inherit;
+}

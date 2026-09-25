@@ -1,0 +1,26 @@
+.prototype-testing-page {
+  padding: 40px;
+  background: #f5f7fb;
+  min-height: 100vh;
+}
+
+.prototype-testing-card {
+  background: white;
+  padding: 30px;
+  border-radius: 16px;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.prototype-testing-page h1 {
+  color: #123;
+}
+
+.prototype-testing-page button {
+  background: #2864e8;
+  color: white;
+  border: none;
+  padding: 12px 24px;
+  border-radius: 8px;
+  cursor: pointer;
+}
