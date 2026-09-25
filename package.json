@@ -1,0 +1,22 @@
+{
+  "name": "sih-43",
+  "version": "1.0.0",
+  "description": "Jharkhand Societal Challenge Platform (SIH-43)",
+  "private": true,
+  "scripts": {
+    "server": "npm --prefix server run dev",
+    "server:start": "npm --prefix server start",
+    "frontend": "npm --prefix frontend run dev",
+    "frontend:build": "npm --prefix frontend run build",
+    "install:all": "npm --prefix server install && npm --prefix frontend install"
+  },
+  "keywords": [
+    "sih2026",
+    "smart-india-hackathon",
+    "societal-challenges",
+    "explainable-ai",
+    "jharkhand"
+  ],
+  "author": "SIH-43 Team",
+  "license": "ISC"
+}

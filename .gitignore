@@ -95,3 +95,7 @@ desktop.ini
 *.temp
 *.bak
 *.swp
+*.backup*
+test_*.txt
+test_err.txt
+test_out.txt
