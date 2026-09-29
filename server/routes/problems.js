@@ -531,9 +531,19 @@ router.get(
   async (req, res) => {
     try {
       const { problemId } = req.params;
+      const { Op } = require("sequelize");
+
+      const whereConditions = [
+        { problemId },
+        { trackingId: problemId }
+      ];
+
+      if (!isNaN(problemId)) {
+        whereConditions.push({ id: Number(problemId) });
+      }
 
       const problem = await Problem.findOne({
-        where: { problemId }
+        where: { [Op.or]: whereConditions }
       });
 
       if (!problem) {
@@ -576,6 +586,62 @@ router.get(
       return res.status(500).json({
         success: false,
         message: "Failed to load problem",
+        error: error.message
+      });
+    }
+  }
+);
+
+/* =========================================================
+   PATCH — UPDATE STATUS & FEDERATED PROGRESSION (GOVERNMENT)
+========================================================= */
+
+router.patch(
+  "/:problemId/status",
+  authenticateToken,
+  authorizeRoles("government"),
+  async (req, res) => {
+    try {
+      const { problemId } = req.params;
+      const { status, projectStatus, notes } = req.body;
+      const { Op } = require("sequelize");
+
+      const whereConditions = [
+        { problemId },
+        { trackingId: problemId }
+      ];
+
+      if (!isNaN(problemId)) {
+        whereConditions.push({ id: Number(problemId) });
+      }
+
+      const problem = await Problem.findOne({
+        where: { [Op.or]: whereConditions }
+      });
+
+      if (!problem) {
+        return res.status(404).json({
+          success: false,
+          message: "Application not found"
+        });
+      }
+
+      const updateData = {};
+      if (status) updateData.status = status;
+      if (projectStatus) updateData.projectStatus = projectStatus;
+
+      await problem.update(updateData);
+
+      return res.json({
+        success: true,
+        message: `Application status updated to ${status || problem.status}`,
+        problem: problem.toJSON()
+      });
+    } catch (error) {
+      console.error("UPDATE STATUS ERROR:", error);
+      return res.status(500).json({
+        success: false,
+        message: "Failed to update status",
         error: error.message
       });
     }

@@ -18,7 +18,6 @@ import MyProblems from "./pages/citizen/MyProblems";
 
 import AdminDashboard from "./pages/admin/AdminDashboard";
 import ProblemDetails from "./pages/admin/ProblemDetails";
-import GovernmentReview from "./pages/admin/GovernmentReview";
 
 import AdvancedAdminCenter from "./pages/admin/AdvancedAdminCenter";
 import InterOpHub from "./pages/admin/InterOpHub";
@@ -755,7 +754,7 @@ function App() {
           path="/admin/review/:id"
           element={
             <ProtectedRoute allowedRoles={["government"]}>
-              <GovernmentReview />
+              <ProblemDetails />
             </ProtectedRoute>
           }
         />
