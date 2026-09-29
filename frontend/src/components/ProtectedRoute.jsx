@@ -293,14 +293,30 @@ function ProtectedRoute({
     // -------------------------------------------------------
 
     if (userRole === "citizen") {
+      try {
+        sessionStorage.setItem(
+          "gov_access_denied",
+          JSON.stringify({
+            attemptedPath: location.pathname,
+            timestamp: new Date().toISOString(),
+            message: "Access Restricted: Government Nodal Desks and Administrative Portals require verified departmental credentials. Citizen accounts cannot access administrative routes."
+          })
+        );
+      } catch (e) {
+        // Ignore sessionStorage errors
+      }
 
       return (
         <Navigate
           to="/citizen"
           replace
+          state={{
+            accessDenied: true,
+            deniedPath: location.pathname,
+            deniedMessage: "Access Restricted: Government Nodal Desks require verified departmental credentials. You have been redirected to your Citizen Portal."
+          }}
         />
       );
-
     }
 
 

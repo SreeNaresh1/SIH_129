@@ -1,959 +1,339 @@
 {
   "metadata": {
-    "version": "2.5.0",
-    "description": "Jharkhand Societal Innovation Platform - Prototype Knowledge Base",
-    "note": "All profiles in this dataset are prototype/sample data created strictly for demonstration and testing of the multi-stakeholder explainable matching engine.",
+    "version": "3.0.0",
+    "description": "Maharashtra Unified Interoperability Framework (MUIF / MahaSetu) - Knowledge Base & Departmental Ontology",
+    "note": "Configured for SIH Problem Statement 26129 - Maharashtra State Innovation Society (MSInS), Dept of Skills, Employment, Entrepreneurship & Innovation.",
     "isPrototypeSampleData": true,
-    "lastUpdated": "2026-09-25"
+    "lastUpdated": "2026-09-28"
   },
   "universities": [
     {
       "id": 1,
-      "name": "Prototype University A (Tech & Water Lab)",
-      "code": "PUA-RAN",
-      "location": "Ranchi",
-      "district": "Ranchi",
+      "name": "COEP Technological University (Center for Interoperability & AI)",
+      "code": "COEP-PUN",
+      "location": "Pune",
+      "district": "Pune",
       "departments": [
-        "Civil & Environmental Engineering",
-        "Computer Science & Engineering",
-        "Biotechnology"
+        "Computer Engineering & IT",
+        "Electronics & Telecommunication",
+        "Civil & Environmental Engineering"
       ],
       "domains": [
+        "Digital Governance",
         "Water Management",
         "Infrastructure",
-        "Sanitation"
+        "Smart Automation"
       ],
       "expertise": [
-        "Water Quality Testing",
-        "Environmental Engineering",
-        "IoT Water Sensors",
-        "Hydrological Modeling",
-        "Groundwater Assessment"
+        "Distributed Systems & Interoperability",
+        "API Gateway Architecture",
+        "IndEA Compliance & Data Standards",
+        "AI Semantic Deduplication",
+        "Cryptographic Audit Logging"
       ],
       "projects": [
-        "Smart Water Monitoring in Subernarekha Basin",
-        "Low-Cost Arsenic and Fluoride Filtration Units"
+        "Smart Pune Water & Sewerage Telemetry Network",
+        "Federated Identity & e-Pramaan Research Testbed",
+        "Cross-Portal Application Deduplication System"
       ],
       "resources": [
-        "Environmental Engineering Laboratory",
-        "Water Quality Testing Instrumentation Lab",
-        "IoT & Embedded Systems Lab"
+        "Center of Excellence in Cloud & Distributed Systems",
+        "IoT & Environmental Monitoring Lab",
+        "High Performance Computing Cluster"
       ],
-      "contactEmail": "water-lab@prototype-univ-a.edu",
+      "contactEmail": "interop-lab@coep.ac.in",
       "isPrototypeSampleData": true
     },
     {
       "id": 2,
-      "name": "Prototype Technical Institute B (Mining & Environment)",
-      "code": "PTIB-DHN",
-      "location": "Dhanbad",
-      "district": "Dhanbad",
+      "name": "Veermata Jijabai Technological Institute (VJTI Mumbai)",
+      "code": "VJTI-MUM",
+      "location": "Mumbai",
+      "district": "Mumbai City",
       "departments": [
-        "Environmental Engineering",
-        "Chemical Engineering",
-        "Civil Engineering"
+        "Computer Science",
+        "Information Technology",
+        "Civil & Environmental Engineering"
       ],
       "domains": [
+        "Digital Governance",
         "Environment",
-        "Sanitation",
-        "Infrastructure"
+        "Infrastructure",
+        "Sanitation"
       ],
       "expertise": [
-        "Air Quality Monitoring",
-        "Industrial Effluent Remediation",
-        "Solid Waste Recycling",
-        "Soil Contamination Remediation"
+        "Enterprise Architecture & Middleware",
+        "Blockchain Audit Trails",
+        "Urban Waste Management Telemetry",
+        "Big Data Analytics for Public Schemes"
       ],
       "projects": [
-        "Mine Drainage Remediation Pilot",
-        "Urban Fly Ash Recycling Brick Prototype"
+        "Mumbai Urban Drainage Monitoring System",
+        "Cross-Agency Document Verification Ledger"
       ],
       "resources": [
-        "Heavy Metals Spectroscopy Lab",
-        "Waste Upcycling & Materials Testing Lab"
+        "State Innovation & Incubation Center",
+        "Advanced Data Analytics Laboratory"
       ],
-      "contactEmail": "env-research@prototype-tech-b.edu",
+      "contactEmail": "innovation@vjti.ac.in",
       "isPrototypeSampleData": true
     },
     {
       "id": 3,
-      "name": "Prototype Agricultural University C",
-      "code": "PAUC-KAN",
-      "location": "Kanke, Ranchi",
-      "district": "Ranchi",
+      "name": "Visvesvaraya National Institute of Technology (VNIT Nagpur)",
+      "code": "VNIT-NAG",
+      "location": "Nagpur",
+      "district": "Nagpur",
       "departments": [
-        "Agricultural Engineering",
-        "Agronomy & Soil Science",
-        "Horticulture",
-        "Rural Livelihoods"
+        "Computer Science & Engineering",
+        "Mining & Environmental Engineering",
+        "Electrical Engineering"
       ],
       "domains": [
+        "Environment",
         "Agriculture",
-        "Water Management",
-        "Rural Livelihood"
+        "Infrastructure",
+        "Digital Governance"
       ],
       "expertise": [
-        "Micro-Irrigation & Drip Systems",
-        "Drought-Resilient Crop Management",
-        "Soil Health Assessment",
-        "Post-Harvest Storage Solutions",
-        "Agro-Forestry"
+        "Rural Connectivity & GIS Mapping",
+        "Solar Micro-Irrigation Automation",
+        "Industrial Effluent Sensor Networks",
+        "Federated Data Governance"
       ],
       "projects": [
-        "Solar Micro-Lift Irrigation Prototype for Plateau Farmlands",
-        "Organic Lac & Minor Forest Produce Value Addition"
+        "Vidarbha Drought Mitigation Sensor Grid",
+        "MIDC Effluent Tracking Portal"
       ],
       "resources": [
-        "Precision Irrigation Testbed",
-        "Soil Chemistry & Micro-Nutrient Laboratory",
-        "Cold Storage Demonstration Unit"
+        "Center for Rural Technology & GIS",
+        "Sensor & Embedded Systems Lab"
       ],
-      "contactEmail": "agri-innovation@prototype-agri-c.edu",
+      "contactEmail": "research@vnit.ac.in",
       "isPrototypeSampleData": true
     },
     {
       "id": 4,
-      "name": "Prototype Institute of Medical Sciences D",
-      "code": "PIMSD-RAN",
-      "location": "Bariatu, Ranchi",
-      "district": "Ranchi",
+      "name": "Savitribai Phule Pune University (SPPU Innovation Hub)",
+      "code": "SPPU-PUN",
+      "location": "Pune",
+      "district": "Pune",
       "departments": [
-        "Community Medicine",
-        "Preventive Healthcare",
-        "Biomedical Engineering",
-        "Telemedicine"
+        "Department of Technology",
+        "School of Health Sciences",
+        "Department of Environmental Sciences"
       ],
       "domains": [
         "Healthcare",
-        "Sanitation",
-        "Public Services"
-      ],
-      "expertise": [
-        "Rural Tele-Consultation Systems",
-        "Vector-Borne Disease Surveillance",
-        "Maternal & Child Health Tracking",
-        "Point-of-Care Diagnostics",
-        "Nutritional Deficit Profiling"
-      ],
-      "projects": [
-        "Mobile Diagnostic Van for Tribal Panchayats",
-        "Malaria & Dengue Early Warning Dashboard"
-      ],
-      "resources": [
-        "Telemedicine Hub",
-        "Clinical Pathology Diagnostics Unit",
-        "Community Field Outreach Fleet"
-      ],
-      "contactEmail": "community-health@prototype-med-d.edu",
-      "isPrototypeSampleData": true
-    },
-    {
-      "id": 5,
-      "name": "Prototype Engineering College E (Rural Tech)",
-      "code": "PECE-HZB",
-      "location": "Hazaribagh",
-      "district": "Hazaribagh",
-      "departments": [
-        "Mechanical Engineering",
-        "Electrical & Electronics",
-        "Rural Development"
-      ],
-      "domains": [
-        "Infrastructure",
-        "Rural Livelihood",
+        "Education",
         "Agriculture"
       ],
       "expertise": [
-        "Renewable Microgrids",
-        "Solar Water Pumping",
-        "Low-Cost Farm Mechanization",
-        "Cold Chain Logistics"
+        "Telemedicine & Rural PHC Interconnection",
+        "Bilingual Digital Learning Platforms",
+        "Precision Agriculture Advisory Engines"
       ],
       "projects": [
-        "Biomass Gasifier for Off-Grid Village Energy",
-        "Multi-Crop Thresher for Smallholders"
+        "Telehealth Kiosk Network for Tribal Blocks",
+        "Smart Agronomy Decision Support System"
       ],
       "resources": [
-        "Renewable Energy Testing Lab",
-        "Fabrication Workshop & Prototyping Bay"
+        "Interdisciplinary School of Science & Tech",
+        "Public Health Informatics Center"
       ],
-      "contactEmail": "rural-tech@prototype-eng-e.edu",
-      "isPrototypeSampleData": true
-    },
-    {
-      "id": 6,
-      "name": "Prototype Institute of Technology F (Urban Systems)",
-      "code": "PITF-JSR",
-      "location": "Jamshedpur",
-      "district": "East Singhbhum",
-      "departments": [
-        "Civil Engineering",
-        "Urban Planning",
-        "Computer Applications"
-      ],
-      "domains": [
-        "Infrastructure",
-        "Environment",
-        "Public Services"
-      ],
-      "expertise": [
-        "Structural Road Analysis",
-        "Pothole Detection & Road Condition AI",
-        "Smart Traffic Management",
-        "Stormwater Drainage Design"
-      ],
-      "projects": [
-        "Geotagged Road Quality Assessment System",
-        "Automated Culvert Blockage Alert Prototype"
-      ],
-      "resources": [
-        "Highway Materials Testing Lab",
-        "GIS & Remote Sensing Lab"
-      ],
-      "contactEmail": "urban-sys@prototype-tech-f.edu",
-      "isPrototypeSampleData": true
-    },
-    {
-      "id": 7,
-      "name": "Prototype State University G (Social & Education Sciences)",
-      "code": "PSUG-DUM",
-      "location": "Dumka",
-      "district": "Dumka",
-      "departments": [
-        "Education & Pedagogy",
-        "Social Work",
-        "Information Technology"
-      ],
-      "domains": [
-        "Education",
-        "Rural Livelihood",
-        "Accessibility"
-      ],
-      "expertise": [
-        "Vernacular Digital Learning",
-        "Offline-First Educational Kiosks",
-        "Tribal Language Learning Tools",
-        "Teacher Capacity Building"
-      ],
-      "projects": [
-        "Solar-Powered Offline School Tablet Kiosk in Santhal Pargana",
-        "Bilingual Ol Chiki / Santhali Literacy App Prototype"
-      ],
-      "resources": [
-        "Digital Learning Studio",
-        "Assistive Learning Resources Lab"
-      ],
-      "contactEmail": "education-lab@prototype-univ-g.edu",
-      "isPrototypeSampleData": true
-    },
-    {
-      "id": 8,
-      "name": "Prototype Institute of Rehabilitation & Accessibility H",
-      "code": "PIRAH-RAN",
-      "location": "Ranchi",
-      "district": "Ranchi",
-      "departments": [
-        "Biomedical Engineering",
-        "Prosthetics & Orthotics",
-        "Assistive Technology"
-      ],
-      "domains": [
-        "Accessibility",
-        "Healthcare",
-        "Public Services"
-      ],
-      "expertise": [
-        "Wheelchair Ramp Standards & Universal Design",
-        "Braille & Audio Public Information Systems",
-        "Assistive Mobility Hardware",
-        "Acoustic Beacon Navigation"
-      ],
-      "projects": [
-        "Universal Accessibility Audit of Public Buildings in Ranchi",
-        "Tactile Footpath Navigation Pilot for Visually Impaired"
-      ],
-      "resources": [
-        "Universal Design Simulation Studio",
-        "Rapid Prototyping & Ergonomics Lab"
-      ],
-      "contactEmail": "access-lab@prototype-rehab-h.edu",
-      "isPrototypeSampleData": true
-    },
-    {
-      "id": 9,
-      "name": "Prototype Regional Engineering College I (Sanitation & Waste)",
-      "code": "PRECI-BOK",
-      "location": "Bokaro",
-      "district": "Bokaro",
-      "departments": [
-        "Chemical Engineering",
-        "Civil & Environmental",
-        "Materials Science"
-      ],
-      "domains": [
-        "Sanitation",
-        "Environment",
-        "Water Management"
-      ],
-      "expertise": [
-        "Solid Waste Composting & Biogas",
-        "Greywater Treatment",
-        "Plastic Waste Compaction & Pyrolysis",
-        "Community Toilet Sanitation Systems"
-      ],
-      "projects": [
-        "Decentralized Bio-Digester for Weekly Haats",
-        "Zero-Liquid Discharge Community Waste Treatment"
-      ],
-      "resources": [
-        "Bio-Chemical Analysis Unit",
-        "Thermal Processing Test Unit"
-      ],
-      "contactEmail": "sanitation-eng@prototype-eng-i.edu",
-      "isPrototypeSampleData": true
-    },
-    {
-      "id": 10,
-      "name": "Prototype Rural Development Institute J",
-      "code": "PRDI-PAL",
-      "location": "Medininagar",
-      "district": "Palamu",
-      "departments": [
-        "Rural Livelihood Systems",
-        "Agricultural Economics",
-        "Vocational Skill Development"
-      ],
-      "domains": [
-        "Rural Livelihood",
-        "Agriculture",
-        "Public Services"
-      ],
-      "expertise": [
-        "Self-Help Group Enterprise Incubation",
-        "Rural Micro-Finance Systems",
-        "Market Linkage for Forest Produce",
-        "Livestock Disease Monitoring"
-      ],
-      "projects": [
-        "Lac Growers Digital Marketplace Prototype",
-        "Goat Farming Micro-Insurance & Health Tracker"
-      ],
-      "resources": [
-        "Rural Enterprise Incubation Hub",
-        "Community Field Outreach Station"
-      ],
-      "contactEmail": "rural-livelihood@prototype-dev-j.edu",
-      "isPrototypeSampleData": true
-    },
-    {
-      "id": 11,
-      "name": "Prototype Science & Technology Institute K (Water & Geology)",
-      "code": "PSTIK-CHA",
-      "location": "Chaibasa",
-      "district": "West Singhbhum",
-      "departments": [
-        "Geology & Hydrology",
-        "Environmental Science",
-        "Applied Chemistry"
-      ],
-      "domains": [
-        "Water Management",
-        "Environment",
-        "Infrastructure"
-      ],
-      "expertise": [
-        "Iron & Manganese Removal",
-        "Aquifer Recharge Mapping",
-        "Springshed Management in Hilly Terrains",
-        "Rainwater Harvesting Design"
-      ],
-      "projects": [
-        "Gravity-Fed Spring Water Pipeline with Charcoal-Sand Filter",
-        "Hydro-Geological Mapping of Saranda Forest Springs"
-      ],
-      "resources": [
-        "Hydro-Geochemistry Laboratory",
-        "Geophysical Resistivity Survey Unit"
-      ],
-      "contactEmail": "hydro-lab@prototype-sci-k.edu",
-      "isPrototypeSampleData": true
-    },
-    {
-      "id": 12,
-      "name": "Prototype Polytechnic & Vocational Institute L",
-      "code": "PPVIL-GUM",
-      "location": "Gumla",
-      "district": "Gumla",
-      "departments": [
-        "Civil Construction Technology",
-        "Electrical Installation",
-        "Solar Energy"
-      ],
-      "domains": [
-        "Infrastructure",
-        "Education",
-        "Public Services"
-      ],
-      "expertise": [
-        "Rural Bridge & Culvert Maintenance",
-        "Solar Streetlight Maintenance & IoT Metering",
-        "Masonry & Bamboo Construction Techniques",
-        "Vocational IT Training"
-      ],
-      "projects": [
-        "Solar Streetlight Fault-Detection GSM Node",
-        "Prefabricated Bamboo Classroom Structure"
-      ],
-      "resources": [
-        "Building Materials Testing Yard",
-        "Electrical & Solar Testing Bench"
-      ],
-      "contactEmail": "polytech-rural@prototype-poly-l.edu",
+      "contactEmail": "innovation@unipune.ac.in",
       "isPrototypeSampleData": true
     }
   ],
   "governmentDepartments": [
     {
       "id": 1,
-      "name": "Department of Drinking Water & Sanitation (Jharkhand)",
-      "code": "DWSD-JH",
-      "domain": "Water Management",
+      "name": "Maharashtra State Innovation Society (MSInS), Dept of Skills, Employment, Entrepreneurship and Innovation",
+      "code": "MSINS-GOV-MH",
+      "domain": "Digital Governance",
       "subDomains": [
-        "Water Quality",
-        "Drinking Water Supply",
-        "Rural Hand Pump Maintenance",
-        "Sanitation & Latrines"
+        "System Interoperability",
+        "Federated Identity",
+        "Skill Development & Apprenticeship",
+        "Startup Incubation"
       ],
-      "jurisdiction": "Jharkhand Statewide (Rural & Semi-Urban)",
-      "district": "All Districts",
+      "jurisdiction": "Statewide (Maharashtra)",
+      "district": "Mumbai City",
       "keyResponsibilities": [
-        "Rural piped water supply schemes",
-        "Testing of groundwater and surface water contaminants",
-        "Maintenance of hand pumps and tube wells",
-        "Jal Jeevan Mission implementation"
+        "Statewide interoperability middleware orchestration",
+        "Unified portal integration for MahaSwayam and skill registries",
+        "Fostering academic R&D and startup innovation across government departments",
+        "Coordination of cross-departmental citizen service delivery"
       ],
-      "nodalOfficer": "Superintending Engineer, Water Quality Monitoring",
-      "contactEmail": "dwsd.monitoring@jharkhand.prototype.gov.in",
-      "schemes": "Jal Jeevan Mission, Swachh Bharat Mission (Grameen)",
-      "isPrototypeSampleData": true
+      "contactEmail": "nodal-innovation@msins.gov.in",
+      "nodalOfficer": "Shri Amol Mane, IAS (CEO, MSInS)",
+      "schemes": "MahaSwayam, Pramod Mahajan Skill & Entrepreneurship Development Mission, Maharashtra Startup Week"
     },
     {
       "id": 2,
-      "name": "Department of Health, Medical Education & Family Welfare",
-      "code": "HMEFW-JH",
-      "domain": "Healthcare",
+      "name": "Social Justice and Special Assistance Department (MahaDBT Registry)",
+      "code": "SJSA-MAHADBT-MH",
+      "domain": "Social Welfare & Scholarships",
       "subDomains": [
-        "Primary Healthcare",
-        "Maternal & Child Health",
-        "Communicable Disease Control",
-        "Telemedicine & Mobile Clinics"
+        "Direct Benefit Transfer",
+        "Post-Matric Scholarship",
+        "Caste Verification InterOp"
       ],
-      "jurisdiction": "Jharkhand Statewide",
-      "district": "All Districts",
+      "jurisdiction": "Statewide (Maharashtra)",
+      "district": "Mumbai City",
       "keyResponsibilities": [
-        "Primary Health Centre (PHC) & Community Health Centre (CHC) administration",
-        "Mobile Medical Unit dispatch to remote tribal areas",
-        "Essential medicines supply and diagnostic availability",
-        "Epidemic and vector control"
+        "Direct benefit disbursement and scholarship management",
+        "Verification of caste validation and domicile credentials",
+        "API integration with state treasury and public finance management systems"
       ],
-      "nodalOfficer": "Director, National Health Mission (Jharkhand)",
-      "contactEmail": "health.nodal@jharkhand.prototype.gov.in",
-      "schemes": "Ayushman Bharat, Chief Minister Jan Arogya Yojana",
-      "isPrototypeSampleData": true
+      "contactEmail": "helpdesk@mahadbt.gov.in",
+      "nodalOfficer": "Dr. Sunita Jagtap (Director, MahaDBT Integration)",
+      "schemes": "Rajarshi Chhatrapati Shahu Maharaj Shikshan Shulkh Shishyavrutti, Post Matric Scholarship"
     },
     {
       "id": 3,
-      "name": "Department of Agriculture, Animal Husbandry & Co-operative",
-      "code": "DAAHC-JH",
-      "domain": "Agriculture",
+      "name": "Revenue and Forest Department (Aaple Sarkar Citizen Services)",
+      "code": "REV-AAPLE-MH",
+      "domain": "Public Services & Grievances",
       "subDomains": [
-        "Irrigation Systems",
-        "Crop Damage Relief",
-        "Soil Health",
-        "Seed & Fertilizer Distribution"
+        "Right to Services (RTS)",
+        "Income & Residence Certificates",
+        "Land Record Synchronization (Mahabhumi)"
       ],
-      "jurisdiction": "Jharkhand Statewide",
-      "district": "All Districts",
+      "jurisdiction": "Statewide (Maharashtra)",
+      "district": "Pune",
       "keyResponsibilities": [
-        "Small and marginal farmer irrigation support",
-        "Drought monitoring and relief assessment",
-        "Farm mechanization subsidies",
-        "Crop insurance and market intervention"
+        "Single-window delivery of notified public services",
+        "Digital issuance of digitally signed certificates",
+        "Inter-agency resolution of citizen grievances under RTS Act"
       ],
-      "nodalOfficer": "Joint Director, Agriculture Planning & Soil Conservation",
-      "contactEmail": "agri.planning@jharkhand.prototype.gov.in",
-      "schemes": "PM Krishi Sinchayee Yojana, Birsa Fasal Bima",
-      "isPrototypeSampleData": true
+      "contactEmail": "support@aaplesarkar.mahaonline.gov.in",
+      "nodalOfficer": "Shri Rajesh Patil (State RTS Commissioner)",
+      "schemes": "Aaple Sarkar RTS Portal, e-District Maharashtra, 7/12 Digital Signatures"
     },
     {
       "id": 4,
-      "name": "Department of Road Construction & Rural Works",
-      "code": "RCD-RWD-JH",
-      "domain": "Infrastructure",
+      "name": "Water Supply and Sanitation Department, Government of Maharashtra",
+      "code": "WSSD-GOV-MH",
+      "domain": "Water Management",
       "subDomains": [
-        "Rural Road Connectivity",
-        "Bridges & Culverts",
-        "Pothole Repair",
-        "Landslide Clearance"
+        "Rural Water Supply",
+        "Jal Jeevan Mission",
+        "Groundwater Quality Testing"
       ],
-      "jurisdiction": "Jharkhand Statewide",
-      "district": "All Districts",
+      "jurisdiction": "Statewide (Maharashtra)",
+      "district": "Nashik",
       "keyResponsibilities": [
-        "All-weather road connectivity to disconnected habitations",
-        "Culvert and causeway construction over seasonal rivers",
-        "Emergency road maintenance and structural safety audits"
+        "Har Ghar Jal tap water connection monitoring",
+        "Groundwater fluorosis & arsenic mitigation",
+        "Inter-departmental coordination with Zilla Parishads and Health"
       ],
-      "nodalOfficer": "Executive Engineer, Rural Road Maintenance Wing",
-      "contactEmail": "rcd.roads@jharkhand.prototype.gov.in",
-      "schemes": "Pradhan Mantri Gram Sadak Yojana (PMGSY), Mukhyamantri Gram Setu Yojana",
-      "isPrototypeSampleData": true
-    },
-    {
-      "id": 5,
-      "name": "Department of Forest, Environment & Climate Change",
-      "code": "DFECC-JH",
-      "domain": "Environment",
-      "subDomains": [
-        "Air & Water Pollution",
-        "Deforestation Monitoring",
-        "Forest Fire Management",
-        "Industrial Emissions Compliance"
-      ],
-      "jurisdiction": "Jharkhand Statewide",
-      "district": "All Districts",
-      "keyResponsibilities": [
-        "Pollution control compliance coordination with JSPCB",
-        "Catchment area afforestation",
-        "Eco-sensitive zone protection",
-        "Remediation of abandoned mining sites"
-      ],
-      "nodalOfficer": "Chief Conservator of Forests (Environment & Ecology)",
-      "contactEmail": "forest.env@jharkhand.prototype.gov.in",
-      "schemes": "National Clean Air Programme (NCAP), Green India Mission",
-      "isPrototypeSampleData": true
-    },
-    {
-      "id": 6,
-      "name": "Department of School Education & Literacy",
-      "code": "DSEL-JH",
-      "domain": "Education",
-      "subDomains": [
-        "School Infrastructure",
-        "Digital Classrooms",
-        "Drinking Water & Toilets in Schools",
-        "Teacher Staffing"
-      ],
-      "jurisdiction": "Jharkhand Statewide",
-      "district": "All Districts",
-      "keyResponsibilities": [
-        "Upgradation of government primary and secondary school facilities",
-        "Electrification, solar power, and smart class installations",
-        "Textbooks, mid-day meals, and sanitation infrastructure in schools"
-      ],
-      "nodalOfficer": "State Project Director, Jharkhand Education Project Council",
-      "contactEmail": "jepc.education@jharkhand.prototype.gov.in",
-      "schemes": "Samagra Shiksha Abhiyan, PM SHRI Schools",
-      "isPrototypeSampleData": true
-    },
-    {
-      "id": 7,
-      "name": "Department of Rural Development (Livelihood & Panchayati Raj)",
-      "code": "DRD-JH",
-      "domain": "Rural Livelihood",
-      "subDomains": [
-        "Panchayat Citizen Services",
-        "MGNREGA Works",
-        "Skill Training for Rural Youth",
-        "Self-Help Groups"
-      ],
-      "jurisdiction": "Jharkhand Statewide",
-      "district": "All Districts",
-      "keyResponsibilities": [
-        "Creation of durable community assets (ponds, bunds, farm roads)",
-        "Empowerment of tribal and rural women SHGs",
-        "Off-farm livelihood incubation and migration prevention"
-      ],
-      "nodalOfficer": "Chief Executive Officer, Jharkhand State Livelihood Promotion Society",
-      "contactEmail": "jslps.livelihood@jharkhand.prototype.gov.in",
-      "schemes": "Deendayal Antyodaya Yojana - NRLM, MGNREGA",
-      "isPrototypeSampleData": true
-    },
-    {
-      "id": 8,
-      "name": "Department of Women, Child Development & Social Security (Disability Cell)",
-      "code": "DWCDSS-JH",
-      "domain": "Accessibility",
-      "subDomains": [
-        "Universal Accessibility",
-        "Assistive Devices",
-        "Public Office Barrier-Free Access",
-        "Disability Welfare"
-      ],
-      "jurisdiction": "Jharkhand Statewide",
-      "district": "All Districts",
-      "keyResponsibilities": [
-        "Accessible India Campaign (Sugamya Bharat) implementation",
-        "Ramp, lift, and tactile pathway provisioning in public offices",
-        "Distribution of motorized trikes, wheelchairs, and hearing aids"
-      ],
-      "nodalOfficer": "State Commissioner for Persons with Disabilities",
-      "contactEmail": "social.security@jharkhand.prototype.gov.in",
-      "schemes": "Accessible India Campaign, ADIP Scheme",
-      "isPrototypeSampleData": true
+      "contactEmail": "secretary.wssd@maharashtra.gov.in",
+      "nodalOfficer": "Smt. Rohini Kadam (Chief Engineer, Rural Water)",
+      "schemes": "Jal Jeevan Mission Maharashtra, Jalyukt Shivar Abhiyan 2.0"
     }
   ],
   "industryPartners": [
     {
       "id": 1,
-      "organization": "Prototype WaterTech Solutions & CSR Foundation",
-      "sector": "Water & CleanTech",
-      "domain": "Water Management",
+      "organization": "Tata Motors CSR Foundation (Pune Tech Division)",
+      "sector": "Automotive, Technical Skills & Engineering",
       "expertise": [
-        "Industrial Water Filtration",
-        "Community RO & UV Plants",
-        "Solar-Powered Hand Pump Conversions",
-        "IoT Telemetry for Water Flow"
+        "Automotive Apprenticeship Training",
+        "Skill Voucher Co-Funding",
+        "Electric Vehicle Test Labs",
+        "Smart Manufacturing"
       ],
-      "location": "Jamshedpur",
-      "district": "East Singhbhum",
-      "csrFocus": [
-        "Safe Drinking Water in Tribal Villages",
-        "School Water Purification Units"
-      ],
-      "csrBudget": 15000000,
-      "projects": [
-        "Clean Drinking Water Kiosks across 25 Panchayats",
-        "Handpump IoT Telemetry Pilot"
-      ],
-      "contactEmail": "csr.water@prototype-watertech.example",
-      "isPrototypeSampleData": true
+      "csrBudget": "₹ 14.5 Crores",
+      "contactEmail": "csr.pune@tatamotors.com",
+      "active": true
     },
     {
       "id": 2,
-      "organization": "Prototype AgroTech Infrastructure Ltd (CSR Wing)",
-      "sector": "Agriculture & Irrigation",
-      "domain": "Agriculture",
+      "organization": "Mahindra & Mahindra Foundation (Skill & Rural Development)",
+      "sector": "Agriculture Tech, Mobility & Rural Livelihood",
       "expertise": [
-        "Solar Drip Irrigation Kits",
-        "Polyhouse & Greenhouse Hardware",
-        "Cold Storage for Smallholders",
-        "Farmer Producer Organization (FPO) Incubation"
+        "Farm Equipment Telemetry",
+        "Smart Micro-Irrigation Grants",
+        "Youth Employability Programs"
       ],
-      "location": "Ranchi",
-      "district": "Ranchi",
-      "csrFocus": [
-        "Dryland Irrigation Support",
-        "Crop Loss Mitigation in Tribal Belts"
-      ],
-      "csrBudget": 20000000,
-      "projects": [
-        "Solar Lift Irrigation for 100 Smallholder Farmers",
-        "Community Grain Silos Pilot in Palamu"
-      ],
-      "contactEmail": "csr@prototype-agrotech.example",
-      "isPrototypeSampleData": true
+      "csrBudget": "₹ 11.2 Crores",
+      "contactEmail": "csr@mahindra.com",
+      "active": true
     },
     {
       "id": 3,
-      "organization": "Prototype CleanEnergy & Waste Solutions CSR",
-      "sector": "Environment & Energy",
-      "domain": "Environment",
+      "organization": "Forbes Marshall Engineering CSR",
+      "sector": "Industrial Automation, Water Conservation & Steam Systems",
       "expertise": [
-        "Industrial Air Scrubbers",
-        "Waste Heat Recovery",
-        "Plastic Pyrolysis Plants",
-        "Fly Ash Processing"
+        "Industrial Water Recycling",
+        "Steam & Energy Efficiency",
+        "Vocational ITI Center Upgrades"
       ],
-      "location": "Bokaro",
-      "district": "Bokaro",
-      "csrFocus": [
-        "Industrial Buffer Zone Greenbelts",
-        "Municipal Solid Waste Composting"
-      ],
-      "csrBudget": 18000000,
-      "projects": [
-        "Zero-Waste Township Composting Unit",
-        "Ambient Air Quality Monitoring Towers"
-      ],
-      "contactEmail": "cleanenergy.csr@prototype-cleanpower.example",
-      "isPrototypeSampleData": true
+      "csrBudget": "₹ 6.8 Crores",
+      "contactEmail": "csr@forbesmarshall.com",
+      "active": true
     },
     {
       "id": 4,
-      "organization": "Prototype HealthReach Digital Foundation",
-      "sector": "Healthcare Technology",
-      "domain": "Healthcare",
+      "organization": "Bajaj Auto Community Development Trust",
+      "sector": "Education, Healthcare & Vocational Skills",
       "expertise": [
-        "Point-of-Care Blood Analysis Devices",
-        "Telemedicine Hardware Pods",
-        "Solar Refrigerators for Vaccines",
-        "Emergency Drone Medical Delivery"
+        "Polytechnic Laboratory Modernization",
+        "Rural Healthcare Mobile Clinics",
+        "Apprenticeship Direct Stipends"
       ],
-      "location": "Ranchi",
-      "district": "Ranchi",
-      "csrFocus": [
-        "Remote Jungle Telemedicine Access",
-        "Maternal Health Tele-Diagnostic Outreach"
-      ],
-      "csrBudget": 12000000,
-      "projects": [
-        "10 Remote Tele-Clinic Pods in Latehar & Simdega",
-        "Vaccine Cold Chain Solarization"
-      ],
-      "contactEmail": "healthreach@prototype-healthfoundation.example",
-      "isPrototypeSampleData": true
-    },
-    {
-      "id": 5,
-      "organization": "Prototype InfraBuild Jharkhand CSR",
-      "sector": "Civil Infrastructure",
-      "domain": "Infrastructure",
-      "expertise": [
-        "Modular Steel Footbridges",
-        "Cold Mix Road Paving for Rains",
-        "Geotextile Slope Stabilization",
-        "Pre-Cast Concrete Culverts"
-      ],
-      "location": "Dhanbad",
-      "district": "Dhanbad",
-      "csrFocus": [
-        "Rural Stream Footbridge Access",
-        "School Access Road Upgrades"
-      ],
-      "csrBudget": 25000000,
-      "projects": [
-        "5 Rapid-Assembly Steel Footbridges across Seasonal Nallas",
-        "Plastic-Waste Reinforced Rural Road Pilot"
-      ],
-      "contactEmail": "infrabuild.csr@prototype-infrabuild.example",
-      "isPrototypeSampleData": true
-    },
-    {
-      "id": 6,
-      "organization": "Prototype Assistive Devices & Mobility Corp",
-      "sector": "Assistive Technology & Health",
-      "domain": "Accessibility",
-      "expertise": [
-        "All-Terrain Rugged Wheelchairs",
-        "Solar Battery Charging for Electric Trikes",
-        "Tactile Signage & Braille Sign Boards",
-        "Auditory Signal Devices"
-      ],
-      "location": "Ranchi",
-      "district": "Ranchi",
-      "csrFocus": [
-        "Barrier-Free Access in Government Hospitals",
-        "Rural Disabled Mobility Empowerment"
-      ],
-      "csrBudget": 10000000,
-      "projects": [
-        "500 Rugged Tribal Terrain Wheelchairs Distributed",
-        "Standardized Modular Ramp Construction for District Courts"
-      ],
-      "contactEmail": "accessibility.csr@prototype-assist.example",
-      "isPrototypeSampleData": true
-    },
-    {
-      "id": 7,
-      "organization": "Prototype EduDigital Connect CSR",
-      "sector": "Information Technology & Education",
-      "domain": "Education",
-      "expertise": [
-        "Solar Digital Classrooms",
-        "Low-Bandwidth Video Streaming Devices",
-        "Rugged Student Tablets",
-        "Computer Literacy Vans"
-      ],
-      "location": "Ranchi",
-      "district": "Ranchi",
-      "csrFocus": [
-        "Digital Education for Kasturba Gandhi Balika Vidyalayas",
-        "STEM Labs in Tribal District High Schools"
-      ],
-      "csrBudget": 14000000,
-      "projects": [
-        "30 Solar Mini-Computer Labs Installed in Remote Schools",
-        "Vernacular Science Learning Kits Deployment"
-      ],
-      "contactEmail": "edudigital.csr@prototype-edutech.example",
-      "isPrototypeSampleData": true
+      "csrBudget": "₹ 18.0 Crores",
+      "contactEmail": "community@bajajauto.co.in",
+      "active": true
     }
   ],
   "ngos": [
     {
       "id": 1,
-      "name": "Prototype Gramin Jal Suraksha Samiti (Rural Water Action Group)",
-      "domain": "Water Management",
+      "name": "Vigyan Ashram (Pabal, Pune)",
+      "domain": "Rural Skills & Appropriate Technology",
       "focusAreas": [
-        "Community Water Governance",
-        "Handpump Repair Training for Women",
-        "Water Contamination Testing Kits",
-        "Rainwater Harvesting Tanks"
+        "Vocational Skill Training",
+        "Fab Lab Low-Cost Prototyping",
+        "Solar Micro-Irrigation"
       ],
-      "location": "Dumka",
-      "districts": "Dumka, Deoghar, Godda, Jamtara",
+      "location": "Pabal",
+      "districts": "Pune, Ahmednagar, Satara",
       "expertise": [
-        "Field Water Testing (Fluoride, Arsenic, Coliform)",
-        "Jal Sahiyya Women Network Mobilization",
-        "Community Watershed Management"
+        "Rural Innovation Incubation",
+        "Hands-on ITI Training Support",
+        "Field Deployment Validation"
       ],
-      "fieldReach": "Over 120 villages in Santhal Pargana",
+      "fieldReach": "35,000+ Rural Youth and Farmers",
+      "contactEmail": "vashram@gmail.com",
       "keyProjects": [
-        "Village Water Committees in 80 Dumka Panchayats",
-        "Rapid Field Test Strips for Contaminated Tubewells"
-      ],
-      "contactEmail": "contact@prototype-waterngo.example",
-      "isPrototypeSampleData": true
+        "DIC Skill Training in Rural High Schools",
+        "Solar Dryer and Sensor Implementation"
+      ]
     },
     {
       "id": 2,
-      "name": "Prototype Gram Arogya Mission (Rural Health Initiative)",
-      "domain": "Healthcare",
+      "name": "BAIF Development Research Foundation (Pune/Nashik)",
+      "domain": "Agriculture & Water Resource Management",
       "focusAreas": [
-        "First-Aid & Emergency Transportation",
-        "Maternal Malnutrition Counseling",
-        "Malaria Bednet Distribution & Spray Monitoring",
-        "Telemedicine Facilitation"
+        "Watershed Development",
+        "Sustainable Livelihoods",
+        "Tribal Family Rehabilitation"
       ],
-      "location": "Latehar",
-      "districts": "Latehar, Palamu, Garhwa",
+      "location": "Warje, Pune",
+      "districts": "Pune, Nashik, Nandurbar, Thane, Palghar",
       "expertise": [
-        "ASHA & Sahiya Coordination",
-        "Community Health Camps",
-        "Nutrition Rehabilitation Center Support"
+        "Participatory Watershed Management",
+        "Wadi Agro-Forestry Model",
+        "Community Water Governance"
       ],
-      "fieldReach": "95 forest villages in Latehar & Palamu",
+      "fieldReach": "120,000+ Tribal Households",
+      "contactEmail": "baif@baif.org.in",
       "keyProjects": [
-        "Motorcycle Ambulance Network for Remote Forest Hamlets",
-        "Malaria Rapid Diagnostic Support Drive"
-      ],
-      "contactEmail": "health@prototype-gramarogya.example",
-      "isPrototypeSampleData": true
-    },
-    {
-      "id": 3,
-      "name": "Prototype Kisan Utthan Trust (Jharkhand Agrarian Action)",
-      "domain": "Agriculture",
-      "focusAreas": [
-        "Traditional Seed Banks",
-        "Organic Composting & Vermicompost",
-        "Drip Irrigation Community Sharing",
-        "Lac & Honey Harvesting Collectives"
-      ],
-      "location": "Khunti",
-      "districts": "Khunti, Ranchi, West Singhbhum",
-      "expertise": [
-        "Participatory Farmer Field Schools",
-        "Water Check Dam Construction with Shramdaan",
-        "Market Linkage for Forest Produce"
-      ],
-      "fieldReach": "150 Farmer Collectives across 3 districts",
-      "keyProjects": [
-        "Check-Dam Bori Bandhan Campaign (120 Check Dams Built)",
-        "Indigenous Millets Revival Project"
-      ],
-      "contactEmail": "kisan@prototype-agriaction.example",
-      "isPrototypeSampleData": true
-    },
-    {
-      "id": 4,
-      "name": "Prototype Paryavaran Sanrakshan Manch (Eco Protection Forum)",
-      "domain": "Environment",
-      "focusAreas": [
-        "River & Stream Cleanups",
-        "Industrial Pollution Citizen Reporting",
-        "Tree Plantation & Sacred Grove Protection",
-        "Plastic Ban Awareness"
-      ],
-      "location": "Dhanbad",
-      "districts": "Dhanbad, Bokaro, Giridih",
-      "expertise": [
-        "Citizen Science Air & Water Testing",
-        "Legal Grievance Drafting for Environmental Violations",
-        "Community Afforestation of Abandoned Colliery Lands"
-      ],
-      "fieldReach": "Urban and peri-urban mining settlements in Dhanbad & Bokaro",
-      "keyProjects": [
-        "Subernarekha & Damodar Citizen Watchdog Network",
-        "Coal Dust Mitigation Awareness Drives"
-      ],
-      "contactEmail": "paryavaran@prototype-ecoforum.example",
-      "isPrototypeSampleData": true
-    },
-    {
-      "id": 5,
-      "name": "Prototype Sugamya Jharkhand Foundation (Divyang Accessibility Society)",
-      "domain": "Accessibility",
-      "focusAreas": [
-        "Public Building Accessibility Audits",
-        "Advocacy for Disability Rights",
-        "Distribution of Custom Assistive Aids",
-        "Vocational Skill Training for PwDs"
-      ],
-      "location": "Ranchi",
-      "districts": "Ranchi, East Singhbhum, Hazaribagh",
-      "expertise": [
-        "Harmonised Guidelines Accessibility Audits",
-        "Sign Language & Tactile Communication Training",
-        "Disability Pension & Certificate Facilitation"
-      ],
-      "fieldReach": "Statewide network with 400+ volunteers",
-      "keyProjects": [
-        "Barrier-Free Hospitals Audit in 5 Districts",
-        "Wheelchair-Friendly Public Transport Campaign"
-      ],
-      "contactEmail": "info@prototype-sugamya.example",
-      "isPrototypeSampleData": true
-    },
-    {
-      "id": 6,
-      "name": "Prototype Shiksha Pragati Sansthan (Rural Literacy Action)",
-      "domain": "Education",
-      "focusAreas": [
-        "After-School Learning Centers",
-        "Dropout Re-enrollment for Tribal Girls",
-        "Mother-Tongue Early Childhood Learning",
-        "Community Library Network"
-      ],
-      "location": "Simdega",
-      "districts": "Simdega, Gumla, Lohardaga",
-      "expertise": [
-        "Remedial Teaching in Mundari & Kharia Dialects",
-        "Solar Reading Lamp Distribution",
-        "Village Education Committee Mobilization"
-      ],
-      "fieldReach": "60 Village Learning Centers in Simdega & Gumla",
-      "keyProjects": [
-        "Mobile Library & Science Experiment Bus",
-        "Zero-Dropout Village Campaign in 40 Panchayats"
-      ],
-      "contactEmail": "shiksha@prototype-pragati.example",
-      "isPrototypeSampleData": true
-    },
-    {
-      "id": 7,
-      "name": "Prototype Gramin Swachhata Foundation (Clean Villages Trust)",
-      "domain": "Sanitation",
-      "focusAreas": [
-        "Solid Waste Segregation in Weekly Rural Markets",
-        "Community Soak Pit Construction",
-        "Menstrual Hygiene Awareness & Incinerators",
-        "Greywater Management"
-      ],
-      "location": "Giridih",
-      "districts": "Giridih, Koderma, Bokaro",
-      "expertise": [
-        "Rural Waste Audits",
-        "Community Soak Pit Design",
-        "Sanitation Hygiene Education"
-      ],
-      "fieldReach": "75 Panchayats across northern Jharkhand",
-      "keyProjects": [
-        "Plastic-Free Weekly Haats Campaign",
-        "School Menstrual Hygiene Incinerator Installations"
-      ],
-      "contactEmail": "swachhata@prototype-cleantrust.example",
-      "isPrototypeSampleData": true
+        "Tribal Agro-Horti Livelihood in Konkan",
+        "Decentralized Drinking Water Purification"
+      ]
     }
   ]
 }

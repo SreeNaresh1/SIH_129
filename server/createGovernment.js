@@ -46,7 +46,7 @@ async function createGovernmentAccount() {
       email,
       password: hashedPassword,
       role: "government",
-      organization: "Government of Jharkhand"
+      organization: "Government of Maharashtra"
     });
 
     console.log("");

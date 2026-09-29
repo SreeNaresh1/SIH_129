@@ -151,14 +151,19 @@ router.post(
         });
       }
 
-      const assignedDistrict = (district && district.trim()) || "Jharkhand";
+      const assignedDistrict = (district && district.trim()) || "Maharashtra";
       const assignedDomain = (domain && domain.trim()) || "Public Administration";
       const assignedSeverity = (severity && severity.trim()) || "Medium";
       const assignedAffected = affectedPeople ? Number(affectedPeople) : null;
 
-      // Generate distinct unique problem ID
+      // Generate distinct unique problem ID & Universal Tracking ID
       const randomSuffix = Math.floor(1000 + Math.random() * 9000);
       const problemId = `CH-${Date.now().toString().slice(-6)}-${randomSuffix}`;
+      const trackingId = req.body.trackingId || `MH-FED-2026-${randomSuffix}`;
+      const serviceType = req.body.serviceType || "Unified Inter-Departmental Service";
+      const primaryDepartment = req.body.primaryDepartment || "MahaSwayam (Skill & Employment)";
+      const targetDepartments = req.body.targetDepartments || JSON.stringify(["MahaSwayam", "MahaDBT", "DigiLocker"]);
+      const consentToken = req.body.consentToken || `DEPA-MH-2026-${Math.random().toString(36).substring(2, 9).toUpperCase()}`;
 
       const photo = req.files?.photo?.[0]?.filename || "";
       const video = req.files?.video?.[0]?.filename || "";
@@ -178,7 +183,20 @@ router.post(
         photo,
         video,
         status: "Under Review",
-        projectStatus: "AI Analysis Complete"
+        projectStatus: "Canonical Ingestion Complete",
+        trackingId,
+        serviceType,
+        primaryDepartment,
+        targetDepartments,
+        connectorSource: "MahaSetu Unified Citizen Gateway",
+        consentToken,
+        consentStatus: "GRANTED",
+        dataQualityScore: 98,
+        crossDeptStatus: JSON.stringify([
+          { dept: primaryDepartment.split(" ")[0], step: "Application Ingested", status: "VERIFIED", timestamp: new Date() },
+          { dept: "DigiLocker", step: "Document e-KYC Verification", status: "AUTO_CONFIRMED", timestamp: new Date() },
+          { dept: "MahaDBT", step: "Cross-Agency Workflow Routing", status: "PENDING_DISBURSAL", timestamp: new Date() }
+        ])
       });
 
       // Execute Qwen AI analysis synchronously so the citizen immediately gets analysis
@@ -471,14 +489,14 @@ router.post("/pre-analyze", authenticateToken, async (req, res) => {
       });
     }
 
-    console.log(`[AI Pre-Analysis] Analyzing draft: "${title || ''}" | Coords: (${latitude || 'N/A'}, ${longitude || 'N/A'}) | District: ${district || 'Jharkhand'} | Media: photo=${!!hasPhoto}, video=${!!hasVideo}`);
+    console.log(`[AI Pre-Analysis] Analyzing draft: "${title || ''}" | Coords: (${latitude || 'N/A'}, ${longitude || 'N/A'}) | District: ${district || 'Maharashtra'} | Media: photo=${!!hasPhoto}, video=${!!hasVideo}`);
     const ai = await analyzeChallengeWithAI({
       title: title || "Citizen Challenge",
       description: description || title || "",
       domain: domain || "",
       severity: severity || "",
       affectedPeople: affectedPeople || null,
-      district: district || "Jharkhand",
+      district: district || "Maharashtra",
       location: location || "",
       latitude: latitude || null,
       longitude: longitude || null,

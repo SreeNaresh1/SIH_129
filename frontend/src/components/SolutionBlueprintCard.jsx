@@ -61,13 +61,12 @@ export default function SolutionBlueprintCard({ problemId, problem }) {
 
   const copyDPRSummary = () => {
     if (!blueprint) return;
-    const text = `JHARKHAND SOCIETAL CHALLENGE PLATFORM - STATUTORY DPR SUMMARY
-Challenge ID: ${blueprint.problemId}
+    const text = `MAHARASHTRA STATE INTEROPERABILITY & FEDERATED SERVICE DELIVERY SPECIFICATION (IndEA v2.0)
+Universal Tracking ID: ${blueprint.problemId}
 Title: ${blueprint.title}
-Estimated Budget: ${blueprint.budget?.totalBudgetFormatted || '₹5.50 Lakhs'}
-Co-Funding: Govt DMFT (45%), Corporate CSR (45%), University R&D (10%)
-Turnaround: 90 Days (Phase 1: Relief -> Phase 2: Prototype -> Phase 3: Handover)
-Engine: Deterministic GovTech Financial Engine`;
+Estimated Budget / Inter-Departmental SLA: 24 Hours Turnaround
+Architecture: MeitY IndEA v2.0 & NITI Aayog DEPA 2.0 Consent Framework
+Connected Gateways: MahaSwayam, MahaDBT, Aaple Sarkar, DigiLocker MH`;
     navigator.clipboard.writeText(text);
     setCopied(true);
     setTimeout(() => setCopied(false), 2500);

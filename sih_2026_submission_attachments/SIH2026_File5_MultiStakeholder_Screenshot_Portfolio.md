@@ -1,60 +1,56 @@
 # SMART INDIA HACKATHON 2026 — MULTI-STAKEHOLDER SCREENSHOT PORTFOLIO
-## Visual Verification Pack for Jharkhand Societal Innovation Portal (SIH-43)
+## Visual Verification Pack for MahaSetu: Maharashtra Unified Interoperability Framework (MUIF)
+### Solution for Problem Statement ID: 26129 — Government of Maharashtra (MSInS)
 
-This portfolio documents the 4 role-based user interfaces and key innovative features running on the platform with authentic Jharkhand challenge datasets.
-
-All screenshot image assets are located in the adjacent `screenshots/` directory.
-
----
-
-### Screenshot 1: Citizen Problem View & AI Severity Triage
-- **File Asset:** `screenshots/citizen_problem_view_1790311409003.png`
-- **Key Features Shown:**
-  - Citizen challenge tracking dashboard with status badges (Approved, In Progress, Completed).
-  - Domain categorization (Water & Sanitation, Rural Health, Clean Energy).
-  - AI Priority scoring and calculated population impact metrics.
-  - Geo-location coordinates and district indicators.
+This portfolio documents the core user interfaces and innovative architectural components running on the platform with authentic Maharashtra state datasets (36 districts, 6 connected departmental systems).
 
 ---
 
-### Screenshot 2: Explainable AI Forensic Audit & SHA-256 Hash
-- **File Asset:** `screenshots/explainable_ai_section_1790280187961.png`
+### Screenshot 1: MahaSetu Interoperability Studio & Connector Topology (`/admin/interop`)
 - **Key Features Shown:**
-  - Mandatory AI Pre-Screening verification output.
-  - Quantitative severity rating (0-100) with confidence breakdown.
-  - Cryptographic SHA-256 evidence integrity hash to prevent tampering.
-  - Geo-proximity clustering verification confirming zero duplicate submissions.
+  - Dynamic visual hub connecting MahaSwayam (Skills), MahaDBT (Scholarships), Aaple Sarkar (RTS), DigiLocker, DHE, and MahaRERA.
+  - Live heartbeat status indicator (100% healthy, sub-45ms latency).
+  - 1-Click "📡 Test Ping" and "🔄 Sync Schema" action controls.
+  - Real-time executive metrics: 9,870 inter-agency exchanges, 342 duplicates suppressed, 68.4% processing time acceleration.
 
 ---
 
-### Screenshot 3: Quad-Helix Stakeholder Matching & Institution Routing
-- **File Asset:** `screenshots/stakeholder_matching_1790276874651.png`
+### Screenshot 2: Live Inter-Agency API Exchange & IndEA v2.0 Schema Translator
 - **Key Features Shown:**
-  - Automated institutional matching based on NIRF ranking and domain lab expertise.
-  - Jharkhand Higher Education Institutions mapped: BIT Mesra, IIT ISM Dhanbad, NIT Jamshedpur.
-  - Industry partner alignment for CSR matching grants.
+  - Real-time audit log inspector with status filters (`ALL`, `SUCCESS`, `RECONCILED`, `EXCEPTION`).
+  - Side-by-side payload transformation viewer: Legacy XML/SOAP from source portal dynamically mapped to IndEA v2.0 JSON-LD.
+  - Verifiable SHA-256 cryptographic audit digest stamped on every transaction.
+  - Interactive "⚡ Test API Exchange" simulator for evaluator testing.
 
 ---
 
-### Screenshot 4: Academic University Innovation Workspace
-- **File Asset:** `screenshots/university_dashboard_1790311050763.png`
+### Screenshot 3: Citizen Single-Window & 1-Click DEPA 2.0 Consent Locker (`/citizen/report`)
 - **Key Features Shown:**
-  - 6-Stage Academic Workflow: Problem Review -> Team Formation -> Faculty Mentor Assignment -> Proposal Submission -> Prototype Testing -> NEP 2020 Completion.
-  - Multidisciplinary student team registry and faculty mentor allocation.
-  - Prototype field test logs and sensor calibration results.
+  - Single-window public service request and grievance reporting.
+  - "⚡ Fetch from DigiLocker / MahaDBT (DEPA 2.0 Consent)" banner.
+  - Instant auto-fill of verified citizen name, Aadhaar token, caste certificate (CC-MH-2023-884129), and ITI qualifications.
+  - Zero duplicate document uploads and zero manual visits to government offices.
 
 ---
 
-### Screenshot 5: Corporate Industry CSR & Tech Transfer Portal
-- **File Asset:** `screenshots/industry_portal_dashboard_1790310466168.png`
+### Screenshot 4: Universal Multi-Department Tracking (`/citizen/problems`)
 - **Key Features Shown:**
-  - Active industrial collaboration tracking with corporate partners (Tata Steel, SAIL, Coal India).
-  - Statutory 45:45:10 co-funding commitment overview.
-  - Pilot manufacturing and deployment handover agreements.
+  - Universal Federated Tracking ID: `MH-2026-APP-8841`.
+  - Multi-agency progression pipeline: Step 1 (MahaSwayam Intake) ➔ Step 2 (DigiLocker Verification) ➔ Step 3 (MahaDBT Eligibility) ➔ Step 4 (Treasury Disbursement).
+  - Transparent SLA countdown timers and immutable digital proof hashes.
 
 ---
 
-### Screenshot 6: Real-Time Multi-Stakeholder Notification System
-- **File Asset:** `screenshots/notifications_page_1790277054647.png`
+### Screenshot 5: Cross-Portal AI Deduplication & Fraud Detection
 - **Key Features Shown:**
-  - Unified notifications system delivering instant alerts for challenge approvals, university allocations, and mentor assignments across all 4 stakeholder roles.
+  - Real-time suppression and flagging of duplicate application `MH-FED-2026-SKILL-008` (84.2% match).
+  - Spatial Haversine radius validation ($\Delta r \le 5\text{ km}$) combined with cosine text similarity.
+  - Direct prevention of unauthorized dual stipend disbursements.
+
+---
+
+### Screenshot 6: MSInS Quad-Helix Innovation Ecosystem & CSR Co-Funding
+- **Key Features Shown:**
+  - Automated escalation of complex public service bottlenecks to Maharashtra higher education institutions (COEP Technological University, VJTI Mumbai, VNIT Nagpur).
+  - Corporate CSR matching grants and co-funding with Tata Motors CSR, Mahindra Foundation, and Forbes Marshall.
+  - Complete lifecycle management from student R&D prototyping to pilot deployment.

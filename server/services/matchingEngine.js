@@ -240,7 +240,7 @@ function scoreStakeholder(stakeholder, stakeholderType, challengeProfile, custom
     stakeholderName: sName,
     name: sName,
     code: stakeholder.code || "",
-    location: stakeholder.location || stakeholder.district || "Jharkhand",
+    location: stakeholder.location || stakeholder.district || "Maharashtra",
     district: stakeholder.district || "",
     stakeholderType: sTypeFormatted,
     type: stakeholderType,

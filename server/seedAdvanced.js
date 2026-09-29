@@ -5,17 +5,17 @@ const UniversityExpertise = require("./models/UniversityExpertise");
 const Faculty = require("./models/Faculty");
 
 const universities = [
-  { name:"IIT (ISM) Dhanbad", code:"IITISM", city:"Dhanbad", district:"Dhanbad", state:"Jharkhand", description:"Technical university profile for SIH matching." },
-  { name:"BIT Mesra", code:"BIT", city:"Ranchi", district:"Ranchi", state:"Jharkhand", description:"Technical university profile for SIH matching." },
-  { name:"National Institute of Technology Jamshedpur", code:"NITJSR", city:"Jamshedpur", district:"East Singhbhum", state:"Jharkhand", description:"Technical university profile for SIH matching." },
-  { name:"Birsa Agricultural University", code:"BAU", city:"Ranchi", district:"Ranchi", state:"Jharkhand", description:"Agriculture-focused university profile for SIH matching." }
+  { name:"COEP Technological University", code:"COEP", city:"Pune", district:"Pune", state:"Maharashtra", description:"Premier Maharashtra state technological university specializing in GovTech, IoT, and embedded systems." },
+  { name:"Veermata Jijabai Technological Institute (VJTI)", code:"VJTI", city:"Mumbai", district:"Mumbai City", state:"Maharashtra", description:"Autonomous state institute leading research in enterprise cloud architectures and digital governance." },
+  { name:"Visvesvaraya National Institute of Technology (VNIT)", code:"VNIT", city:"Nagpur", district:"Nagpur", state:"Maharashtra", description:"Institute of national importance partnering on distributed systems, AI middleware, and smart grids." },
+  { name:"Mahatma Phule Krishi Vidyapeeth (MPKV)", code:"MPKV", city:"Rahuri", district:"Ahmednagar", state:"Maharashtra", description:"State agricultural university driving IoT irrigation and DBT direct benefit synchronization." }
 ];
 
 const expertise = {
-  "IIT (ISM) Dhanbad":["Water Management","Energy","Environment","Infrastructure"],
-  "BIT Mesra":["Digital Governance","Healthcare","Education","Energy","Infrastructure"],
-  "National Institute of Technology Jamshedpur":["Transportation","Energy","Water Management","Public Safety"],
-  "Birsa Agricultural University":["Agriculture","Water Management","Environment","Livelihoods"]
+  "COEP Technological University":["Digital Governance","Energy","Environment","Infrastructure"],
+  "Veermata Jijabai Technological Institute (VJTI)":["Digital Governance","Healthcare","Education","Energy","Infrastructure"],
+  "Visvesvaraya National Institute of Technology (VNIT)":["Transportation","Energy","Water Management","Public Safety"],
+  "Mahatma Phule Krishi Vidyapeeth (MPKV)":["Agriculture","Water Management","Environment","Livelihoods"]
 };
 
 async function run(){

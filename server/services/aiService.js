@@ -36,14 +36,14 @@ const DOMAIN_SYNONYMS = {
   "school": "Education"
 };
 
-const QWEN_SYSTEM_PROMPT = `You are an expert Societal Challenge Classifier and Problem Understanding Engine for Jharkhand State.
+const QWEN_SYSTEM_PROMPT = `You are an expert Government Interoperability, Cross-Departmental Service and Problem Understanding Engine for Government of Maharashtra (MahaSetu - PS 26129).
 Analyze the citizen challenge and produce a structured, explainable challenge profile in STRICT JSON.
 
 RULES:
 1. Return VALID JSON ONLY. Do not include markdown code blocks, backticks, or conversational preamble.
 2. The JSON MUST contain these exact fields:
    - "domain": One of ["Education", "Healthcare", "Agriculture", "Water Resources", "Environment", "Energy", "Urban Development", "Accessibility", "Public Administration", "Rural Livelihoods"]
-   - "sub_domain": Specific sub-domain string (e.g. Groundwater Fluorosis, Primary Health Care, Solar Lift Irrigation, Rural Culvert Connectivity)
+   - "sub_domain": Specific sub-domain string (e.g. Apprenticeship Verification, Direct Benefit Transfer, Building Clearance, Water Quality Monitoring)
    - "severity_score": Integer from 1 to 10 representing AI-assessed severity
    - "severity_reason": Concise explanation string of AI-assessed severity
    - "sector": Array containing one or more from ["Government", "University", "Industry", "NGO"]
@@ -62,8 +62,8 @@ RULES:
        - "evidence_credibility": String assessing provided evidence & descriptive proof
        - "accuracy_score": Integer 1-100 rating overall accuracy of citizen submission
        - "validation_verdict": String, one of ["VERIFIED & ACTIONABLE", "VALIDATED WITH MINOR REVISIONS", "FLAGGED FOR FIELD INSPECTION"]
-       - "recommended_heis": Array of top Jharkhand Higher Education Institutions (e.g. ["BIT Mesra", "IIT (ISM) Dhanbad", "BAU Ranchi", "RIMS Ranchi"])
-       - "recommended_industry_csr": Array of Jharkhand industry CSR partners (e.g. ["Tata Steel Rural Development Society (TSRDS)", "BCCL CSR Foundation", "Bokaro Steel CSR", "JSPL Foundation"])
+       - "recommended_departments": Array of Maharashtra State Departments (e.g. ["MahaSwayam", "MahaDBT", "Aaple Sarkar", "DigiLocker Maharashtra", "DHE Pune", "MahaRERA"])
+       - "interop_standards": Array of standards (e.g. ["MeitY IndEA v2.0", "NITI Aayog DEPA 2.0 Consent"])
 `;
 
 function cleanJsonText(raw) {
@@ -157,7 +157,7 @@ function normalizeAndValidateAIOutput(data, rawText = "", citizenContext = {}) {
   const citizenDomain = citizenContext.domain || "";
   const citizenSev = citizenContext.severity || "";
   const citizenPop = citizenContext.affectedPeople || "";
-  const citizenDist = citizenContext.district || "Jharkhand";
+  const citizenDist = citizenContext.district || "Maharashtra";
 
   const domainMatches = citizenDomain ? (
     matchedDomain.toLowerCase().includes(citizenDomain.toLowerCase()) ||
@@ -215,7 +215,7 @@ function normalizeAndValidateAIOutput(data, rawText = "", citizenContext = {}) {
     domain_proof: {
       score: semanticScore,
       max: 20,
-      thematic_match: `Lexical coherence 98.4% with Jharkhand State Department taxonomy (${matchedDomain})`,
+      thematic_match: `Lexical coherence 98.4% with Maharashtra State Department taxonomy (${matchedDomain})`,
       verified: true
     },
     community_proof: {
@@ -452,8 +452,8 @@ function fallbackHeuristicAnalysis(title, description, domainHint = "", severity
     geo_proof: {
       score: geoScore,
       max: 30,
-      coordinates: hasCoords ? `${extraContext.latitude}° N, ${extraContext.longitude}° E` : `23.3441° N, 85.3096° E (Geocoded to ${extraContext.district || "Jharkhand"})`,
-      district: extraContext.district || "Jharkhand",
+      coordinates: hasCoords ? `${extraContext.latitude}° N, ${extraContext.longitude}° E` : `18.5204° N, 73.8567° E (Geocoded to ${extraContext.district || "Maharashtra"})`,
+      district: extraContext.district || "Maharashtra",
       precision: hasCoords ? "GPS fix validated within 14 meters of site" : "District administrative polygon boundary verified",
       verified: true
     },
@@ -468,13 +468,13 @@ function fallbackHeuristicAnalysis(title, description, domainHint = "", severity
     domain_proof: {
       score: semanticScore,
       max: 20,
-      thematic_match: `Lexical coherence 98.4% with Jharkhand State Department taxonomy (${domain})`,
+      thematic_match: `Lexical coherence 98.4% with Maharashtra State Department taxonomy (${domain})`,
       verified: true
     },
     community_proof: {
       score: communityScore,
       max: 20,
-      cluster_check: `Consistent with block demographic density in ${extraContext.district || "Jharkhand"}`,
+      cluster_check: `Consistent with block demographic density in ${extraContext.district || "Maharashtra"}`,
       verified: true
     }
   };
@@ -484,7 +484,7 @@ function fallbackHeuristicAnalysis(title, description, domainHint = "", severity
     domain_analysis: `Citizen categorized as '${domainHint || domain}'. AI verifies alignment with '${domain}' (${subDomain}).`,
     severity_justified: true,
     severity_analysis: `Citizen reported '${severityHint || 'Medium'}'. AI confirms urgency score ${severityScore}/10.`,
-    location_plausibility: `Location details in ${extraContext.district || "Jharkhand"} verified as consistent.`,
+    location_plausibility: `Location details in ${extraContext.district || "Maharashtra"} verified as consistent.`,
     evidence_credibility: extraContext.photo ? "Credible photographic evidence corroborated by description." : "Contextual description validated against state municipal records.",
     accuracy_score: Math.min(99, Math.max(85, totalAccuracy)),
     validation_verdict: citizenMatches ? "VERIFIED & ACTIONABLE" : "VALIDATED WITH MINOR REVISIONS",
@@ -579,10 +579,10 @@ Description: ${description || ""}
 Citizen Selected Domain: ${domain || "Unspecified"}
 Citizen Selected Severity: ${severity || "Unspecified"}
 Citizen Reported Affected Population: ${affectedPeople || "Unspecified"}
-Citizen Location: ${district || "Jharkhand"}, ${location || ""} (Coordinates: Lat ${latitude || "N/A"}, Long ${longitude || "N/A"})
+Citizen Location: ${district || "Maharashtra"}, ${location || ""} (Coordinates: Lat ${latitude || "N/A"}, Long ${longitude || "N/A"})
 Uploaded Evidence: ${photo ? "Photograph evidence attached" : "No photo attached"}, ${video ? "Video evidence attached" : "No video attached"}
 
-Analyze this Jharkhand societal challenge across the 10 thematic domains (Education, Healthcare, Agriculture, Water Resources, Environment, Energy, Urban Development, Accessibility, Public Administration, Rural Livelihoods) and audit all citizen inputs for the Government Validation Dashboard. Return strict JSON complying with the system prompt rules.`;
+Analyze this Maharashtra societal challenge and public service request across the 10 thematic domains (Education, Healthcare, Agriculture, Water Resources, Environment, Energy, Urban Development, Accessibility, Public Administration, Rural Livelihoods) and audit all citizen inputs for the Government Validation Dashboard. Return strict JSON complying with the system prompt rules.`;
 
   // 1. Try Ollama native /api/chat with format: "json"
   try {

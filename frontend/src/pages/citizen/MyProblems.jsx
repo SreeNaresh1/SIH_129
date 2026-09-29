@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import "../../App.css";
 
 function MyProblems() {
   const navigate = useNavigate();
@@ -7,13 +8,15 @@ function MyProblems() {
   const [problems, setProblems] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+  const [searchTerm, setSearchTerm] = useState("");
+  const [statusFilter, setStatusFilter] = useState("ALL");
 
   /*
   |--------------------------------------------------------------------------
-  | LOAD ONLY LOGGED-IN CITIZEN'S PROBLEMS
+  | LOAD CITIZEN'S APPLICATIONS
   |--------------------------------------------------------------------------
   */
-  const loadMyProblems = async () => {
+  const loadMyApplications = async () => {
     try {
       setLoading(true);
       setError("");
@@ -35,1697 +38,423 @@ function MyProblems() {
         }
       );
 
-      const contentType =
-        response.headers.get("content-type") || "";
-
+      const contentType = response.headers.get("content-type") || "";
       let data = {};
 
       if (contentType.includes("application/json")) {
         data = await response.json();
       } else {
-        throw new Error(
-          "The backend returned an invalid response."
-        );
+        throw new Error("The backend returned an invalid response.");
       }
 
       if (response.status === 401) {
         localStorage.removeItem("authToken");
         localStorage.removeItem("currentUser");
         localStorage.removeItem("userRole");
-
         navigate("/login", { replace: true });
         return;
       }
 
       if (!response.ok) {
-        throw new Error(
-          data.message ||
-            "Unable to load your problems."
-        );
+        throw new Error(data.message || "Unable to load your applications.");
       }
 
-      setProblems(
-        Array.isArray(data.problems)
-          ? data.problems
-          : []
-      );
+      setProblems(Array.isArray(data.problems) ? data.problems : []);
     } catch (err) {
-      console.error(
-        "LOAD MY PROBLEMS ERROR:",
-        err
-      );
-
-      setError(
-        err.message ||
-          "Unable to load your problems."
-      );
+      console.error("LOAD MY APPLICATIONS ERROR:", err);
+      setError(err.message || "Unable to load your applications.");
     } finally {
       setLoading(false);
     }
   };
 
   useEffect(() => {
-    loadMyProblems();
+    loadMyApplications();
   }, []);
 
-  /*
-  |--------------------------------------------------------------------------
-  | LOGOUT
-  |--------------------------------------------------------------------------
-  */
   const logout = () => {
     localStorage.removeItem("authToken");
     localStorage.removeItem("currentUser");
     localStorage.removeItem("userRole");
-
-    navigate("/login", {
-      replace: true,
-    });
+    navigate("/login", { replace: true });
   };
 
   /*
   |--------------------------------------------------------------------------
-  | HELPERS
+  | FILTERED APPLICATIONS
   |--------------------------------------------------------------------------
   */
-  const getStatus = (problem) => {
-    return (
-      problem.status ||
-      "Under Review"
-    );
-  };
+  const filteredProblems = problems.filter((app) => {
+    const tracking = app.trackingId || app.problemId || "";
+    const title = app.title || "";
+    const district = app.district || "";
 
-  const getStatusStyle = (status) => {
+    const matchesSearch =
+      tracking.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      district.toLowerCase().includes(searchTerm.toLowerCase());
+
+    if (!matchesSearch) return false;
+
+    if (statusFilter === "ALL") return true;
+    if (statusFilter === "REVIEW") return app.status === "Under Review";
+    if (statusFilter === "PROGRESS") return app.status === "In Progress";
+    if (statusFilter === "APPROVED")
+      return app.status === "Approved" || app.status === "Completed" || app.status === "Resolved";
+
+    return true;
+  });
+
+  const getStatusBadgeStyle = (status) => {
     switch (status) {
       case "Completed":
       case "Resolved":
-        return {
-          background: "#dcfce7",
-          color: "#166534",
-          border: "1px solid #bbf7d0",
-        };
-
-      case "In Progress":
-        return {
-          background: "#dbeafe",
-          color: "#1d4ed8",
-          border: "1px solid #bfdbfe",
-        };
-
       case "Approved":
-        return {
-          background: "#e0f2fe",
-          color: "#0369a1",
-          border: "1px solid #bae6fd",
-        };
-
-      case "Rejected":
-        return {
-          background: "#fee2e2",
-          color: "#b91c1c",
-          border: "1px solid #fecaca",
-        };
-
+        return { background: "#dcfce7", color: "#166534", border: "1px solid #bbf7d0" };
+      case "In Progress":
+        return { background: "#dbeafe", color: "#1d4ed8", border: "1px solid #bfdbfe" };
       default:
-        return {
-          background: "#fef3c7",
-          color: "#92400e",
-          border: "1px solid #fde68a",
-        };
+        return { background: "#fef3c7", color: "#92400e", border: "1px solid #fde68a" };
     }
   };
 
-  const getPriorityStyle = (level) => {
-    switch (level) {
-      case "Critical":
-        return {
-          background: "#fee2e2",
-          color: "#b91c1c",
-        };
-
-      case "High":
-        return {
-          background: "#ffedd5",
-          color: "#c2410c",
-        };
-
-      case "Medium":
-        return {
-          background: "#fef3c7",
-          color: "#92400e",
-        };
-
-      default:
-        return {
-          background: "#dcfce7",
-          color: "#166534",
-        };
-    }
-  };
-
-  /*
-  |--------------------------------------------------------------------------
-  | LOADING
-  |--------------------------------------------------------------------------
-  */
-  if (loading) {
-    return (
-      <>
-        <style>{pageStyles}</style>
-
-        <div className="mp-layout">
-
-          <aside className="mp-sidebar">
-
-            <div className="mp-logo">
-              <div className="mp-logo-box">
-                SI
-              </div>
-
-              <div>
-                <strong>
-                  SI Citizen Portal
-                </strong>
-
-                <span>
-                  Citizen
-                </span>
-              </div>
-            </div>
-
-            <nav className="mp-navigation">
-
-              <Link to="/citizen">
-                <span>🏠</span>
-                Dashboard
-              </Link>
-
-              <Link to="/citizen/report">
-                <span>📝</span>
-                Report Problem
-              </Link>
-
-              <Link
-                to="/citizen/problems"
-                className="mp-active"
-              >
-                <span>📋</span>
-                My Problems
-              </Link>
-
-              <Link to="/citizen/notifications">
-                <span>🔔</span>
-                Notifications
-              </Link>
-
-            </nav>
-
-            <div className="mp-sidebar-bottom">
-
-              <button
-                type="button"
-                onClick={logout}
-              >
-                <span>🚪</span>
-                Logout
-              </button>
-
-            </div>
-
-          </aside>
-
-          <main className="mp-main">
-
-            <div className="mp-loading">
-              <div className="mp-spinner"></div>
-
-              <h2>
-                Loading your problems...
-              </h2>
-
-              <p>
-                Please wait while we load your
-                submitted problems.
-              </p>
-            </div>
-
-          </main>
-
-        </div>
-      </>
-    );
-  }
-
-  /*
-  |--------------------------------------------------------------------------
-  | MAIN PAGE
-  |--------------------------------------------------------------------------
-  */
   return (
-    <>
-      <style>{pageStyles}</style>
+    <div className="citizen-dashboard" style={{ minHeight: "100vh", background: "#f8fafc" }}>
+      {/* SIDEBAR */}
+      <aside className="citizen-sidebar">
+        <div className="dashboard-logo" style={{ display: "flex", alignItems: "center", gap: "8px" }}>
+          <div
+            style={{
+              width: "36px",
+              height: "36px",
+              borderRadius: "8px",
+              background: "linear-gradient(135deg, #f59e0b 0%, #d97706 100%)",
+              color: "#0f172a",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              fontWeight: "900",
+              fontSize: "14px",
+            }}
+          >
+            MH
+          </div>
+          <div>
+            <div style={{ fontWeight: "800", fontSize: "15px", color: "#0f172a", lineHeight: "1.2" }}>MahaSetu</div>
+            <div style={{ fontSize: "11px", color: "#64748b" }}>Citizen Single Window</div>
+          </div>
+        </div>
 
-      <div className="mp-layout">
+        <div className="sidebar-menu">
+          <Link to="/citizen" style={{ display: "flex", alignItems: "center", gap: "10px", padding: "12px 14px", borderRadius: "8px", color: "#475569", fontWeight: "500", textDecoration: "none" }}>
+            <span>🏠</span> Dashboard
+          </Link>
+          <Link to="/citizen/report" style={{ display: "flex", alignItems: "center", gap: "10px", padding: "12px 14px", borderRadius: "8px", color: "#475569", fontWeight: "500", textDecoration: "none" }}>
+            <span>⚡</span> New Service Application
+          </Link>
+          <Link to="/citizen/problems" className="active" style={{ display: "flex", alignItems: "center", gap: "10px", padding: "12px 14px", borderRadius: "8px", background: "#eff6ff", color: "#1d4ed8", fontWeight: "600", textDecoration: "none" }}>
+            <span>📋</span> My Applications &amp; Status
+          </Link>
+          <Link to="/citizen/notifications" style={{ display: "flex", alignItems: "center", gap: "10px", padding: "12px 14px", borderRadius: "8px", color: "#475569", fontWeight: "500", textDecoration: "none" }}>
+            <span>🔔</span> Service Notifications
+          </Link>
+        </div>
 
-        {/* ==================================================
-            SIDEBAR
-        ================================================== */}
+        <div className="sidebar-bottom">
+          <button
+            type="button"
+            onClick={logout}
+            style={{
+              display: "flex",
+              alignItems: "center",
+              gap: "8px",
+              color: "#ef4444",
+              background: "transparent",
+              border: "none",
+              fontWeight: "600",
+              fontSize: "14px",
+              cursor: "pointer",
+              padding: 0,
+            }}
+          >
+            🚪 Logout
+          </button>
+        </div>
+      </aside>
 
-        <aside className="mp-sidebar">
-
-          <div className="mp-logo">
-
-            <div className="mp-logo-box">
-              SI
+      {/* MAIN CONTENT */}
+      <main className="citizen-main" style={{ padding: "30px 36px" }}>
+        {/* HEADER */}
+        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "24px" }}>
+          <div>
+            <div style={{ fontSize: "12.5px", color: "#64748b", marginBottom: "6px" }}>
+              MahaSetu Single Window › <strong>Universal Service Tracking</strong>
             </div>
-
-            <div>
-              <strong>
-                SI Citizen Portal
-              </strong>
-
-              <span>
-                Citizen
-              </span>
-            </div>
-
+            <h1 style={{ fontSize: "26px", fontWeight: "800", color: "#0f172a", margin: "0 0 6px 0", letterSpacing: "-0.5px" }}>
+              My Applications &amp; Federated Tracking
+            </h1>
+            <p style={{ margin: 0, fontSize: "14px", color: "#64748b" }}>
+              Track real-time cross-departmental progression across MahaDBT, DigiLocker, and State registries.
+            </p>
           </div>
 
-
-          <nav className="mp-navigation">
-
-            <Link to="/citizen">
-
-              <span>🏠</span>
-
-              Dashboard
-
-            </Link>
-
-
-            <Link to="/citizen/report">
-
-              <span>📝</span>
-
-              Report Problem
-
-            </Link>
-
-
-            <Link
-              to="/citizen/problems"
-              className="mp-active"
-            >
-
-              <span>📋</span>
-
-              My Problems
-
-            </Link>
-
-
-            <Link to="/citizen/notifications">
-
-              <span>🔔</span>
-
-              Notifications
-
-            </Link>
-
-          </nav>
-
-
-          <div className="mp-sidebar-bottom">
-
+          <Link to="/citizen/report">
             <button
               type="button"
-              onClick={logout}
+              style={{
+                background: "linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%)",
+                color: "#ffffff",
+                fontWeight: "700",
+                fontSize: "13.5px",
+                padding: "12px 20px",
+                borderRadius: "10px",
+                border: "none",
+                cursor: "pointer",
+                display: "flex",
+                alignItems: "center",
+                gap: "6px",
+                boxShadow: "0 4px 12px rgba(37, 99, 235, 0.3)",
+              }}
             >
-
-              <span>🚪</span>
-
-              Logout
-
+              <span>+</span> New Application
             </button>
+          </Link>
+        </div>
 
+        {/* METRIC CARDS */}
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: "16px", marginBottom: "24px" }}>
+          <div style={{ background: "#ffffff", padding: "16px 20px", borderRadius: "12px", border: "1px solid #e2e8f0" }}>
+            <span style={{ fontSize: "12px", color: "#64748b" }}>Total Applications</span>
+            <div style={{ fontSize: "22px", fontWeight: "800", color: "#0f172a", marginTop: "2px" }}>{problems.length}</div>
+          </div>
+          <div style={{ background: "#ffffff", padding: "16px 20px", borderRadius: "12px", border: "1px solid #e2e8f0" }}>
+            <span style={{ fontSize: "12px", color: "#b45309" }}>Multi-Agency Review</span>
+            <div style={{ fontSize: "22px", fontWeight: "800", color: "#d97706", marginTop: "2px" }}>
+              {problems.filter((p) => p.status === "Under Review").length}
+            </div>
+          </div>
+          <div style={{ background: "#ffffff", padding: "16px 20px", borderRadius: "12px", border: "1px solid #e2e8f0" }}>
+            <span style={{ fontSize: "12px", color: "#1d4ed8" }}>In Active Processing</span>
+            <div style={{ fontSize: "22px", fontWeight: "800", color: "#2563eb", marginTop: "2px" }}>
+              {problems.filter((p) => p.status === "In Progress").length}
+            </div>
+          </div>
+          <div style={{ background: "#ffffff", padding: "16px 20px", borderRadius: "12px", border: "1px solid #e2e8f0" }}>
+            <span style={{ fontSize: "12px", color: "#15803d" }}>Approved &amp; Disbursed</span>
+            <div style={{ fontSize: "22px", fontWeight: "800", color: "#16a34a", marginTop: "2px" }}>
+              {problems.filter((p) => p.status === "Completed" || p.status === "Resolved" || p.status === "Approved").length}
+            </div>
+          </div>
+        </div>
+
+        {/* SEARCH & FILTER BAR */}
+        <div style={{ display: "flex", gap: "14px", marginBottom: "22px" }}>
+          <div style={{ flex: 1, position: "relative" }}>
+            <input
+              type="text"
+              placeholder="Search by Universal Tracking ID (e.g. MH-FED-2026), Service Title, or District..."
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              style={{
+                width: "100%",
+                padding: "11px 14px",
+                borderRadius: "10px",
+                border: "1px solid #cbd5e1",
+                fontSize: "13.5px",
+                boxSizing: "border-box",
+                outline: "none",
+                background: "#ffffff",
+              }}
+            />
           </div>
 
-        </aside>
-
-
-        {/* ==================================================
-            MAIN CONTENT
-        ================================================== */}
-
-        <main className="mp-main">
-
-          {/* HEADER */}
-
-          <header className="mp-header">
-
-            <div>
-
-              <div className="mp-breadcrumb">
-                Citizen Portal
-                <span>›</span>
-                My Problems
-              </div>
-
-              <h1>
-                My Problems
-              </h1>
-
-              <p>
-                View and track the problems
-                submitted from your account.
-              </p>
-
-            </div>
-
-
-            <Link
-              to="/citizen/report"
-              className="mp-primary-button"
-            >
-              <span>＋</span>
-              Report New Problem
-            </Link>
-
-          </header>
-
-
-          {/* ERROR */}
-
-          {error && (
-
-            <div className="mp-error">
-
-              <div className="mp-error-icon">
-                !
-              </div>
-
-              <div>
-
-                <strong>
-                  Unable to load problems
-                </strong>
-
-                <p>
-                  {error}
-                </p>
-
-              </div>
-
+          <div style={{ display: "flex", gap: "6px" }}>
+            {[
+              { id: "ALL", label: "All" },
+              { id: "REVIEW", label: "Under Review" },
+              { id: "PROGRESS", label: "In Progress" },
+              { id: "APPROVED", label: "Approved" },
+            ].map((tab) => (
               <button
+                key={tab.id}
                 type="button"
-                onClick={loadMyProblems}
+                onClick={() => setStatusFilter(tab.id)}
+                style={{
+                  border: "none",
+                  padding: "8px 14px",
+                  borderRadius: "8px",
+                  fontSize: "13px",
+                  fontWeight: statusFilter === tab.id ? "700" : "500",
+                  background: statusFilter === tab.id ? "#1e293b" : "#ffffff",
+                  color: statusFilter === tab.id ? "#ffffff" : "#475569",
+                  cursor: "pointer",
+                  boxShadow: "0 1px 2px rgba(0, 0, 0, 0.05)",
+                }}
               >
-                Try Again
+                {tab.label}
               </button>
+            ))}
+          </div>
+        </div>
 
-            </div>
+        {/* APPLICATIONS LIST */}
+        {loading ? (
+          <div style={{ textAlign: "center", padding: "60px", background: "#ffffff", borderRadius: "14px" }}>
+            <p style={{ color: "#64748b", fontSize: "14px" }}>Loading your applications...</p>
+          </div>
+        ) : filteredProblems.length === 0 ? (
+          <div style={{ textAlign: "center", padding: "60px", background: "#ffffff", borderRadius: "14px", border: "1px solid #e2e8f0" }}>
+            <div style={{ fontSize: "40px", marginBottom: "12px" }}>🔍</div>
+            <h3 style={{ fontSize: "17px", fontWeight: "800", color: "#0f172a", margin: "0 0 6px 0" }}>
+              No Applications Match Your Filter
+            </h3>
+            <p style={{ fontSize: "13.5px", color: "#64748b", margin: "0 0 18px 0" }}>
+              Try adjusting your search criteria or submit a new integrated service application.
+            </p>
+            <button
+              type="button"
+              onClick={() => { setSearchTerm(""); setStatusFilter("ALL"); }}
+              style={{
+                background: "#f1f5f9",
+                border: "none",
+                padding: "8px 16px",
+                borderRadius: "8px",
+                fontSize: "13px",
+                fontWeight: "600",
+                color: "#334155",
+                cursor: "pointer",
+              }}
+            >
+              Reset Filters
+            </button>
+          </div>
+        ) : (
+          <div style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
+            {filteredProblems.map((app) => {
+              const appId = app.problemId || app.id;
+              const trackingNumber = app.trackingId || `MH-FED-2026-${String(appId).slice(-4)}`;
+              const statusStyle = getStatusBadgeStyle(app.status);
 
-          )}
-
-
-          {/* ==================================================
-              SUMMARY
-          ================================================== */}
-
-          {!error && (
-
-            <div className="mp-summary-grid">
-
-              <div className="mp-summary-card">
-
-                <div className="mp-summary-icon blue">
-                  📋
-                </div>
-
-                <div>
-
-                  <span>
-                    Total Problems
-                  </span>
-
-                  <strong>
-                    {problems.length}
-                  </strong>
-
-                </div>
-
-              </div>
-
-
-              <div className="mp-summary-card">
-
-                <div className="mp-summary-icon yellow">
-                  🔍
-                </div>
-
-                <div>
-
-                  <span>
-                    Under Review
-                  </span>
-
-                  <strong>
-                    {
-                      problems.filter(
-                        (problem) =>
-                          problem.status ===
-                          "Under Review"
-                      ).length
-                    }
-                  </strong>
-
-                </div>
-
-              </div>
-
-
-              <div className="mp-summary-card">
-
-                <div className="mp-summary-icon purple">
-                  ⚙️
-                </div>
-
-                <div>
-
-                  <span>
-                    In Progress
-                  </span>
-
-                  <strong>
-                    {
-                      problems.filter(
-                        (problem) =>
-                          problem.status ===
-                          "In Progress"
-                      ).length
-                    }
-                  </strong>
-
-                </div>
-
-              </div>
-
-
-              <div className="mp-summary-card">
-
-                <div className="mp-summary-icon green">
-                  ✅
-                </div>
-
-                <div>
-
-                  <span>
-                    Completed
-                  </span>
-
-                  <strong>
-                    {
-                      problems.filter(
-                        (problem) =>
-                          problem.status ===
-                            "Completed" ||
-                          problem.status ===
-                            "Resolved"
-                      ).length
-                    }
-                  </strong>
-
-                </div>
-
-              </div>
-
-            </div>
-
-          )}
-
-
-          {/* ==================================================
-              EMPTY STATE
-          ================================================== */}
-
-          {!error &&
-            problems.length === 0 && (
-
-              <div className="mp-empty">
-
-                <div className="mp-empty-icon">
-                  📋
-                </div>
-
-                <h2>
-                  No Problems Submitted Yet
-                </h2>
-
-                <p>
-                  You have not reported any
-                  community problems yet.
-                </p>
-
-                <Link
-                  to="/citizen/report"
-                  className="mp-primary-button"
+              return (
+                <div
+                  key={appId}
+                  style={{
+                    background: "#ffffff",
+                    border: "1px solid #e2e8f0",
+                    borderRadius: "14px",
+                    padding: "22px",
+                    boxShadow: "0 2px 4px rgba(0, 0, 0, 0.02)",
+                    transition: "all 0.2s ease",
+                  }}
                 >
-                  <span>＋</span>
-                  Report Your First Problem
-                </Link>
+                  {/* TOP ROW: TRACKING ID & BADGES */}
+                  <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "12px" }}>
+                    <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
+                      <span
+                        style={{
+                          fontFamily: "monospace",
+                          fontSize: "13px",
+                          fontWeight: "800",
+                          color: "#1d4ed8",
+                          background: "#eff6ff",
+                          padding: "6px 12px",
+                          borderRadius: "8px",
+                          border: "1px solid #dbeafe",
+                        }}
+                      >
+                        {trackingNumber}
+                      </span>
+                      <span style={{ fontSize: "12px", color: "#64748b" }}>
+                        Submitted {new Date(app.createdAt || Date.now()).toLocaleDateString("en-IN", { day: "numeric", month: "short", year: "numeric" })}
+                      </span>
+                    </div>
 
-              </div>
-
-            )}
-
-
-          {/* ==================================================
-              PROBLEM LIST
-          ================================================== */}
-
-          {!error &&
-            problems.length > 0 && (
-
-              <section>
-
-                <div className="mp-section-heading">
-
-                  <div>
-
-                    <h2>
-                      Your Submitted Problems
-                    </h2>
-
-                    <p>
-                      All problems shown below
-                      belong to your account.
-                    </p>
-
+                    <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
+                      <span style={{ fontSize: "11px", fontWeight: "700", color: "#059669", background: "#ecfdf5", border: "1px solid #a7f3d0", padding: "4px 8px", borderRadius: "6px" }}>
+                        🔒 {app.consentToken ? "DEPA 2.0 Granted" : "Consent Active"}
+                      </span>
+                      <span
+                        style={{
+                          fontSize: "11.5px",
+                          fontWeight: "700",
+                          padding: "4px 12px",
+                          borderRadius: "20px",
+                          textTransform: "uppercase",
+                          letterSpacing: "0.3px",
+                          ...statusStyle,
+                        }}
+                      >
+                        {app.status || "Under Review"}
+                      </span>
+                    </div>
                   </div>
 
-                  <span className="mp-count">
-                    {problems.length}{" "}
-                    {problems.length === 1
-                      ? "Problem"
-                      : "Problems"}
-                  </span>
+                  {/* TITLE & DESCRIPTION */}
+                  <h3 style={{ fontSize: "16px", fontWeight: "800", color: "#0f172a", margin: "0 0 6px 0" }}>
+                    {app.title}
+                  </h3>
+                  <p style={{ fontSize: "13px", color: "#475569", margin: "0 0 16px 0", lineHeight: "1.4" }}>
+                    {app.description}
+                  </p>
 
+                  {/* DEPARTMENT ROUTING PIPELINE STEPPER */}
+                  <div
+                    style={{
+                      background: "#f8fafc",
+                      border: "1px solid #f1f5f9",
+                      borderRadius: "10px",
+                      padding: "12px 16px",
+                      marginBottom: "16px",
+                    }}
+                  >
+                    <div style={{ fontSize: "11px", fontWeight: "700", color: "#64748b", textTransform: "uppercase", marginBottom: "8px" }}>
+                      Multi-Departmental Verification Pipeline:
+                    </div>
+
+                    <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: "8px", fontSize: "11.5px" }}>
+                      <div style={{ color: "#059669", fontWeight: "600", display: "flex", alignItems: "center", gap: "4px" }}>
+                        <span>✅</span> 1. Ingestion &amp; Canonical IndEA
+                      </div>
+                      <div style={{ color: "#059669", fontWeight: "600", display: "flex", alignItems: "center", gap: "4px" }}>
+                        <span>✅</span> 2. DigiLocker e-KYC Verified
+                      </div>
+                      <div style={{ color: app.status === "Under Review" ? "#d97706" : "#059669", fontWeight: "600", display: "flex", alignItems: "center", gap: "4px" }}>
+                        <span>{app.status === "Under Review" ? "⏳" : "✅"}</span> 3. Cross-Agency InterOp Sync
+                      </div>
+                      <div style={{ color: app.status === "Approved" || app.status === "Completed" ? "#059669" : "#94a3b8", fontWeight: "600", display: "flex", alignItems: "center", gap: "4px" }}>
+                        <span>{app.status === "Approved" || app.status === "Completed" ? "✅" : "⚪"}</span> 4. Final Disbursal
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* BOTTOM INFO & ACTION */}
+                  <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", paddingTop: "12px", borderTop: "1px solid #f1f5f9", fontSize: "12.5px" }}>
+                    <div style={{ color: "#64748b" }}>
+                      📍 <strong>{app.district || "Maharashtra"}</strong> • Primary: <strong>{app.primaryDepartment || "MahaSwayam"}</strong>
+                    </div>
+
+                    <Link
+                      to={`/problem/${appId}`}
+                      style={{
+                        color: "#2563eb",
+                        fontWeight: "700",
+                        textDecoration: "none",
+                        display: "flex",
+                        alignItems: "center",
+                        gap: "4px",
+                      }}
+                    >
+                      View Detailed Inter-Agency Audit Logs →
+                    </Link>
+                  </div>
                 </div>
-
-
-                <div className="mp-problems">
-
-                  {problems.map(
-                    (problem) => {
-
-                      const problemId =
-                        problem.problemId ||
-                        problem.id;
-
-                      const status =
-                        getStatus(problem);
-
-                      const statusStyle =
-                        getStatusStyle(
-                          status
-                        );
-
-                      const priorityStyle =
-                        getPriorityStyle(
-                          problem.priorityLevel
-                        );
-
-                      return (
-
-                        <article
-                          className="mp-problem-card"
-                          key={problemId}
-                        >
-
-                          {/* CARD TOP */}
-
-                          <div className="mp-card-top">
-
-                            <div>
-
-                              <div className="mp-problem-id">
-                                PROBLEM ID
-                              </div>
-
-                              <div className="mp-id-value">
-                                {problemId}
-                              </div>
-
-                            </div>
-
-
-                            <div
-                              className="mp-status"
-                              style={{
-                                background:
-                                  statusStyle.background,
-                                color:
-                                  statusStyle.color,
-                                border:
-                                  statusStyle.border,
-                              }}
-                            >
-                              {status}
-                            </div>
-
-                          </div>
-
-
-                          {/* TITLE */}
-
-                          <h3 className="mp-problem-title">
-                            {problem.title ||
-                              "Untitled Problem"}
-                          </h3>
-
-
-                          {/* DESCRIPTION */}
-
-                          <p className="mp-description">
-                            {problem.description ||
-                              "No description available."}
-                          </p>
-
-
-                          {/* DETAILS */}
-
-                          <div className="mp-details-grid">
-
-                            <div className="mp-detail">
-
-                              <span>
-                                DOMAIN
-                              </span>
-
-                              <strong>
-                                {problem.domain ||
-                                  "Not specified"}
-                              </strong>
-
-                            </div>
-
-
-                            <div className="mp-detail">
-
-                              <span>
-                                DISTRICT
-                              </span>
-
-                              <strong>
-                                {problem.district ||
-                                  "Not specified"}
-                              </strong>
-
-                            </div>
-
-
-                            <div className="mp-detail">
-
-                              <span>
-                                SEVERITY
-                              </span>
-
-                              <strong>
-                                {problem.severity ||
-                                  "Not specified"}
-                              </strong>
-
-                            </div>
-
-
-                            <div className="mp-detail">
-
-                              <span>
-                                AFFECTED PEOPLE
-                              </span>
-
-                              <strong>
-                                {problem.affectedPeople ??
-                                  "Not specified"}
-                              </strong>
-
-                            </div>
-
-
-                            <div className="mp-detail">
-
-                              <span>
-                                SUBMITTED
-                              </span>
-
-                              <strong>
-                                {problem.createdAt
-                                  ? new Date(
-                                      problem.createdAt
-                                    ).toLocaleDateString(
-                                      "en-IN"
-                                    )
-                                  : "—"}
-                              </strong>
-
-                            </div>
-
-
-                            <div className="mp-detail">
-
-                              <span>
-                                ASSIGNED UNIVERSITY
-                              </span>
-
-                              <strong>
-                                {problem.assignedUniversity ||
-                                problem.assignedUniversityName
-                                  ? problem.assignedUniversity ||
-                                    problem.assignedUniversityName
-                                  : problem.assignedUniversityId
-                                  ? `University ID: ${problem.assignedUniversityId}`
-                                  : "Not assigned"}
-                              </strong>
-
-                            </div>
-
-                          </div>
-
-
-                          {/* AI SECTION */}
-
-                          {(problem.aiDomain ||
-                            problem.aiSubDomain ||
-                            problem.aiSector ||
-                            problem.aiSeverity ||
-                            problem.priorityLevel ||
-                            problem.priorityScore) && (
-
-                            <div className="mp-ai-box">
-
-                              <div className="mp-ai-header">
-
-                                <div>
-
-                                  <span className="mp-ai-icon">
-                                    🤖
-                                  </span>
-
-                                  <strong>
-                                    AI Analysis
-                                  </strong>
-
-                                </div>
-
-                                {problem.priorityLevel && (
-
-                                  <span
-                                    className="mp-priority"
-                                    style={{
-                                      background:
-                                        priorityStyle.background,
-                                      color:
-                                        priorityStyle.color,
-                                    }}
-                                  >
-                                    {problem.priorityLevel}
-                                    {problem.priorityScore
-                                      ? ` • ${problem.priorityScore}`
-                                      : ""}
-                                  </span>
-
-                                )}
-
-                              </div>
-
-
-                              <div className="mp-ai-details">
-
-                                {problem.aiDomain && (
-
-                                  <div>
-
-                                    <span>
-                                      AI Domain
-                                    </span>
-
-                                    <strong>
-                                      {problem.aiDomain}
-                                    </strong>
-
-                                  </div>
-
-                                )}
-
-
-                                {problem.aiSubDomain && (
-
-                                  <div>
-
-                                    <span>
-                                      AI Sub-Domain
-                                    </span>
-
-                                    <strong>
-                                      {problem.aiSubDomain}
-                                    </strong>
-
-                                  </div>
-
-                                )}
-
-
-                                {problem.aiSector && (
-
-                                  <div>
-
-                                    <span>
-                                      AI Sector
-                                    </span>
-
-                                    <strong>
-                                      {problem.aiSector}
-                                    </strong>
-
-                                  </div>
-
-                                )}
-
-
-                                {problem.aiSeverity && (
-
-                                  <div>
-
-                                    <span>
-                                      AI Severity
-                                    </span>
-
-                                    <strong>
-                                      {problem.aiSeverity}
-                                    </strong>
-
-                                  </div>
-
-                                )}
-
-                              </div>
-
-                            </div>
-
-                          )}
-
-
-                          {/* MEDIA */}
-
-                          {(problem.photo ||
-                            problem.video ||
-                            problem.photoUrl ||
-                            problem.videoUrl) && (
-
-                            <div className="mp-media">
-
-                              <div className="mp-media-title">
-                                📎 Submitted Evidence
-                              </div>
-
-                              <div className="mp-media-grid">
-
-                                {(problem.photo ||
-                                  problem.photoUrl) && (
-
-                                  <a
-                                    href={
-                                      problem.photoUrl ||
-                                      `http://localhost:5000/uploads/${problem.photo}`
-                                    }
-                                    target="_blank"
-                                    rel="noreferrer"
-                                    className="mp-media-link"
-                                  >
-                                    🖼️ View Photo
-                                  </a>
-
-                                )}
-
-
-                                {(problem.video ||
-                                  problem.videoUrl) && (
-
-                                  <a
-                                    href={
-                                      problem.videoUrl ||
-                                      `http://localhost:5000/uploads/${problem.video}`
-                                    }
-                                    target="_blank"
-                                    rel="noreferrer"
-                                    className="mp-media-link"
-                                  >
-                                    🎥 View Video
-                                  </a>
-
-                                )}
-
-                              </div>
-
-                            </div>
-
-                          )}
-
-
-                          {/* FOOTER */}
-
-                          <div className="mp-card-footer">
-
-                            <Link
-                              to={`/problem/${problemId}`}
-                              style={{
-                                color: "#2563eb",
-                                fontWeight: 600,
-                                textDecoration: "none",
-                                display: "inline-flex",
-                                alignItems: "center",
-                                gap: "4px"
-                              }}
-                            >
-                              🔍 View AI Analysis & Matches →
-                            </Link>
-
-                            <span>
-                              {problem.projectStatus ||
-                                status}
-                            </span>
-
-                          </div>
-
-                        </article>
-
-                      );
-
-                    }
-                  )}
-
-                </div>
-
-              </section>
-
-            )}
-
-        </main>
-
-      </div>
-    </>
+              );
+            })}
+          </div>
+        )}
+      </main>
+    </div>
   );
 }
-
-
-/*
-|--------------------------------------------------------------------------
-| PAGE-SPECIFIC STYLES
-|--------------------------------------------------------------------------
-*/
-
-const pageStyles = `
-  * {
-    box-sizing: border-box;
-  }
-
-  .mp-layout {
-    min-height: 100vh;
-    display: flex;
-    background: #f1f5f9;
-    color: #0f172a;
-    font-family:
-      Inter,
-      -apple-system,
-      BlinkMacSystemFont,
-      "Segoe UI",
-      sans-serif;
-  }
-
-  .mp-sidebar {
-    width: 255px;
-    min-width: 255px;
-    min-height: 100vh;
-    background: #111827;
-    color: #ffffff;
-    display: flex;
-    flex-direction: column;
-    position: fixed;
-    left: 0;
-    top: 0;
-    bottom: 0;
-    z-index: 20;
-  }
-
-  .mp-logo {
-    height: 82px;
-    padding: 18px 20px;
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    border-bottom: 1px solid #273244;
-  }
-
-  .mp-logo-box {
-    width: 42px;
-    height: 42px;
-    border-radius: 10px;
-    background: linear-gradient(
-      135deg,
-      #2563eb,
-      #4f46e5
-    );
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-weight: 800;
-    font-size: 16px;
-    color: white;
-  }
-
-  .mp-logo strong {
-    display: block;
-    font-size: 14px;
-    line-height: 1.2;
-  }
-
-  .mp-logo span {
-    display: block;
-    color: #94a3b8;
-    font-size: 12px;
-    margin-top: 3px;
-  }
-
-  .mp-navigation {
-    padding: 22px 12px;
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
-  }
-
-  .mp-navigation a {
-    text-decoration: none;
-    color: #cbd5e1;
-    padding: 12px 14px;
-    border-radius: 9px;
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    font-size: 14px;
-    font-weight: 500;
-    transition: 0.2s ease;
-  }
-
-  .mp-navigation a:hover {
-    background: #1e293b;
-    color: white;
-  }
-
-  .mp-navigation a.mp-active {
-    background: #2563eb;
-    color: white;
-    box-shadow:
-      0 4px 12px
-      rgba(37, 99, 235, 0.25);
-  }
-
-  .mp-navigation a span {
-    width: 20px;
-    text-align: center;
-    font-size: 17px;
-  }
-
-  .mp-sidebar-bottom {
-    margin-top: auto;
-    padding: 18px 12px;
-    border-top: 1px solid #273244;
-  }
-
-  .mp-sidebar-bottom button {
-    width: 100%;
-    border: none;
-    background: transparent;
-    color: #cbd5e1;
-    padding: 12px 14px;
-    border-radius: 9px;
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    font-size: 14px;
-    cursor: pointer;
-    text-align: left;
-  }
-
-  .mp-sidebar-bottom button:hover {
-    background: #1e293b;
-    color: white;
-  }
-
-  .mp-main {
-    margin-left: 255px;
-    width: calc(100% - 255px);
-    min-height: 100vh;
-    padding: 34px 42px 60px;
-  }
-
-  .mp-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-end;
-    gap: 30px;
-    margin-bottom: 28px;
-  }
-
-  .mp-breadcrumb {
-    color: #64748b;
-    font-size: 13px;
-    margin-bottom: 9px;
-  }
-
-  .mp-breadcrumb span {
-    padding: 0 8px;
-    color: #94a3b8;
-  }
-
-  .mp-header h1 {
-    margin: 0;
-    font-size: 32px;
-    line-height: 1.15;
-    color: #0f172a;
-    font-weight: 750;
-  }
-
-  .mp-header p {
-    margin: 8px 0 0;
-    color: #64748b;
-    font-size: 15px;
-  }
-
-  .mp-primary-button {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    gap: 7px;
-    text-decoration: none;
-    border: none;
-    background: #2563eb;
-    color: white;
-    padding: 12px 18px;
-    border-radius: 9px;
-    font-size: 14px;
-    font-weight: 650;
-    cursor: pointer;
-    white-space: nowrap;
-    box-shadow:
-      0 3px 8px
-      rgba(37, 99, 235, 0.2);
-  }
-
-  .mp-primary-button:hover {
-    background: #1d4ed8;
-  }
-
-  .mp-summary-grid {
-    display: grid;
-    grid-template-columns:
-      repeat(4, minmax(0, 1fr));
-    gap: 16px;
-    margin-bottom: 32px;
-  }
-
-  .mp-summary-card {
-    background: white;
-    border: 1px solid #e2e8f0;
-    border-radius: 12px;
-    padding: 18px;
-    display: flex;
-    align-items: center;
-    gap: 14px;
-    box-shadow:
-      0 1px 3px
-      rgba(15, 23, 42, 0.04);
-  }
-
-  .mp-summary-icon {
-    width: 46px;
-    height: 46px;
-    border-radius: 10px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 21px;
-  }
-
-  .mp-summary-icon.blue {
-    background: #dbeafe;
-  }
-
-  .mp-summary-icon.yellow {
-    background: #fef3c7;
-  }
-
-  .mp-summary-icon.purple {
-    background: #ede9fe;
-  }
-
-  .mp-summary-icon.green {
-    background: #dcfce7;
-  }
-
-  .mp-summary-card span {
-    display: block;
-    color: #64748b;
-    font-size: 12px;
-    margin-bottom: 4px;
-  }
-
-  .mp-summary-card strong {
-    display: block;
-    font-size: 24px;
-    color: #0f172a;
-  }
-
-  .mp-section-heading {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-end;
-    margin-bottom: 16px;
-  }
-
-  .mp-section-heading h2 {
-    margin: 0;
-    font-size: 20px;
-    color: #0f172a;
-  }
-
-  .mp-section-heading p {
-    margin: 5px 0 0;
-    color: #64748b;
-    font-size: 13px;
-  }
-
-  .mp-count {
-    background: #e2e8f0;
-    color: #475569;
-    padding: 6px 10px;
-    border-radius: 20px;
-    font-size: 12px;
-    font-weight: 650;
-  }
-
-  .mp-problems {
-    display: flex;
-    flex-direction: column;
-    gap: 18px;
-  }
-
-  .mp-problem-card {
-    background: white;
-    border: 1px solid #e2e8f0;
-    border-radius: 14px;
-    padding: 24px;
-    box-shadow:
-      0 2px 7px
-      rgba(15, 23, 42, 0.05);
-  }
-
-  .mp-card-top {
-    display: flex;
-    align-items: flex-start;
-    justify-content: space-between;
-    gap: 20px;
-  }
-
-  .mp-problem-id {
-    color: #94a3b8;
-    font-size: 10px;
-    font-weight: 750;
-    letter-spacing: 0.08em;
-  }
-
-  .mp-id-value {
-    margin-top: 3px;
-    color: #475569;
-    font-size: 13px;
-    font-weight: 650;
-  }
-
-  .mp-status {
-    padding: 7px 12px;
-    border-radius: 20px;
-    font-size: 11px;
-    font-weight: 700;
-    white-space: nowrap;
-  }
-
-  .mp-problem-title {
-    margin: 18px 0 7px;
-    font-size: 22px;
-    color: #0f172a;
-    line-height: 1.25;
-  }
-
-  .mp-description {
-    margin: 0;
-    color: #64748b;
-    font-size: 14px;
-    line-height: 1.65;
-  }
-
-  .mp-details-grid {
-    display: grid;
-    grid-template-columns:
-      repeat(3, minmax(0, 1fr));
-    gap: 1px;
-    margin-top: 22px;
-    background: #e2e8f0;
-    border: 1px solid #e2e8f0;
-    border-radius: 10px;
-    overflow: hidden;
-  }
-
-  .mp-detail {
-    background: #f8fafc;
-    padding: 14px;
-    min-width: 0;
-  }
-
-  .mp-detail span {
-    display: block;
-    color: #94a3b8;
-    font-size: 10px;
-    font-weight: 750;
-    letter-spacing: 0.05em;
-    margin-bottom: 5px;
-  }
-
-  .mp-detail strong {
-    display: block;
-    color: #334155;
-    font-size: 13px;
-    overflow-wrap: anywhere;
-  }
-
-  .mp-ai-box {
-    margin-top: 18px;
-    padding: 16px;
-    border-radius: 10px;
-    background: #f8fafc;
-    border: 1px solid #e2e8f0;
-  }
-
-  .mp-ai-header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 15px;
-  }
-
-  .mp-ai-header > div {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-  }
-
-  .mp-ai-icon {
-    font-size: 18px;
-  }
-
-  .mp-ai-header strong {
-    color: #334155;
-    font-size: 13px;
-  }
-
-  .mp-priority {
-    padding: 5px 9px;
-    border-radius: 6px;
-    font-size: 10px;
-    font-weight: 750;
-  }
-
-  .mp-ai-details {
-    display: grid;
-    grid-template-columns:
-      repeat(4, minmax(0, 1fr));
-    gap: 12px;
-    margin-top: 14px;
-  }
-
-  .mp-ai-details span {
-    display: block;
-    color: #94a3b8;
-    font-size: 10px;
-    margin-bottom: 4px;
-  }
-
-  .mp-ai-details strong {
-    display: block;
-    color: #475569;
-    font-size: 12px;
-  }
-
-  .mp-media {
-    margin-top: 18px;
-    padding-top: 18px;
-    border-top: 1px solid #e2e8f0;
-  }
-
-  .mp-media-title {
-    color: #475569;
-    font-size: 13px;
-    font-weight: 700;
-    margin-bottom: 10px;
-  }
-
-  .mp-media-grid {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 10px;
-  }
-
-  .mp-media-link {
-    text-decoration: none;
-    padding: 9px 12px;
-    background: #eff6ff;
-    border: 1px solid #bfdbfe;
-    color: #1d4ed8;
-    border-radius: 7px;
-    font-size: 12px;
-    font-weight: 650;
-  }
-
-  .mp-media-link:hover {
-    background: #dbeafe;
-  }
-
-  .mp-card-footer {
-    margin-top: 20px;
-    padding-top: 14px;
-    border-top: 1px solid #e2e8f0;
-    display: flex;
-    justify-content: space-between;
-    gap: 15px;
-    color: #94a3b8;
-    font-size: 11px;
-  }
-
-  .mp-empty {
-    background: white;
-    border: 1px solid #e2e8f0;
-    border-radius: 14px;
-    padding: 70px 30px;
-    text-align: center;
-    box-shadow:
-      0 2px 7px
-      rgba(15, 23, 42, 0.04);
-  }
-
-  .mp-empty-icon {
-    width: 70px;
-    height: 70px;
-    margin: 0 auto 18px;
-    border-radius: 50%;
-    background: #eff6ff;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 30px;
-  }
-
-  .mp-empty h2 {
-    margin: 0;
-    font-size: 20px;
-  }
-
-  .mp-empty p {
-    color: #64748b;
-    margin: 8px 0 22px;
-  }
-
-  .mp-error {
-    display: flex;
-    align-items: center;
-    gap: 14px;
-    margin-bottom: 24px;
-    padding: 15px 18px;
-    background: #fff7ed;
-    border: 1px solid #fed7aa;
-    border-radius: 10px;
-  }
-
-  .mp-error-icon {
-    width: 32px;
-    height: 32px;
-    border-radius: 50%;
-    background: #f97316;
-    color: white;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-weight: 800;
-  }
-
-  .mp-error strong {
-    color: #9a3412;
-    font-size: 13px;
-  }
-
-  .mp-error p {
-    margin: 3px 0 0;
-    color: #c2410c;
-    font-size: 12px;
-  }
-
-  .mp-error button {
-    margin-left: auto;
-    border: 1px solid #fdba74;
-    background: white;
-    color: #c2410c;
-    border-radius: 7px;
-    padding: 8px 12px;
-    cursor: pointer;
-    font-weight: 650;
-  }
-
-  .mp-loading {
-    min-height: 75vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-direction: column;
-    text-align: center;
-  }
-
-  .mp-spinner {
-    width: 42px;
-    height: 42px;
-    border: 4px solid #dbeafe;
-    border-top-color: #2563eb;
-    border-radius: 50%;
-    animation: mp-spin 0.8s linear infinite;
-  }
-
-  .mp-loading h2 {
-    margin: 18px 0 5px;
-    font-size: 20px;
-  }
-
-  .mp-loading p {
-    color: #64748b;
-    margin: 0;
-  }
-
-  @keyframes mp-spin {
-    to {
-      transform: rotate(360deg);
-    }
-  }
-
-  @media (max-width: 1000px) {
-    .mp-summary-grid {
-      grid-template-columns:
-        repeat(2, minmax(0, 1fr));
-    }
-
-    .mp-details-grid {
-      grid-template-columns:
-        repeat(2, minmax(0, 1fr));
-    }
-
-    .mp-ai-details {
-      grid-template-columns:
-        repeat(2, minmax(0, 1fr));
-    }
-  }
-
-  @media (max-width: 760px) {
-    .mp-sidebar {
-      width: 215px;
-      min-width: 215px;
-    }
-
-    .mp-main {
-      margin-left: 215px;
-      width: calc(100% - 215px);
-      padding: 24px 18px 40px;
-    }
-
-    .mp-header {
-      flex-direction: column;
-      align-items: flex-start;
-    }
-
-    .mp-summary-grid {
-      grid-template-columns: 1fr;
-    }
-
-    .mp-details-grid {
-      grid-template-columns: 1fr;
-    }
-
-    .mp-ai-details {
-      grid-template-columns: 1fr;
-    }
-  }
-
-  @media (max-width: 560px) {
-    .mp-sidebar {
-      position: relative;
-      width: 100%;
-      min-width: 100%;
-      min-height: auto;
-    }
-
-    .mp-layout {
-      flex-direction: column;
-    }
-
-    .mp-main {
-      margin-left: 0;
-      width: 100%;
-    }
-
-    .mp-navigation {
-      flex-direction: row;
-      overflow-x: auto;
-    }
-
-    .mp-navigation a {
-      white-space: nowrap;
-    }
-
-    .mp-sidebar-bottom {
-      display: none;
-    }
-
-    .mp-card-top {
-      flex-direction: column;
-    }
-
-    .mp-card-footer {
-      flex-direction: column;
-    }
-  }
-`;
 
 export default MyProblems;

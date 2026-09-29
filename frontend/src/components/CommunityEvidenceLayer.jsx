@@ -58,7 +58,7 @@ export default function CommunityEvidenceLayer({ problemId, district }) {
           stillExists,
           severityRating: voteType === "worsening" ? "Critical" : "High",
           citizenName: citizenName.trim() || "Verified Local Resident",
-          citizenDistrict: district || "Jharkhand"
+          citizenDistrict: district || "Maharashtra"
         })
       });
 

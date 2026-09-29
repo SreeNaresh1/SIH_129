@@ -1,8 +1,8 @@
 /**
- * Jharkhand Societal Challenge Platform - Deterministic Solution Blueprint & Budget DPR Generator
+ * Maharashtra State Interoperability & Federated Service Delivery Blueprint Generator
  * 
  * Generates an instant (<10ms), verifiable, and 100% deterministic Detailed Project Report (DPR)
- * based on actual Jharkhand Government funding formulas (DMFT, Jal Jeevan Mission, CSR).
+ * based on actual Government of Maharashtra interoperability standards (IndEA v2.0, DEPA 2.0).
  * Zero hallucination, zero latency, zero dependency on external LLMs.
  */
 
@@ -10,13 +10,13 @@ function generateSolutionBlueprint(problem, matchedStakeholders = {}) {
   const domain = problem.aiDomain || problem.domain || "Public Services";
   const subDomain = problem.aiSubDomain || "General Societal Issue";
   const severityScore = Number(problem.aiSeverityScore || problem.aiSeverity || 7);
-  const district = problem.district || "Jharkhand";
+  const district = problem.district || "Maharashtra";
   const affectedPeople = Number(problem.affectedPeople || 500);
 
   const university = matchedStakeholders.university || 
                      matchedStakeholders.topRecommendationsMap?.university || 
                      (Array.isArray(matchedStakeholders.universities) ? matchedStakeholders.universities[0] : null) || 
-                     { name: "Jharkhand Technical University Lab", compatibilityScore: 82 };
+                     { name: "Maharashtra State Innovation Society Lab", compatibilityScore: 88 };
 
   const government = (!Array.isArray(matchedStakeholders.government) && matchedStakeholders.government?.name ? matchedStakeholders.government : null) || 
                      matchedStakeholders.topRecommendationsMap?.government || 
@@ -85,7 +85,7 @@ function generateSolutionBlueprint(problem, matchedStakeholders = {}) {
     : `Execute pre-cast concrete culvert installation and durable cold-mix all-weather road metalling.`;
 
   const phase3Deliverable = domain === "Water Management"
-    ? `Form and train local village Pani Samiti (Water Committee); link IoT sensors to Jharkhand State Monitoring Portal.`
+    ? `Form and train local village Pani Samiti (Water Committee); link IoT sensors to Maharashtra State Unified Monitoring Grid.`
     : domain === "Healthcare"
     ? `Hand over community health pod to Auxiliary Nurse Midwife (ANM); train 15 ASHA grassroots workers.`
     : domain === "Agriculture"
@@ -177,7 +177,7 @@ function generateSolutionBlueprint(problem, matchedStakeholders = {}) {
     ],
 
     signatories: [
-      { role: "District Collector & Magistrate", jurisdiction: `${district} District, Jharkhand` },
+      { role: "District Collector & Magistrate", jurisdiction: `${district} District, Maharashtra` },
       { role: "Dean of Research & Innovation", institution: university.name || "Academic Lead" },
       { role: "Director of CSR & Sustainability", corporate: industry.name || "CSR Partner" }
     ]

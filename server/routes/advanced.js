@@ -9508,19 +9508,15 @@ const getUniversitiesHandler = async (req, res) => {
       order: [["id", "ASC"]]
     });
 
-    const jharkhandUnivMap = {
-      1: { name: "BIT Mesra (Birla Institute of Technology) - Water & IoT Lab", city: "Ranchi", district: "Ranchi", nirfRank: 21, specialization: "Water Technology & IoT Telemetry" },
-      2: { name: "IIT (ISM) Dhanbad - Mining Remediation & Clean Energy Institute", city: "Dhanbad", district: "Dhanbad", nirfRank: 14, specialization: "Mining Remediation & Clean Energy" },
-      3: { name: "Birsa Agricultural University (BAU) - Precision Agro & Watershed Center", city: "Kanke, Ranchi", district: "Ranchi", nirfRank: 45, specialization: "Precision Agriculture & Irrigation" },
-      4: { name: "Rajendra Institute of Medical Sciences (RIMS) - Rural Health & Telemedicine", city: "Bariatu, Ranchi", district: "Ranchi", nirfRank: 55, specialization: "Biomedical & Tele-Diagnostics" },
-      5: { name: "Vinoba Bhave University (VBU) - Rural Technology & Livelihoods", city: "Hazaribagh", district: "Hazaribagh", nirfRank: 78, specialization: "Rural Technologies & Energy" },
-      6: { name: "NIT Jamshedpur (National Institute of Technology) - Civil Systems", city: "Jamshedpur", district: "East Singhbhum", nirfRank: 86, specialization: "Civil Infrastructure & Road Systems" },
-      7: { name: "Sido Kanhu Murmu University (SKMU) - Environmental & Tribal Studies", city: "Dumka", district: "Dumka", nirfRank: 92, specialization: "Water Testing & Tribal Livelihoods" },
-      8: { name: "National Institute for Locomotor Disabilities (NILD) State Center", city: "Ranchi", district: "Ranchi", nirfRank: null, specialization: "Assistive Technology & Accessibility" },
-      9: { name: "Bokaro Institute of Technology - Solid Waste & Industrial Effluents", city: "Bokaro Steel City", district: "Bokaro", nirfRank: null, specialization: "Industrial Waste Upcycling & Sanitation" },
-      10: { name: "Nilamber-Pitamber University (NPU) - Drought & Watershed Management", city: "Medininagar", district: "Palamu", nirfRank: null, specialization: "Drought Mitigation & Lift Irrigation" },
-      11: { name: "Kolhan University - Hydrological & Mineral Impact Research", city: "Chaibasa", district: "West Singhbhum", nirfRank: null, specialization: "Groundwater & Hydrological Modeling" },
-      12: { name: "Government Polytechnic Institute - Rural Mechanical & Solar Systems", city: "Gumla", district: "Gumla", nirfRank: null, specialization: "Solar Hand Pump Retrofits & Mechanics" }
+    const maharashtraUnivMap = {
+      1: { name: "COEP Technological University - GovTech & Cloud Labs", city: "Pune", district: "Pune", nirfRank: 24, specialization: "GovTech & Distributed Systems" },
+      2: { name: "Veermata Jijabai Technological Institute (VJTI) - Enterprise Middleware Center", city: "Matunga, Mumbai", district: "Mumbai City", nirfRank: 19, specialization: "API Gateways & Enterprise Architecture" },
+      3: { name: "Visvesvaraya National Institute of Technology (VNIT) - AI Systems", city: "Nagpur", district: "Nagpur", nirfRank: 32, specialization: "Distributed AI & Interoperability" },
+      4: { name: "Mahatma Phule Krishi Vidyapeeth (MPKV) - Agri DBT & Watersheds", city: "Rahuri", district: "Ahmednagar", nirfRank: 42, specialization: "Precision Agro & DBT Synchronization" },
+      5: { name: "Savitribai Phule Pune University (SPPU) - Digital Governance Center", city: "Ganeshkhind, Pune", district: "Pune", nirfRank: 35, specialization: "e-Governance & Public Service Delivery" },
+      6: { name: "Institute of Chemical Technology (ICT) Mumbai - Analytical Labs", city: "Matunga, Mumbai", district: "Mumbai City", nirfRank: 15, specialization: "Sensor Telemetry & Water Diagnostics" },
+      7: { name: "Dr. Babasaheb Ambedkar Technological University (BATU)", city: "Lonere", district: "Raigad", nirfRank: 88, specialization: "Vocational & Polytechnic Integration" },
+      8: { name: "Government College of Engineering - Aurangabad (GCEA)", city: "Chhatrapati Sambhajinagar", district: "Chhatrapati Sambhajinagar", nirfRank: 95, specialization: "Public Infrastructure & IoT" }
     };
 
     const enriched = await Promise.all(
@@ -9528,7 +9524,7 @@ const getUniversitiesHandler = async (req, res) => {
         const uData = u.toJSON ? u.toJSON() : u;
         const projectCount = await Project.count({ where: { universityId: u.id } }).catch(() => 0);
         const facultyCount = await Faculty.count({ where: { universityId: u.id } }).catch(() => 0);
-        const custom = jharkhandUnivMap[u.id] || {};
+        const custom = maharashtraUnivMap[u.id] || {};
 
         return {
           ...uData,
@@ -9567,21 +9563,21 @@ const getIndustryPartnersHandler = async (req, res) => {
       order: [["id", "ASC"]]
     });
 
-    const jharkhandIndustryMap = {
-      1: { organization: "Tata Steel Rural Development Society (TSRDS) & WaterTech CSR", sector: "Water & CleanTech", csrBudget: 25000000, district: "East Singhbhum" },
-      2: { organization: "Bharat Coking Coal Ltd (BCCL / Coal India CSR Foundation)", sector: "Environment & Energy", csrBudget: 35000000, district: "Dhanbad" },
-      3: { organization: "Bokaro Steel Plant (SAIL CSR Foundation) - Urban CleanTech", sector: "Sanitation & Infrastructure", csrBudget: 20000000, district: "Bokaro" },
-      4: { organization: "Jindal Steel & Power (JSPL) Community Action Foundation", sector: "Civil Infrastructure & Solar", csrBudget: 18000000, district: "Ramgarh" },
-      5: { organization: "Central Coalfields Ltd (CCL) - Rural Health & Telemedicine CSR", sector: "Healthcare Technology", csrBudget: 22000000, district: "Ranchi" },
-      6: { organization: "Usha Martin Foundation - Rural Livelihoods & Agro CSR", sector: "Agriculture & Irrigation", csrBudget: 15000000, district: "Ranchi" },
-      7: { organization: "Hindalco Industries CSR - Sustainable Community Development", sector: "Water & Rural Livelihoods", csrBudget: 16000000, district: "Lohardaga" }
+    const maharashtraIndustryMap = {
+      1: { organization: "Tata Consultancy Services (TCS Foundation) - GovTech & Cloud CSR", sector: "Digital Governance & Cloud", csrBudget: 35000000, district: "Mumbai City" },
+      2: { organization: "Bharat Forge CSR Foundation - Industrial Automation & Training", sector: "Vocational Skills & IoT", csrBudget: 28000000, district: "Pune" },
+      3: { organization: "Mahindra & Mahindra CSR - Rural Livelihoods & AgroTech", sector: "AgriTech & Irrigation", csrBudget: 22000000, district: "Nashik" },
+      4: { organization: "Larsen & Toubro Infotech (LTIMindtree) Foundation", sector: "Public Cloud Infrastructure", csrBudget: 25000000, district: "Mumbai Suburban" },
+      5: { organization: "Serum Institute Foundation - Public Health & Tele-Diagnostics", sector: "Healthcare Technology", csrBudget: 30000000, district: "Pune" },
+      6: { organization: "Bajaj Auto CSR - Western Maharashtra Community Action", sector: "Water & Education", csrBudget: 20000000, district: "Chhatrapati Sambhajinagar" },
+      7: { organization: "Godrej Industries CSR - Urban Sustainability & Sanitation", sector: "Environment & Sanitation", csrBudget: 18000000, district: "Mumbai City" }
     };
 
     const enriched = await Promise.all(
       partners.map(async (p) => {
         const pData = p.toJSON ? p.toJSON() : p;
         const collabCount = await Collaboration.count({ where: { industryPartnerId: p.id } }).catch(() => 0);
-        const custom = jharkhandIndustryMap[p.id] || {};
+        const custom = maharashtraIndustryMap[p.id] || {};
         const budget = custom.csrBudget || p.csrBudget || 15000000;
 
         return {
@@ -9870,7 +9866,7 @@ router.post("/problems/:problemId/vote", async (req, res) => {
       voteType = "confirm",
       severityRating = "High",
       citizenName = "Verified Resident",
-      citizenDistrict = problem.district || "Jharkhand",
+      citizenDistrict = problem.district || "Maharashtra",
       evidenceNote = "",
       evidencePhoto = "",
       stillExists = true
@@ -9937,7 +9933,7 @@ router.post("/problems/:problemId/add-evidence", async (req, res) => {
       problemId: problem.problemId,
       userId: req.user ? req.user.id : null,
       citizenName,
-      citizenDistrict: problem.district || "Jharkhand",
+      citizenDistrict: problem.district || "Maharashtra",
       voteType: "confirm",
       severityRating: problem.severity || "High",
       evidencePhoto: evidencePhoto || "community_field_photo.jpg",

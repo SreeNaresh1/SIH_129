@@ -219,15 +219,17 @@ export default function Notifications() {
 
       }
 
+      const isCitizen = localStorage.getItem("userRole") === "citizen";
+
       if (notification.problemId) {
-        navigate(`/admin/problem/${notification.problemId}`);
+        navigate(isCitizen ? `/problem/${notification.problemId}` : `/admin/problem/${notification.problemId}`);
         return;
       }
 
       const text = `${notification.title || ""} ${notification.message || ""}`;
-      const match = text.match(/(JH-\d+-[A-Z0-9]+|[a-f0-9\-]{36})/i);
+      const match = text.match(/(MH-FED-\d+-[A-Z0-9]+|CH-\d+-[A-Z0-9]+|[a-f0-9\-]{36})/i);
       if (match) {
-        navigate(`/admin/problem/${match[0]}`);
+        navigate(isCitizen ? `/problem/${match[0]}` : `/admin/problem/${match[0]}`);
         return;
       }
 

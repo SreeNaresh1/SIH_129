@@ -38,19 +38,19 @@ const filesToConvert = [
     input: path.join(targetDir, "SIH2026_File1_Project_Datasheet.md"),
     outputHtml: path.join(targetDir, "SIH2026_File1_Project_Datasheet.html"),
     outputPdf: path.join(targetDir, "SIH2026_File1_Project_Datasheet.pdf"),
-    title: "SIH 2026 - Project Datasheet (SIH-43)"
+    title: "SIH 2026 - Project Datasheet (PS 26129 - MahaSetu)"
   },
   {
     input: path.join(targetDir, "SIH2026_File2_AI_Benchmark_and_Test_Results.md"),
     outputHtml: path.join(targetDir, "SIH2026_File2_AI_Benchmark_and_Test_Results.html"),
     outputPdf: path.join(targetDir, "SIH2026_File2_AI_Benchmark_and_Test_Results.pdf"),
-    title: "SIH 2026 - AI Benchmarks & Test Evaluation Report (SIH-43)"
+    title: "SIH 2026 - AI Benchmarks & Test Evaluation Report (PS 26129 - MahaSetu)"
   },
   {
     input: path.join(targetDir, "SIH2026_File3_Executive_Poster_and_Architecture.md"),
     outputHtml: path.join(targetDir, "SIH2026_File3_Executive_Poster_and_Architecture.html"),
     outputPdf: path.join(targetDir, "SIH2026_File3_Executive_Poster_and_Architecture.pdf"),
-    title: "SIH 2026 - Official Presentation Poster & Architecture (SIH-43)"
+    title: "SIH 2026 - Official Presentation Poster & Architecture (PS 26129 - MahaSetu)"
   }
 ];
 

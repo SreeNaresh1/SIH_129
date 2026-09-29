@@ -14,6 +14,7 @@ const authRoutes = require("./routes/auth");
 const problemRoutes = require("./routes/problems");
 const advancedRoutes = require("./routes/advanced");
 const industryRoutes = require("./routes/industry");
+const interopRoutes = require("./routes/interop");
 
 /* =========================================================
    APP
@@ -84,12 +85,11 @@ app.use(
 app.get("/", (req, res) => {
   res.json({
     success: true,
-    message: "SIH Portal Backend is running",
-    database: "MySQL",
-    databaseName:
-      process.env.DB_NAME ||
-      "sih_portal",
-    advancedFeatures: true
+    message: "MahaSetu - Maharashtra Unified Interoperability Framework (MUIF) Backend is running",
+    problemStatementId: "26129",
+    organization: "Government of Maharashtra (MSInS)",
+    interoperabilityEngine: true,
+    version: "2.6.0"
   });
 });
 
@@ -171,6 +171,16 @@ app.use(
 app.use(
   "/api/industry",
   industryRoutes
+);
+
+/*
+   Interoperability Middleware & Connectors (SIH PS 26129)
+   /api/interop/...
+*/
+
+app.use(
+  "/api/interop",
+  interopRoutes
 );
 
 /* =========================================================

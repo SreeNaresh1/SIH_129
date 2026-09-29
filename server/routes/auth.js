@@ -55,12 +55,37 @@ router.post("/register", async (req, res) => {
     }
 
     /*
+     * STRONG PASSWORD POLICY ENFORCEMENT
+     * Minimum 8 characters, uppercase, lowercase, digit, and special character
+     */
+    if (password.length < 8) {
+      return res.status(400).json({
+        success: false,
+        message: "Password must be at least 8 characters in length.",
+      });
+    }
+
+    const hasUpper = /[A-Z]/.test(password);
+    const hasLower = /[a-z]/.test(password);
+    const hasNumber = /[0-9]/.test(password);
+    const hasSpecial = /[^A-Za-z0-9]/.test(password);
+
+    if (!hasUpper || !hasLower || !hasNumber || !hasSpecial) {
+      return res.status(400).json({
+        success: false,
+        message:
+          "Password must include at least one uppercase letter, one lowercase letter, one number, and one special character.",
+      });
+    }
+
+    /*
      * IMPORTANT:
      *
-     * Public registration is ONLY for citizens.
+     * Public registration is STRICTLY for Citizens & Businesses.
+     * Citizen accounts CANNOT access Government Nodal Desks or
+     * Administrative Interoperability controls.
      *
-     * Government, University and Industry accounts
-     * must be created through controlled workflows.
+     * Government accounts require state PKI token provisioning.
      */
 
     const role = "citizen";
@@ -538,7 +563,7 @@ router.post("/login", async (req, res) => {
         } else {
           partner = await IndustryPartner.create({
             userId: user.id,
-            organization: user.organization || "Jharkhand CSR Partner Consortium",
+            organization: user.organization || "Maharashtra State Integration Partner Consortium",
             sector: "Technology & Sustainability",
             expertise: "CSR Project Funding, Infrastructure Engineering, Equipment Deployment",
             csrBudget: 15000000,

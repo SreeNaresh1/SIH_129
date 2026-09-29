@@ -28,7 +28,7 @@ module.exports = sequelize.define(
     },
     jurisdiction: {
       type: DataTypes.STRING(150),
-      defaultValue: "Jharkhand Statewide",
+      defaultValue: "Maharashtra Statewide",
     },
     district: {
       type: DataTypes.STRING(100),

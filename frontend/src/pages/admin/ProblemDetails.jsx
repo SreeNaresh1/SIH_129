@@ -1570,11 +1570,12 @@ export default function ProblemDetails() {
 
         <button
           style={styles.backButton}
-          onClick={() =>
-            navigate("/admin")
-          }
+          onClick={() => {
+            const role = localStorage.getItem("userRole");
+            navigate(role === "citizen" ? "/citizen/problems" : "/admin");
+          }}
         >
-          ← Back to Government Dashboard
+          ← Back to {localStorage.getItem("userRole") === "citizen" ? "My Applications" : "Government Dashboard"}
         </button>
       </div>
     );
@@ -1960,11 +1961,12 @@ export default function ProblemDetails() {
 
         <button
           style={styles.backLink}
-          onClick={() =>
-            navigate("/admin")
-          }
+          onClick={() => {
+            const role = localStorage.getItem("userRole");
+            navigate(role === "citizen" ? "/citizen/problems" : "/admin");
+          }}
         >
-          ← Back to Government Dashboard
+          ← Back to {localStorage.getItem("userRole") === "citizen" ? "My Applications" : "Government Dashboard"}
         </button>
 
       </div>
@@ -2274,7 +2276,7 @@ export default function ProblemDetails() {
               score: 29,
               max: 30,
               coordinates: problem.latitude && problem.longitude ? `${problem.latitude}° N, ${problem.longitude}° E` : "Lat 23.3441° N, Long 85.3096° E",
-              district: problem.district || "Jharkhand",
+              district: problem.district || "Maharashtra",
               precision: "GPS fix validated within 14 meters of site (Census Block Verified)",
               verified: true
             },
@@ -2289,13 +2291,13 @@ export default function ProblemDetails() {
             domain_proof: {
               score: 18,
               max: 20,
-              thematic_match: `Lexical coherence 98.4% with Jharkhand State Department taxonomy (${problem.aiDomain || domain})`,
+              thematic_match: `Lexical coherence 98.4% with Maharashtra State Department taxonomy (${problem.aiDomain || domain})`,
               verified: true
             },
             community_proof: {
               score: 20,
               max: 20,
-              cluster_check: `Consistent with block demographic density in ${problem.district || "Jharkhand"}`,
+              cluster_check: `Consistent with block demographic density in ${problem.district || "Maharashtra"}`,
               verified: true
             }
           };
@@ -2460,18 +2462,18 @@ export default function ProblemDetails() {
                 </div>
               </div>
 
-              {/* HEI & CSR RECOMMENDATIONS */}
+              {/* MAHARASHTRA STATE INTEROPERABILITY NODES */}
               <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", gap: "12px", background: "rgba(0,0,0,0.25)", padding: "12px 16px", borderRadius: "8px", fontSize: "0.84rem" }}>
                 <div>
-                  <strong style={{ color: "#a5b4fc" }}>🎓 Recommended HEIs in Jharkhand: </strong>
+                  <strong style={{ color: "#a5b4fc" }}>🏛️ Participating Maharashtra State Departments: </strong>
                   <span style={{ color: "#e2e8f0" }}>
-                    {Array.isArray(val?.recommended_heis) ? val.recommended_heis.join(", ") : "Birla Institute of Technology (BIT Mesra), IIT (ISM) Dhanbad"}
+                    MahaSwayam (Skill &amp; Emp), MahaDBT, Aaple Sarkar, DigiLocker MH
                   </span>
                 </div>
                 <div>
-                  <strong style={{ color: "#fbcfe8" }}>🏭 Recommended Industry CSR Partners: </strong>
+                  <strong style={{ color: "#fbcfe8" }}>🔒 Interoperability Standard: </strong>
                   <span style={{ color: "#e2e8f0" }}>
-                    {Array.isArray(val?.recommended_industry_csr) ? val.recommended_industry_csr.join(", ") : "Tata Steel Rural Development Society (TSRDS), BCCL CSR Foundation"}
+                    MeitY IndEA v2.0 Schema &amp; NITI Aayog DEPA 2.0 Consent Architecture
                   </span>
                 </div>
               </div>
@@ -2650,7 +2652,7 @@ export default function ProblemDetails() {
             </h2>
             <p style={{ margin: "4px 0 0 0", color: "#64748b", fontSize: "14px" }}>
               {relatedChallenges.length > 0
-                ? `This challenge appears related to ${relatedChallenges.length} existing report(s) in Jharkhand.`
+                ? `This challenge appears related to ${relatedChallenges.length} existing report(s) in Maharashtra.`
                 : "No duplicate or closely related citizen challenges detected."}
             </p>
           </div>
@@ -2913,7 +2915,7 @@ export default function ProblemDetails() {
                             {stakeholder.stakeholderName}
                           </h3>
                           <div style={{ fontSize: "13px", color: "#64748b", marginBottom: "12px" }}>
-                            📍 {stakeholder.location || "Jharkhand"}
+                            📍 {stakeholder.location || "Maharashtra"}
                             {stakeholder.district && stakeholder.district !== stakeholder.location && `, ${stakeholder.district}`}
                           </div>
 
@@ -2944,7 +2946,7 @@ export default function ProblemDetails() {
                               WHY THIS MATCH:
                             </div>
                             <div style={{ display: "flex", flexDirection: "column", gap: "3px" }}>
-                              {(stakeholder.reasons || ["Demonstrated domain competence in Jharkhand societal challenges"]).map((r, rIdx) => (
+                              {(stakeholder.reasons || ["Demonstrated domain competence in Maharashtra state services"]).map((r, rIdx) => (
                                 <div key={rIdx} style={{ fontSize: "13px", color: "#334155" }}>
                                   ✓ {r}
                                 </div>

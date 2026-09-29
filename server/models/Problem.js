@@ -53,7 +53,20 @@ module.exports = sequelize.define(
     duplicateSimilarity: { type: DataTypes.DECIMAL(6, 4), allowNull: true },
     aiInputValidation: { type: DataTypes.TEXT, allowNull: true },
     aiProcessedAt: { type: DataTypes.DATE, allowNull: true },
-    isPrototypeSampleData: { type: DataTypes.BOOLEAN, defaultValue: false }
+    isPrototypeSampleData: { type: DataTypes.BOOLEAN, defaultValue: false },
+
+    // Interoperability & Federated Service Delivery Fields (SIH 26129)
+    trackingId: { type: DataTypes.STRING(50), allowNull: true, unique: false }, // e.g. MH-FED-2026-APP-8841
+    serviceType: { type: DataTypes.STRING(100), defaultValue: "Public Grievance Redressal" },
+    primaryDepartment: { type: DataTypes.STRING(150), defaultValue: "Department of Skills, Employment & Entrepreneurship" },
+    targetDepartments: { type: DataTypes.TEXT, defaultValue: '["MahaSwayam", "Aaple Sarkar", "MahaDBT"]' }, // JSON array string
+    connectorSource: { type: DataTypes.STRING(100), defaultValue: "MahaSetu Unified Citizen Gateway" },
+    consentToken: { type: DataTypes.STRING(128), allowNull: true },
+    consentStatus: { type: DataTypes.STRING(40), defaultValue: "GRANTED" }, // GRANTED, NOT_REQUIRED, PENDING, REVOKED
+    dataQualityScore: { type: DataTypes.INTEGER, defaultValue: 96 }, // 0-100
+    dataQualityIssues: { type: DataTypes.TEXT, defaultValue: "[]" }, // JSON array
+    crossDeptStatus: { type: DataTypes.TEXT, allowNull: true }, // JSON array of multi-agency progression
+    federatedSyncTime: { type: DataTypes.DATE, defaultValue: DataTypes.NOW }
   },
   { tableName: "problems", timestamps: true }
 );

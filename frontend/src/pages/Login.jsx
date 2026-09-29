@@ -13,6 +13,32 @@ function Login() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
+  const handleDirectDemoLogin = async (demoEmail, demoPassword, targetRoute) => {
+    setError("");
+    setLoading(true);
+    try {
+      const response = await fetch("http://localhost:5000/api/auth/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email: demoEmail, password: demoPassword }),
+      });
+      const data = await response.json();
+      if (!response.ok || !data.token) {
+        setError(data.message || "Demo login failed.");
+        return;
+      }
+      localStorage.setItem("authToken", data.token);
+      localStorage.setItem("currentUser", JSON.stringify(data.user));
+      localStorage.setItem("userRole", data.user.role);
+      navigate(targetRoute, { replace: true });
+    } catch (e) {
+      console.error("Direct demo login error:", e);
+      setError("Unable to connect to authentication backend.");
+    } finally {
+      setLoading(false);
+    }
+  };
+
   const handleLogin = async (e) => {
     e.preventDefault();
 
@@ -177,13 +203,13 @@ function Login() {
           break;
 
         case "university":
-          navigate("/university", {
+          navigate("/admin", {
             replace: true,
           });
           break;
 
         case "industry":
-          navigate("/industry", {
+          navigate("/interop", {
             replace: true,
           });
           break;
@@ -279,9 +305,11 @@ function Login() {
               borderRadius: "14px",
               fontSize: "22px",
               fontWeight: "800",
+              background: "linear-gradient(135deg, #f59e0b, #d97706)",
+              color: "#000"
             }}
           >
-            SI
+            MH
           </div>
         </div>
 
@@ -292,12 +320,12 @@ function Login() {
 
         <div className="login-header">
 
-          <h1>
-            Welcome Back
+          <h1 style={{ fontSize: "22px", fontWeight: "800" }}>
+            MahaSetu Portal
           </h1>
 
-          <p>
-            Sign in to the Societal Innovation Portal
+          <p style={{ fontSize: "13px", color: "#64748b" }}>
+            Government of Maharashtra • Unified Interoperability &amp; Federated Service Delivery (PS 26129)
           </p>
 
         </div>
@@ -359,9 +387,10 @@ function Login() {
                     : "#475569",
                 cursor: "pointer",
                 fontWeight: "600",
+                fontSize: "13px"
               }}
             >
-              👤 Citizen
+              👤 Citizen / Business
             </button>
 
 
@@ -391,130 +420,63 @@ function Login() {
                     : "#475569",
                 cursor: "pointer",
                 fontWeight: "600",
+                fontSize: "13px"
               }}
             >
-              🏛️ Government
-            </button>
-
-
-            {/* =================================================
-                UNIVERSITY
-            ================================================= */}
-
-            <button
-              type="button"
-              onClick={() =>
-                handleRoleChange("university")
-              }
-              style={{
-                padding: "11px 8px",
-                borderRadius: "8px",
-                border:
-                  role === "university"
-                    ? "2px solid #2563eb"
-                    : "1px solid #cbd5e1",
-                background:
-                  role === "university"
-                    ? "#eff6ff"
-                    : "#ffffff",
-                color:
-                  role === "university"
-                    ? "#1d4ed8"
-                    : "#475569",
-                cursor: "pointer",
-                fontWeight: "600",
-              }}
-            >
-              🎓 University
-            </button>
-
-
-            {/* =================================================
-                INDUSTRY
-            ================================================= */}
-
-            <button
-              type="button"
-              onClick={() =>
-                handleRoleChange("industry")
-              }
-              style={{
-                padding: "11px 8px",
-                borderRadius: "8px",
-                border:
-                  role === "industry"
-                    ? "2px solid #2563eb"
-                    : "1px solid #cbd5e1",
-                background:
-                  role === "industry"
-                    ? "#eff6ff"
-                    : "#ffffff",
-                color:
-                  role === "industry"
-                    ? "#1d4ed8"
-                    : "#475569",
-                cursor: "pointer",
-                fontWeight: "600",
-              }}
-            >
-              🏢 Industry
+              🏛️ Nodal Officer
             </button>
 
           </div>
 
           {/* Quick Demo Credentials */}
-          <div style={{ marginTop: "12px", background: "#f8fafc", padding: "10px", borderRadius: "8px", border: "1px dashed #cbd5e1" }}>
-            <div style={{ fontSize: "11px", fontWeight: "700", color: "#64748b", textTransform: "uppercase", marginBottom: "6px" }}>
-              ⚡ 1-Click Demo Login Credentials:
+          <div style={{ marginTop: "12px", background: "#f8fafc", padding: "12px", borderRadius: "8px", border: "1px dashed #cbd5e1" }}>
+            <div style={{ fontSize: "11px", fontWeight: "700", color: "#64748b", textTransform: "uppercase", marginBottom: "8px", letterSpacing: "0.5px" }}>
+              ⚡ 1-Click Evaluator Demo Logins:
             </div>
-            <div style={{ display: "flex", flexWrap: "wrap", gap: "6px" }}>
+            <div style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
+              <div style={{ display: "grid", gridTemplateColumns: "1fr auto", gap: "6px" }}>
+                <button
+                  type="button"
+                  onClick={() => handleDirectDemoLogin("citizen@sihportal.com", "Citizen@123", "/citizen")}
+                  style={{ fontSize: "12px", padding: "8px 10px", borderRadius: "6px", background: "#eff6ff", border: "1px solid #bfdbfe", color: "#1d4ed8", cursor: "pointer", fontWeight: 700, textAlign: "left" }}
+                >
+                  ⚡ Instant Login: Citizen / Business (Pooja Sharma)
+                </button>
+                <button
+                  type="button"
+                  onClick={() => { setRole("citizen"); setEmail("citizen@sihportal.com"); setPassword("Citizen@123"); setError(""); }}
+                  style={{ fontSize: "11px", padding: "8px 10px", borderRadius: "6px", background: "#ffffff", border: "1px solid #cbd5e1", color: "#475569", cursor: "pointer", fontWeight: 600 }}
+                  title="Fill form fields only"
+                >
+                  Fill Form
+                </button>
+              </div>
+
+              <div style={{ display: "grid", gridTemplateColumns: "1fr auto", gap: "6px" }}>
+                <button
+                  type="button"
+                  onClick={() => handleDirectDemoLogin("government@sihportal.com", "Government@123", "/admin")}
+                  style={{ fontSize: "12px", padding: "8px 10px", borderRadius: "6px", background: "#fef3c7", border: "1px solid #fde68a", color: "#92400e", cursor: "pointer", fontWeight: 700, textAlign: "left" }}
+                >
+                  🏛️ Instant Login: Nodal Review Officer (MahaDBT Desk)
+                </button>
+                <button
+                  type="button"
+                  onClick={() => { setRole("government"); setEmail("government@sihportal.com"); setPassword("Government@123"); setError(""); }}
+                  style={{ fontSize: "11px", padding: "8px 10px", borderRadius: "6px", background: "#ffffff", border: "1px solid #cbd5e1", color: "#475569", cursor: "pointer", fontWeight: 600 }}
+                  title="Fill form fields only"
+                >
+                  Fill Form
+                </button>
+              </div>
+
               <button
                 type="button"
-                onClick={() => {
-                  setRole("citizen");
-                  setEmail("citizen@sihportal.com");
-                  setPassword("Citizen@123");
-                  setError("");
-                }}
-                style={{ fontSize: "11px", padding: "4px 8px", borderRadius: "4px", background: "#e0f2fe", border: "1px solid #7dd3fc", color: "#0369a1", cursor: "pointer", fontWeight: 600 }}
+                onClick={() => handleDirectDemoLogin("government@sihportal.com", "Government@123", "/admin/interop")}
+                style={{ fontSize: "12px", padding: "8px 10px", borderRadius: "6px", background: "#f0fdf4", border: "1px solid #bbf7d0", color: "#166534", cursor: "pointer", fontWeight: 700, textAlign: "left", display: "flex", justifyContent: "space-between" }}
               >
-                👤 Citizen
-              </button>
-              <button
-                type="button"
-                onClick={() => {
-                  setRole("government");
-                  setEmail("government@sihportal.com");
-                  setPassword("Government@123");
-                  setError("");
-                }}
-                style={{ fontSize: "11px", padding: "4px 8px", borderRadius: "4px", background: "#fef3c7", border: "1px solid #fcd34d", color: "#92400e", cursor: "pointer", fontWeight: 600 }}
-              >
-                🏛️ Govt Admin
-              </button>
-              <button
-                type="button"
-                onClick={() => {
-                  setRole("university");
-                  setEmail("university@sihportal.com");
-                  setPassword("University@123");
-                  setError("");
-                }}
-                style={{ fontSize: "11px", padding: "4px 8px", borderRadius: "4px", background: "#ede9fe", border: "1px solid #c4b5fd", color: "#6d28d9", cursor: "pointer", fontWeight: 600 }}
-              >
-                🎓 University Lead
-              </button>
-              <button
-                type="button"
-                onClick={() => {
-                  setRole("industry");
-                  setEmail("industry@sihportal.com");
-                  setPassword("Industry@123");
-                  setError("");
-                }}
-                style={{ fontSize: "11px", padding: "4px 8px", borderRadius: "4px", background: "#ecfdf5", border: "1px solid #6ee7b7", color: "#047857", cursor: "pointer", fontWeight: 600 }}
-              >
-                🏢 Industry CSR
+                <span>⚡ Instant Login: State Interoperability Gateway Studio</span>
+                <span style={{ fontSize: "11px", color: "#15803d" }}>Launch Hub ➔</span>
               </button>
             </div>
           </div>
