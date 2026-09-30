@@ -100,3 +100,11 @@ test_*.txt
 test_err.txt
 test_out.txt
 sih_2026_submission_attachments/*.html
+
+# =========================================================
+# DATABASE FILES (local SQLite — never commit)
+# =========================================================
+
+*.sqlite
+*.sqlite3
+*.db
