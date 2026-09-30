@@ -2,11 +2,29 @@ const { Sequelize } = require("sequelize");
 const path = require("path");
 require("dotenv").config();
 
-const dialect = process.env.DB_DIALECT || "sqlite";
-
 let sequelize;
 
-if (dialect === "mysql") {
+// ── Vercel Postgres (POSTGRES_URL is auto-injected by Vercel Storage) ────────
+if (process.env.POSTGRES_URL) {
+  sequelize = new Sequelize(process.env.POSTGRES_URL, {
+    dialect: "postgres",
+    dialectOptions: {
+      ssl: {
+        require: true,
+        rejectUnauthorized: false
+      }
+    },
+    logging: false,
+    pool: {
+      max: 5,
+      min: 0,
+      acquire: 30000,
+      idle: 10000
+    }
+  });
+
+// ── MySQL (local or dedicated server) ────────────────────────────────────────
+} else if (process.env.DB_DIALECT === "mysql" || process.env.DB_HOST) {
   sequelize = new Sequelize(
     process.env.DB_NAME || "sih_portal",
     process.env.DB_USER || "root",
@@ -16,14 +34,11 @@ if (dialect === "mysql") {
       port: process.env.DB_PORT || 3306,
       dialect: "mysql",
       logging: false,
-      pool: {
-        max: 10,
-        min: 0,
-        acquire: 30000,
-        idle: 10000
-      }
+      pool: { max: 10, min: 0, acquire: 30000, idle: 10000 }
     }
   );
+
+// ── SQLite (local dev fallback) ───────────────────────────────────────────────
 } else {
   sequelize = new Sequelize({
     dialect: "sqlite",
@@ -35,35 +50,14 @@ if (dialect === "mysql") {
 const connectDatabase = async () => {
   try {
     await sequelize.authenticate();
-
+    const dialect = sequelize.getDialect();
     console.log("=================================");
     console.log(`Database connected successfully (${dialect})`);
-    console.log(`Database: ${dialect === "sqlite" ? "database.sqlite" : (process.env.DB_NAME || "sih_portal")}`);
     console.log("=================================");
   } catch (error) {
-    console.error("=================================");
-    console.error("Database connection failed");
-    console.error("=================================");
-    console.error(error.message);
-
-    // If MySQL failed and we can fallback to SQLite
-    if (dialect === "mysql") {
-      console.log("Falling back to SQLite database...");
-      sequelize = new Sequelize({
-        dialect: "sqlite",
-        storage: path.join(__dirname, "../database.sqlite"),
-        logging: false
-      });
-      await sequelize.authenticate();
-      console.log("SQLite fallback connected successfully.");
-      return;
-    }
-
+    console.error("Database connection failed:", error.message);
     process.exit(1);
   }
 };
 
-module.exports = {
-  sequelize,
-  connectDatabase
-};
+module.exports = { sequelize, connectDatabase };
