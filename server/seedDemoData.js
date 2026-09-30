@@ -431,12 +431,20 @@ async function seed() {
     console.log("MAHASETU MIDDLEWARE SEEDING COMPLETED SUCCESSFULLY!");
     console.log("Only Connectors, Logs, Consents, Workflows & Users seeded.");
     console.log("===============================================================");
-    process.exit(0);
 
   } catch (err) {
     console.error("Seeding error:", err);
-    process.exit(1);
+    // Don't process.exit — allow caller (app.js) to handle error
+    throw err;
   }
 }
 
-seed();
+// Export for programmatic use (Vercel auto-seed)
+module.exports = { seed };
+
+// Run directly when called as a script: node seedDemoData.js
+if (require.main === module) {
+  seed()
+    .then(() => process.exit(0))
+    .catch(() => process.exit(1));
+}

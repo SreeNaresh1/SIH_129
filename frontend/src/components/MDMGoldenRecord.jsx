@@ -175,7 +175,7 @@ export default function MDMGoldenRecord() {
           <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
             {reviewQueue.map((item) => (
               <div
-                key={item.id}
+                key={item.id || item.candidateName}
                 style={{
                   background: "rgba(15, 23, 42, 0.8)",
                   border: "1px solid rgba(255, 255, 255, 0.08)",
@@ -462,7 +462,7 @@ export default function MDMGoldenRecord() {
               <div style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
                 {(selectedRecord.linkedDocuments || []).map((doc, idx) => (
                   <div
-                    key={idx}
+                    key={doc.certNumber || `doc-${idx}`}
                     style={{
                       background: "rgba(15, 23, 42, 0.8)",
                       border: "1px solid rgba(167, 139, 250, 0.2)",

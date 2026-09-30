@@ -7,8 +7,7 @@ const PortalConnector = require("../models/PortalConnector");
 const ConsentRecord = require("../models/ConsentRecord");
 const DataExchangeLog = require("../models/DataExchangeLog");
 const WorkflowPipeline = require("../models/WorkflowPipeline");
-const Problem = require("../models/Problem");
-const { authMiddleware } = require("../middleware/authMiddleware");
+const { authenticateToken: authMiddleware } = require("../middleware/authMiddleware");
 
 // JanSetu Federated Middleware Core Services
 const { DECLARATIVE_SCHEMAS, applyDeclarativeMapping, simulateMultiDepartmentFanOut } = require("../services/declarativeAdapterEngine");

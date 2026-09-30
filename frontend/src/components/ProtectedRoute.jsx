@@ -57,7 +57,10 @@ function ProtectedRoute({
         // VERIFY JWT WITH BACKEND
         // ===================================================
 
-        const API_HOST = (import.meta.env.VITE_API_URL || "http://localhost:5000").replace(/\/api\/?$/, "");
+        const _loc = typeof window !== "undefined" && window.location.hostname === "localhost";
+        const API_HOST = import.meta.env.VITE_API_URL
+          ? import.meta.env.VITE_API_URL.replace(/\/api\/?$/, "")
+          : _loc ? "http://localhost:5000" : "";
         const response = await fetch(
           `${API_HOST}/api/auth/me`,
           {

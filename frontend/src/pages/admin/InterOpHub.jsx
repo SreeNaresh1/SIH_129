@@ -2,7 +2,10 @@ import React, { useState, useEffect, useCallback } from "react";
 import { Link } from "react-router-dom";
 import "./InterOpHub.css";
 
-const API_BASE = "http://localhost:5000";
+const _isLocal = typeof window !== "undefined" && window.location.hostname === "localhost";
+const API_BASE = import.meta.env.VITE_API_URL
+  ? import.meta.env.VITE_API_URL.replace(/\/api\/?$/, "")
+  : _isLocal ? "http://localhost:5000" : "";
 
 export default function InterOpHub() {
   const [activeTab, setActiveTab] = useState("verticalSlice");

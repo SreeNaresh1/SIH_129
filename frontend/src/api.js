@@ -1,4 +1,9 @@
-export const API_HOST = (import.meta.env.VITE_API_URL || "http://localhost:5000").replace(/\/api\/?$/, "");
+// On Vercel: frontend and /api/* share the same domain — use relative URL (no host prefix)
+// In local dev: VITE_API_URL is unset so we fall back to localhost:5000
+const _isLocalDev = typeof window !== "undefined" && window.location.hostname === "localhost";
+export const API_HOST = import.meta.env.VITE_API_URL
+  ? import.meta.env.VITE_API_URL.replace(/\/api\/?$/, "")
+  : _isLocalDev ? "http://localhost:5000" : "";
 export const API_BASE_URL = `${API_HOST}/api`;
 
 export async function api(

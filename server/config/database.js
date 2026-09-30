@@ -27,7 +27,7 @@ if (dialect === "mysql") {
 } else {
   sequelize = new Sequelize({
     dialect: "sqlite",
-    storage: path.join(__dirname, "../database.sqlite"),
+    storage: process.env.DB_STORAGE || path.join(__dirname, "../database.sqlite"),
     logging: false
   });
 }

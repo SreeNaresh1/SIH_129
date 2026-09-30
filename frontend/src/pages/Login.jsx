@@ -2,7 +2,11 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "../App.css";
 
-const API_HOST = (import.meta.env.VITE_API_URL || "http://localhost:5000").replace(/\/api\/?$/, "");
+const _isLocal = typeof window !== "undefined" && window.location.hostname === "localhost";
+const API_HOST = import.meta.env.VITE_API_URL
+  ? import.meta.env.VITE_API_URL.replace(/\/api\/?$/, "")
+  : _isLocal ? "http://localhost:5000" : "";
+
 
 export default function Login() {
   const navigate = useNavigate();
