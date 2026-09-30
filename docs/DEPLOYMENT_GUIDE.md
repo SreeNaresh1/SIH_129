@@ -1,7 +1,8 @@
 # Production & Cloud Deployment Guide
-## Jharkhand Societal Challenge Platform (SIH-43)
+## MahaSetu: Maharashtra Unified Interoperability Framework (PS 26129)
 
-This document provides step-by-step instructions and architectural recommendations for deploying the SIH-43 system across popular cloud providers and hosting environments.
+This document provides step-by-step instructions and architectural recommendations for deploying the **MahaSetu (MUIF)** interoperability middleware across popular cloud providers and hosting environments.
+
 
 ---
 

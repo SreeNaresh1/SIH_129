@@ -1,14 +1,15 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "../App.css";
 
-function Login() {
+const API_HOST = (import.meta.env.VITE_API_URL || "http://localhost:5000").replace(/\/api\/?$/, "");
+
+export default function Login() {
   const navigate = useNavigate();
 
-  const [role, setRole] = useState("citizen");
+  const [role, setRole] = useState("government");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
@@ -17,7 +18,7 @@ function Login() {
     setError("");
     setLoading(true);
     try {
-      const response = await fetch("http://localhost:5000/api/auth/login", {
+      const response = await fetch(`${API_HOST}/api/auth/login`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email: demoEmail, password: demoPassword }),
@@ -41,11 +42,9 @@ function Login() {
 
   const handleLogin = async (e) => {
     e.preventDefault();
-
     setError("");
 
     const cleanEmail = email.trim();
-
     if (!cleanEmail || !password) {
       setError("Please enter your email and password.");
       return;
@@ -54,210 +53,61 @@ function Login() {
     setLoading(true);
 
     try {
-      const response = await fetch(
-        "http://localhost:5000/api/auth/login",
-        {
-          method: "POST",
+      const response = await fetch(`${API_HOST}/api/auth/login`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          email: cleanEmail,
+          password,
+        }),
+      });
 
-          headers: {
-            "Content-Type": "application/json",
-          },
-
-          body: JSON.stringify({
-            email: cleanEmail,
-            password,
-          }),
-        }
-      );
-
-      let data = {};
-
-      try {
-        data = await response.json();
-      } catch {
-        data = {};
-      }
-
-      /*
-      ========================================================
-      BACKEND LOGIN ERROR
-      ========================================================
-      */
+      const data = await response.json().catch(() => ({}));
 
       if (!response.ok) {
-        setError(
-          data.message ||
-            "Invalid email or password. Please try again."
-        );
-
+        setError(data.message || "Invalid email or password.");
         return;
       }
 
-      /*
-      ========================================================
-      VALIDATE TOKEN
-      ========================================================
-      */
-
-      if (!data.token) {
-        setError(
-          "Login failed because the server did not return an authentication token."
-        );
-
-        return;
-      }
-
-      /*
-      ========================================================
-      VALIDATE USER
-      ========================================================
-      */
-
-      if (!data.user) {
-        setError(
-          "Login failed because the server did not return user information."
-        );
-
+      if (!data.token || !data.user) {
+        setError("Login response missing token or user data.");
         return;
       }
 
       const loggedInUser = data.user;
+      localStorage.setItem("authToken", data.token);
+      localStorage.setItem("currentUser", JSON.stringify(loggedInUser));
+      localStorage.setItem("userRole", loggedInUser.role);
 
-      /*
-      ========================================================
-      GET ACTUAL ROLE FROM BACKEND
-      ========================================================
-
-      The backend is the authority for the account role.
-
-      Example:
-
-      industry1@sihportal.com
-      -> backend returns role = "industry"
-
-      Even if Citizen was selected on the screen,
-      the backend role is used for the actual login.
-      ========================================================
-      */
-
-      const actualRole = loggedInUser.role;
-
-      if (!actualRole) {
-        setError(
-          "Login failed because the server did not return the account role."
-        );
-
-        return;
-      }
-
-      /*
-      ========================================================
-      SAVE AUTHENTICATION DATA
-      ========================================================
-      */
-
-      localStorage.setItem(
-        "authToken",
-        data.token
-      );
-
-      localStorage.setItem(
-        "currentUser",
-        JSON.stringify(loggedInUser)
-      );
-
-      localStorage.setItem(
-        "userRole",
-        actualRole
-      );
-
-      /*
-      ========================================================
-      UPDATE ROLE SELECTOR
-      ========================================================
-
-      This makes the UI show the actual role returned
-      by the backend after successful login.
-      ========================================================
-      */
-
-      setRole(actualRole);
-
-      /*
-      ========================================================
-      REDIRECT TO CORRECT PORTAL
-      ========================================================
-      */
-
-      switch (actualRole) {
-        case "citizen":
-          navigate("/citizen", {
-            replace: true,
-          });
-          break;
-
-        case "government":
-          navigate("/admin", {
-            replace: true,
-          });
-          break;
-
-        case "university":
-          navigate("/admin", {
-            replace: true,
-          });
-          break;
-
-        case "industry":
-          navigate("/interop", {
-            replace: true,
-          });
-          break;
-
-        default:
-          localStorage.removeItem("authToken");
-          localStorage.removeItem("currentUser");
-          localStorage.removeItem("userRole");
-
-          setError(
-            "Your account has an invalid role. Please contact the administrator."
-          );
+      if (loggedInUser.role === "citizen") {
+        navigate("/citizen", { replace: true });
+      } else {
+        // Admin and Government both land on Middleware Dashboard
+        navigate("/admin", { replace: true });
       }
     } catch (err) {
       console.error("Login error:", err);
-
-      setError(
-        "Unable to connect to the SIH server. Please make sure the backend is running on port 5000."
-      );
+      setError("Unable to connect to server. Please check backend on port 5000.");
     } finally {
       setLoading(false);
     }
   };
 
-  /*
-  ============================================================
-  ROLE CHANGE
-  ============================================================
-  */
-
-  const handleRoleChange = (newRole) => {
-    setRole(newRole);
-    setError("");
-  };
-
-  /*
-  ============================================================
-  LOGIN PAGE
-  ============================================================
-  */
-
   return (
-    <div className="login-page">
-
-      {/* ====================================================
-          BACK TO HOME
-      ==================================================== */}
-
+    <div
+      style={{
+        minHeight: "100vh",
+        background: "linear-gradient(135deg, #090e1a 0%, #0b1329 50%, #0d1b38 100%)",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        padding: "24px",
+        fontFamily: "'Inter', system-ui, sans-serif",
+        color: "#f8fafc",
+        position: "relative"
+      }}
+    >
+      {/* Back to Home Button */}
       <button
         type="button"
         onClick={() => navigate("/")}
@@ -265,514 +115,277 @@ function Login() {
           position: "absolute",
           top: "24px",
           left: "24px",
-          border: "none",
-          background: "transparent",
+          border: "1px solid rgba(255, 255, 255, 0.1)",
+          background: "rgba(15, 23, 42, 0.6)",
+          padding: "8px 16px",
+          borderRadius: "8px",
           cursor: "pointer",
-          fontSize: "15px",
+          fontSize: "13px",
           fontWeight: "600",
-          color: "#475569",
+          color: "#94a3b8"
         }}
       >
-        ← Back to Home
+        ← Back to Overview
       </button>
 
-
-      {/* ====================================================
-          LOGIN CARD
-      ==================================================== */}
-
-      <div className="login-card">
-
-        {/* ==================================================
-            LOGO
-        ================================================== */}
-
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "center",
-            marginBottom: "14px",
-          }}
-        >
+      {/* Login Card */}
+      <div
+        style={{
+          width: "100%",
+          maxWidth: "460px",
+          background: "rgba(15, 23, 42, 0.85)",
+          backdropFilter: "blur(20px)",
+          border: "1px solid rgba(255, 255, 255, 0.1)",
+          borderRadius: "18px",
+          padding: "36px 32px",
+          boxShadow: "0 20px 50px rgba(0, 0, 0, 0.5)"
+        }}
+      >
+        {/* Emblem Logo */}
+        <div style={{ display: "flex", justifyContent: "center", marginBottom: "16px" }}>
           <div
-            className="login-logo"
             style={{
+              width: "56px",
+              height: "56px",
+              borderRadius: "14px",
+              background: "linear-gradient(135deg, #f59e0b, #d97706)",
               display: "flex",
               alignItems: "center",
               justifyContent: "center",
-              width: "58px",
-              height: "58px",
-              borderRadius: "14px",
               fontSize: "22px",
-              fontWeight: "800",
-              background: "linear-gradient(135deg, #f59e0b, #d97706)",
-              color: "#000"
+              fontWeight: "900",
+              color: "#000",
+              boxShadow: "0 4px 18px rgba(245, 158, 11, 0.35)"
             }}
           >
             MH
           </div>
         </div>
 
-
-        {/* ==================================================
-            HEADER
-        ================================================== */}
-
-        <div className="login-header">
-
-          <h1 style={{ fontSize: "22px", fontWeight: "800" }}>
-            MahaSetu Portal
+        {/* Title */}
+        <div style={{ textAlign: "center", marginBottom: "24px" }}>
+          <h1 style={{ fontSize: "22px", fontWeight: "800", color: "#fff", margin: "0 0 6px 0" }}>
+            MahaSetu Middleware
           </h1>
-
-          <p style={{ fontSize: "13px", color: "#64748b" }}>
-            Government of Maharashtra • Unified Interoperability &amp; Federated Service Delivery (PS 26129)
+          <p style={{ fontSize: "12px", color: "#94a3b8", margin: 0 }}>
+            Unified Interoperability Framework • PS 26129
           </p>
-
         </div>
 
-
-        {/* ==================================================
-            ROLE SELECTOR
-        ================================================== */}
-
+        {/* 1-Click Evaluator Demo Logins */}
         <div
           style={{
-            marginBottom: "20px",
+            background: "rgba(30, 41, 59, 0.6)",
+            border: "1px dashed rgba(56, 189, 248, 0.3)",
+            borderRadius: "10px",
+            padding: "14px",
+            marginBottom: "20px"
           }}
         >
-
-          <label
-            style={{
-              display: "block",
-              marginBottom: "9px",
-              fontWeight: "600",
-            }}
-          >
-            Login As
-          </label>
-
-
-          <div
-            style={{
-              display: "grid",
-              gridTemplateColumns:
-                "repeat(2, 1fr)",
-              gap: "8px",
-            }}
-          >
-
-            {/* =================================================
-                CITIZEN
-            ================================================= */}
+          <div style={{ fontSize: "11px", fontWeight: 800, color: "#38bdf8", textTransform: "uppercase", letterSpacing: "0.5px", marginBottom: "10px" }}>
+            ⚡ 1-Click Evaluator Quick Login:
+          </div>
+          <div style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
+            <button
+              type="button"
+              onClick={() => handleDirectDemoLogin("government@sihportal.com", "Government@123", "/admin")}
+              style={{
+                background: "rgba(245, 158, 11, 0.15)",
+                border: "1px solid rgba(245, 158, 11, 0.3)",
+                color: "#fbbf24",
+                padding: "8px 12px",
+                borderRadius: "8px",
+                fontSize: "12px",
+                fontWeight: 700,
+                textAlign: "left",
+                cursor: "pointer",
+                display: "flex",
+                justifyContent: "space-between"
+              }}
+            >
+              <span>🏛️ Nodal Officer (Government)</span>
+              <span style={{ fontSize: "11px", opacity: 0.8 }}>Admin Hub ➔</span>
+            </button>
 
             <button
               type="button"
-              onClick={() =>
-                handleRoleChange("citizen")
-              }
+              onClick={() => handleDirectDemoLogin("admin@sihportal.com", "Admin@123", "/admin")}
               style={{
-                padding: "11px 8px",
+                background: "rgba(56, 189, 248, 0.12)",
+                border: "1px solid rgba(56, 189, 248, 0.3)",
+                color: "#38bdf8",
+                padding: "8px 12px",
                 borderRadius: "8px",
-                border:
-                  role === "citizen"
-                    ? "2px solid #2563eb"
-                    : "1px solid #cbd5e1",
-                background:
-                  role === "citizen"
-                    ? "#eff6ff"
-                    : "#ffffff",
-                color:
-                  role === "citizen"
-                    ? "#1d4ed8"
-                    : "#475569",
+                fontSize: "12px",
+                fontWeight: 700,
+                textAlign: "left",
                 cursor: "pointer",
-                fontWeight: "600",
-                fontSize: "13px"
+                display: "flex",
+                justifyContent: "space-between"
               }}
             >
-              👤 Citizen / Business
+              <span>🛡️ System Administrator</span>
+              <span style={{ fontSize: "11px", opacity: 0.8 }}>Admin Hub ➔</span>
             </button>
-
-
-            {/* =================================================
-                GOVERNMENT
-            ================================================= */}
 
             <button
               type="button"
-              onClick={() =>
-                handleRoleChange("government")
-              }
+              onClick={() => handleDirectDemoLogin("citizen@sihportal.com", "Citizen@123", "/citizen")}
               style={{
-                padding: "11px 8px",
+                background: "rgba(74, 222, 128, 0.12)",
+                border: "1px solid rgba(74, 222, 128, 0.3)",
+                color: "#4ade80",
+                padding: "8px 12px",
                 borderRadius: "8px",
-                border:
-                  role === "government"
-                    ? "2px solid #2563eb"
-                    : "1px solid #cbd5e1",
-                background:
-                  role === "government"
-                    ? "#eff6ff"
-                    : "#ffffff",
-                color:
-                  role === "government"
-                    ? "#1d4ed8"
-                    : "#475569",
+                fontSize: "12px",
+                fontWeight: 700,
+                textAlign: "left",
                 cursor: "pointer",
-                fontWeight: "600",
-                fontSize: "13px"
+                display: "flex",
+                justifyContent: "space-between"
               }}
             >
-              🏛️ Nodal Officer
+              <span>👤 Citizen Resident (Aniket Patil)</span>
+              <span style={{ fontSize: "11px", opacity: 0.8 }}>Consent &amp; Status ➔</span>
             </button>
-
           </div>
-
-          {/* Quick Demo Credentials */}
-          <div style={{ marginTop: "12px", background: "#f8fafc", padding: "12px", borderRadius: "8px", border: "1px dashed #cbd5e1" }}>
-            <div style={{ fontSize: "11px", fontWeight: "700", color: "#64748b", textTransform: "uppercase", marginBottom: "8px", letterSpacing: "0.5px" }}>
-              ⚡ 1-Click Evaluator Demo Logins:
-            </div>
-            <div style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
-              <div style={{ display: "grid", gridTemplateColumns: "1fr auto", gap: "6px" }}>
-                <button
-                  type="button"
-                  onClick={() => handleDirectDemoLogin("citizen@sihportal.com", "Citizen@123", "/citizen")}
-                  style={{ fontSize: "12px", padding: "8px 10px", borderRadius: "6px", background: "#eff6ff", border: "1px solid #bfdbfe", color: "#1d4ed8", cursor: "pointer", fontWeight: 700, textAlign: "left" }}
-                >
-                  ⚡ Instant Login: Citizen / Business (Pooja Sharma)
-                </button>
-                <button
-                  type="button"
-                  onClick={() => { setRole("citizen"); setEmail("citizen@sihportal.com"); setPassword("Citizen@123"); setError(""); }}
-                  style={{ fontSize: "11px", padding: "8px 10px", borderRadius: "6px", background: "#ffffff", border: "1px solid #cbd5e1", color: "#475569", cursor: "pointer", fontWeight: 600 }}
-                  title="Fill form fields only"
-                >
-                  Fill Form
-                </button>
-              </div>
-
-              <div style={{ display: "grid", gridTemplateColumns: "1fr auto", gap: "6px" }}>
-                <button
-                  type="button"
-                  onClick={() => handleDirectDemoLogin("government@sihportal.com", "Government@123", "/admin")}
-                  style={{ fontSize: "12px", padding: "8px 10px", borderRadius: "6px", background: "#fef3c7", border: "1px solid #fde68a", color: "#92400e", cursor: "pointer", fontWeight: 700, textAlign: "left" }}
-                >
-                  🏛️ Instant Login: Nodal Review Officer (MahaDBT Desk)
-                </button>
-                <button
-                  type="button"
-                  onClick={() => { setRole("government"); setEmail("government@sihportal.com"); setPassword("Government@123"); setError(""); }}
-                  style={{ fontSize: "11px", padding: "8px 10px", borderRadius: "6px", background: "#ffffff", border: "1px solid #cbd5e1", color: "#475569", cursor: "pointer", fontWeight: 600 }}
-                  title="Fill form fields only"
-                >
-                  Fill Form
-                </button>
-              </div>
-
-              <button
-                type="button"
-                onClick={() => handleDirectDemoLogin("government@sihportal.com", "Government@123", "/admin/interop")}
-                style={{ fontSize: "12px", padding: "8px 10px", borderRadius: "6px", background: "#f0fdf4", border: "1px solid #bbf7d0", color: "#166534", cursor: "pointer", fontWeight: 700, textAlign: "left", display: "flex", justifyContent: "space-between" }}
-              >
-                <span>⚡ Instant Login: State Interoperability Gateway Studio</span>
-                <span style={{ fontSize: "11px", color: "#15803d" }}>Launch Hub ➔</span>
-              </button>
-            </div>
-          </div>
-
         </div>
 
-
-        {/* ==================================================
-            LOGIN FORM
-        ================================================== */}
-
-        <form onSubmit={handleLogin}>
-
-          {/* =================================================
-              EMAIL
-          ================================================= */}
-
-          <div
-            style={{
-              marginBottom: "16px",
-            }}
-          >
-
-            <label
-              htmlFor="login-email"
-              style={{
-                display: "block",
-                marginBottom: "7px",
-                fontWeight: "600",
-              }}
-            >
-              Email Address
-            </label>
-
-            <input
-              id="login-email"
-              type="email"
-              placeholder="Enter your email address"
-              value={email}
-              onChange={(e) => {
-                setEmail(e.target.value);
-                setError("");
-              }}
-              autoComplete="email"
-              required
-            />
-
-          </div>
-
-
-          {/* =================================================
-              PASSWORD
-          ================================================= */}
-
-          <div
-            style={{
-              marginBottom: "16px",
-            }}
-          >
-
-            <label
-              htmlFor="login-password"
-              style={{
-                display: "block",
-                marginBottom: "7px",
-                fontWeight: "600",
-              }}
-            >
-              Password
-            </label>
-
-
-            <div
-              style={{
-                position: "relative",
-              }}
-            >
-
-              <input
-                id="login-password"
-                type={
-                  showPassword
-                    ? "text"
-                    : "password"
-                }
-                placeholder="Enter your password"
-                value={password}
-                onChange={(e) => {
-                  setPassword(e.target.value);
+        {/* 3-Role Selector */}
+        <div style={{ marginBottom: "18px" }}>
+          <label style={{ display: "block", fontSize: "12px", fontWeight: 700, color: "#94a3b8", marginBottom: "8px" }}>
+            Select Role:
+          </label>
+          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: "8px" }}>
+            {[
+              { id: "government", label: "Government" },
+              { id: "admin", label: "Admin" },
+              { id: "citizen", label: "Citizen" }
+            ].map((r) => (
+              <button
+                key={r.id}
+                type="button"
+                onClick={() => {
+                  setRole(r.id);
+                  if (r.id === "government") {
+                    setEmail("government@sihportal.com");
+                    setPassword("Government@123");
+                  } else if (r.id === "admin") {
+                    setEmail("admin@sihportal.com");
+                    setPassword("Admin@123");
+                  } else {
+                    setEmail("citizen@sihportal.com");
+                    setPassword("Citizen@123");
+                  }
                   setError("");
                 }}
-                autoComplete="current-password"
-                required
                 style={{
-                  width: "100%",
-                  paddingRight: "80px",
-                }}
-              />
-
-
-              <button
-                type="button"
-                onClick={() =>
-                  setShowPassword(
-                    !showPassword
-                  )
-                }
-                style={{
-                  position: "absolute",
-                  right: "8px",
-                  top: "50%",
-                  transform:
-                    "translateY(-50%)",
-                  border: "none",
-                  background: "transparent",
-                  cursor: "pointer",
-                  color: "#475569",
-                  fontSize: "13px",
-                  fontWeight: "600",
+                  padding: "8px 4px",
+                  borderRadius: "8px",
+                  border: role === r.id ? "1px solid #38bdf8" : "1px solid rgba(255, 255, 255, 0.08)",
+                  background: role === r.id ? "rgba(56, 189, 248, 0.15)" : "rgba(15, 23, 42, 0.5)",
+                  color: role === r.id ? "#38bdf8" : "#94a3b8",
+                  fontWeight: 700,
+                  fontSize: "12px",
+                  cursor: "pointer"
                 }}
               >
-                {showPassword
-                  ? "Hide"
-                  : "Show"}
+                {r.label}
               </button>
+            ))}
+          </div>
+        </div>
 
-            </div>
+        {error && (
+          <div
+            style={{
+              background: "rgba(248, 113, 113, 0.12)",
+              border: "1px solid rgba(248, 113, 113, 0.3)",
+              color: "#f87171",
+              padding: "10px 14px",
+              borderRadius: "8px",
+              fontSize: "12px",
+              marginBottom: "16px"
+            }}
+          >
+            {error}
+          </div>
+        )}
 
+        {/* Form */}
+        <form onSubmit={handleLogin} style={{ display: "flex", flexDirection: "column", gap: "14px" }}>
+          <div>
+            <label style={{ display: "block", fontSize: "12px", fontWeight: 600, color: "#94a3b8", marginBottom: "6px" }}>
+              Email Address
+            </label>
+            <input
+              type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              placeholder="Enter email"
+              style={{
+                width: "100%",
+                background: "rgba(15, 23, 42, 0.6)",
+                border: "1px solid rgba(255, 255, 255, 0.1)",
+                borderRadius: "8px",
+                padding: "10px 14px",
+                color: "#fff",
+                fontSize: "13px",
+                outline: "none"
+              }}
+            />
           </div>
 
-
-          {/* =================================================
-              GOVERNMENT INFORMATION
-          ================================================= */}
-
-          {role === "government" && (
-
-            <div
+          <div>
+            <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "6px" }}>
+              <label style={{ fontSize: "12px", fontWeight: 600, color: "#94a3b8" }}>
+                Password
+              </label>
+              <button
+                type="button"
+                onClick={() => setShowPassword(!showPassword)}
+                style={{ background: "none", border: "none", color: "#38bdf8", fontSize: "11px", cursor: "pointer" }}
+              >
+                {showPassword ? "Hide" : "Show"}
+              </button>
+            </div>
+            <input
+              type={showPassword ? "text" : "password"}
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              placeholder="Enter password"
               style={{
-                marginBottom: "16px",
-                padding: "11px 13px",
+                width: "100%",
+                background: "rgba(15, 23, 42, 0.6)",
+                border: "1px solid rgba(255, 255, 255, 0.1)",
                 borderRadius: "8px",
-                background: "#eff6ff",
-                border:
-                  "1px solid #bfdbfe",
-                color: "#1e40af",
+                padding: "10px 14px",
+                color: "#fff",
                 fontSize: "13px",
-                lineHeight: "1.5",
+                outline: "none"
               }}
-            >
-              🏛️ Government accounts are
-              created by the SIH system
-              administrator. Use the official
-              Government account credentials.
-            </div>
-
-          )}
-
-
-          {/* =================================================
-              INDUSTRY INFORMATION
-          ================================================= */}
-
-          {role === "industry" && (
-
-            <div
-              style={{
-                marginBottom: "16px",
-                padding: "11px 13px",
-                borderRadius: "8px",
-                background: "#eff6ff",
-                border:
-                  "1px solid #bfdbfe",
-                color: "#1e40af",
-                fontSize: "13px",
-                lineHeight: "1.5",
-              }}
-            >
-              🏢 Industry accounts are
-              private accounts created by
-              Government. Industry users can
-              sign in using the credentials
-              provided to them.
-            </div>
-
-          )}
-
-
-          {/* =================================================
-              ERROR
-          ================================================= */}
-
-          {error && (
-
-            <div
-              style={{
-                marginBottom: "16px",
-                padding: "11px 13px",
-                borderRadius: "8px",
-                background: "#fef2f2",
-                border:
-                  "1px solid #fecaca",
-                color: "#b91c1c",
-                fontSize: "14px",
-                lineHeight: "1.5",
-              }}
-            >
-              ❌ {error}
-            </div>
-
-          )}
-
-
-          {/* =================================================
-              LOGIN BUTTON
-          ================================================= */}
+            />
+          </div>
 
           <button
             type="submit"
-            className="login-submit"
             disabled={loading}
             style={{
-              width: "100%",
-              opacity: loading ? 0.7 : 1,
-              cursor: loading
-                ? "not-allowed"
-                : "pointer",
-            }}
-          >
-            {loading
-              ? "Signing in..."
-              : "Sign In"}
-          </button>
-
-        </form>
-
-
-        {/* ==================================================
-            REGISTER
-        ================================================== */}
-
-        <div
-          className="register-text"
-          style={{
-            marginTop: "20px",
-            textAlign: "center",
-          }}
-        >
-
-          <span>
-            Don't have an account?
-          </span>
-
-          <button
-            type="button"
-            onClick={() =>
-              navigate("/register")
-            }
-            style={{
+              marginTop: "8px",
+              background: "linear-gradient(135deg, #38bdf8, #2563eb)",
               border: "none",
-              background: "transparent",
-              color: "#2563eb",
-              cursor: "pointer",
-              fontWeight: "700",
-              marginLeft: "5px",
+              color: "#fff",
+              padding: "12px",
+              borderRadius: "8px",
+              fontWeight: 800,
+              fontSize: "14px",
+              cursor: loading ? "not-allowed" : "pointer"
             }}
           >
-            Register
+            {loading ? "Authenticating..." : "Sign In"}
           </button>
-
-        </div>
-
-
-        {/* ==================================================
-            SECURITY NOTE
-        ================================================== */}
-
-        <div
-          style={{
-            marginTop: "18px",
-            paddingTop: "14px",
-            borderTop:
-              "1px solid #e2e8f0",
-            textAlign: "center",
-            color: "#64748b",
-            fontSize: "12px",
-          }}
-        >
-          🔐 Secure authentication powered by
-          the SIH Portal backend
-        </div>
-
+        </form>
       </div>
-
     </div>
   );
 }
-
-export default Login;

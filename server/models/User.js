@@ -33,10 +33,10 @@ const User = sequelize.define(
       type: DataTypes.ENUM(
         "citizen",
         "government",
-        "university",
-        "industry"
+        "admin"
       ),
-      allowNull: false
+      allowNull: false,
+      defaultValue: "citizen"
     },
 
     organization: {

@@ -239,8 +239,8 @@ function buildHtml(markdownContent, title) {
 </head>
 <body>
   <div class="doc-header">
-    <div class="org-badge">🇮🇳 Smart India Hackathon 2026 • Problem SIH-43</div>
-    <div class="meta-badge">Government of Jharkhand • Higher Education Institutions • Corporate CSR</div>
+    <div class="org-badge">🇮🇳 Smart India Hackathon 2026 • Problem Statement PS 26129</div>
+    <div class="meta-badge">Government of Maharashtra (MSInS) • MahaSetu Unified Interoperability Framework (MUIF)</div>
   </div>
   
   <div class="doc-content">

@@ -3,6 +3,7 @@ require("dotenv").config();
 const express = require("express");
 const cors = require("cors");
 const path = require("path");
+// JanSetu Federated Middleware Grid Mounted
 
 const { sequelize } = require("./config/database");
 
@@ -11,10 +12,8 @@ const { sequelize } = require("./config/database");
 ========================================================= */
 
 const authRoutes = require("./routes/auth");
-const problemRoutes = require("./routes/problems");
-const advancedRoutes = require("./routes/advanced");
-const industryRoutes = require("./routes/industry");
 const interopRoutes = require("./routes/interop");
+// NOTE: problems, advanced, industry routes removed — not part of PS 26129 middleware scope
 
 /* =========================================================
    APP
@@ -130,58 +129,16 @@ app.get(
 ========================================================= */
 
 /*
-   Authentication
-
-   /api/auth/...
+   Authentication — /api/auth/...
 */
-
-app.use(
-  "/api/auth",
-  authRoutes
-);
-
-/*
-   Citizen / Government Problems
-
-   /api/problems/...
-*/
-
-app.use(
-  "/api/problems",
-  problemRoutes
-);
-
-/*
-   Advanced Government / University / AI Features
-
-   /api/advanced/...
-*/
-
-app.use(
-  "/api/advanced",
-  advancedRoutes
-);
-
-/*
-   Private Industry Portal
-
-   /api/industry/...
-*/
-
-app.use(
-  "/api/industry",
-  industryRoutes
-);
+app.use("/api/auth", authRoutes);
 
 /*
    Interoperability Middleware & Connectors (SIH PS 26129)
-   /api/interop/...
+   This is the ONLY product API — /api/interop/...
+   All connector, MDM, consent, DLQ, workflow, audit, event endpoints live here.
 */
-
-app.use(
-  "/api/interop",
-  interopRoutes
-);
+app.use("/api/interop", interopRoutes);
 
 /* =========================================================
    ADVANCED ROUTE VERIFICATION
@@ -196,18 +153,6 @@ app.use(
    http://localhost:5000/api/advanced/route-check
 */
 
-app.get(
-  "/api/advanced/route-check",
-  (req, res) => {
-    res.json({
-      success: true,
-      message:
-        "Advanced router is mounted correctly.",
-      prototypeReviewEndpoint:
-        "POST /api/advanced/government/prototype-tests/:prototypeId/review"
-    });
-  }
-);
 
 /* =========================================================
    OLLAMA / AI HEALTH CHECK (http://localhost:11434)
@@ -270,100 +215,6 @@ app.use(
 );
 
 /* =========================================================
-   PRINT LOADED ADVANCED ROUTES
-========================================================= */
-
-function printAdvancedRoutes() {
-  try {
-    console.log("");
-    console.log(
-      "=========================================="
-    );
-    console.log(
-      "CHECKING ADVANCED ROUTES"
-    );
-    console.log(
-      "=========================================="
-    );
-
-    const stack =
-      advancedRoutes &&
-      advancedRoutes.stack
-        ? advancedRoutes.stack
-        : [];
-
-    let prototypeReviewFound =
-      false;
-
-    stack.forEach((layer) => {
-      if (
-        layer &&
-        layer.route
-      ) {
-        const route =
-          layer.route;
-
-        const methods =
-          Object.keys(
-            route.methods || {}
-          )
-            .map((method) =>
-              method.toUpperCase()
-            )
-            .join(",");
-
-        const routePath =
-          route.path;
-
-        console.log(
-          `${methods.padEnd(10)} ${routePath}`
-        );
-
-        if (
-          routePath ===
-            "/government/prototype-tests/:prototypeId/review" &&
-          route.methods &&
-          route.methods.post
-        ) {
-          prototypeReviewFound =
-            true;
-        }
-      }
-    });
-
-    console.log(
-      "------------------------------------------"
-    );
-
-    if (
-      prototypeReviewFound
-    ) {
-      console.log(
-        "SUCCESS: Prototype Government Review route is loaded."
-      );
-
-      console.log(
-        "POST /api/advanced/government/prototype-tests/:prototypeId/review"
-      );
-    } else {
-      console.log(
-        "ERROR: Prototype Government Review route was NOT loaded."
-      );
-    }
-
-    console.log(
-      "=========================================="
-    );
-    console.log("");
-  } catch (error) {
-    console.error(
-      "Unable to inspect advanced routes:",
-      error
-    );
-  }
-}
-
-/* =========================================================
    START SERVER
 ========================================================= */
 
@@ -374,7 +225,11 @@ async function startServer() {
     );
 
     console.log(
-      "SIH PORTAL BACKEND"
+      "MAHASETU — INTEROPERABILITY MIDDLEWARE ENGINE"
+    );
+
+    console.log(
+      "PS 26129 | NOT a portal | API Gateway for existing state portals"
     );
 
     console.log(
@@ -406,112 +261,38 @@ async function startServer() {
       alter: false
     });
 
-    try {
-      await sequelize.query("ALTER TABLE problems ADD COLUMN aiProvider VARCHAR(60)");
-    } catch (_) {}
-    try {
-      await sequelize.query("ALTER TABLE problems ADD COLUMN aiModel VARCHAR(100)");
-    } catch (_) {}
-    try {
-      await sequelize.query("ALTER TABLE problems ADD COLUMN aiInputValidation TEXT");
-    } catch (_) {}
-
-    console.log(
-      "Database models synchronized."
-    );
-
-    /* =====================================================
-       VERIFY ROUTES BEFORE STARTING
-    ===================================================== */
-
-    printAdvancedRoutes();
+    console.log("Database models synchronized.");
 
     /* =====================================================
        SERVER
     ===================================================== */
 
-    app.listen(
-      PORT,
-      "0.0.0.0",
-      () => {
-        console.log(
-          "=========================================="
-        );
+    app.listen(PORT, "0.0.0.0", () => {
+      console.log("==========================================");
+      console.log(`MahaSetu Middleware running on port ${PORT}`);
+      console.log(`Middleware API: http://localhost:${PORT}/api/interop`);
+      console.log(`Auth API:       http://localhost:${PORT}/api/auth`);
+      console.log(`Health Check:   http://localhost:${PORT}/health`);
+      console.log("==========================================");
+      console.log("Core Middleware Endpoints:");
+      console.log(`  GET    /api/interop/connectors`);
+      console.log(`  GET    /api/interop/exchange-logs`);
+      console.log(`  GET    /api/interop/mdm/golden-records`);
+      console.log(`  GET    /api/interop/dlq`);
+      console.log(`  GET    /api/interop/metrics`);
+      console.log(`  GET    /api/interop/consent/records`);
+      console.log(`  GET    /api/interop/events`);
+      console.log("==========================================");
 
-        console.log(
-          `SIH Backend running on port ${PORT}`
-        );
-
-        console.log(
-          `http://localhost:${PORT}`
-        );
-
-        console.log(
-          "=========================================="
-        );
-
-        console.log(
-          "Available API routes:"
-        );
-
-        console.log(
-          `POST   http://localhost:${PORT}/api/auth/login`
-        );
-
-        console.log(
-          `POST   http://localhost:${PORT}/api/problems`
-        );
-
-        console.log(
-          `GET    http://localhost:${PORT}/api/problems`
-        );
-
-        console.log(
-          `GET    http://localhost:${PORT}/api/advanced/problems/:problemId/matches`
-        );
-
-        console.log(
-          `POST   http://localhost:${PORT}/api/advanced/problems/:problemId/ai-analyze`
-        );
-
-        console.log(
-          `POST   http://localhost:${PORT}/api/advanced/problems/:problemId/assign`
-        );
-
-        console.log(
-          `POST   http://localhost:${PORT}/api/advanced/government/prototype-tests/:prototypeId/review`
-        );
-
-        console.log(
-          `GET    http://localhost:${PORT}/api/advanced/route-check`
-        );
-
-        console.log(
-          `GET    http://localhost:${PORT}/api/industry/profile`
-        );
-
-        console.log(
-          `GET    http://localhost:${PORT}/api/industry/projects`
-        );
-
-        console.log(
-          `GET    http://localhost:${PORT}/api/industry/network`
-        );
-
-        console.log(
-          "=========================================="
-        );
-
-        const { checkOllamaHealth } = require("./services/aiService");
-        checkOllamaHealth().then(health => {
-          if (health.isAvailable) {
-            console.log(`[Ollama] Health Check: http://localhost:11434 is ONLINE (Model: ${health.targetModel} ready)`);
-          } else {
-            console.log(`[Ollama] Health Check: http://localhost:11434 is OFFLINE (${health.error})`);
-          }
-        });
-      }
-    );
+      const { checkOllamaHealth } = require("./services/aiService");
+      checkOllamaHealth().then(health => {
+        if (health.isAvailable) {
+          console.log(`[Ollama] ONLINE — Model: ${health.targetModel}`);
+        } else {
+          console.log(`[Ollama] OFFLINE — ${health.error}`);
+        }
+      });
+    });
   } catch (error) {
     console.error(
       "=========================================="

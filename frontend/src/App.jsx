@@ -11,17 +11,8 @@ import {
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import ProtectedRoute from "./components/ProtectedRoute";
-
-import CitizenDashboard from "./pages/citizen/CitizenDashboard";
-import ReportProblem from "./pages/citizen/ReportProblem";
-import MyProblems from "./pages/citizen/MyProblems";
-
+import CitizenPortal from "./pages/CitizenPortal";
 import AdminDashboard from "./pages/admin/AdminDashboard";
-import ProblemDetails from "./pages/admin/ProblemDetails";
-
-import AdvancedAdminCenter from "./pages/admin/AdvancedAdminCenter";
-import InterOpHub from "./pages/admin/InterOpHub";
-import Notifications from "./pages/Notifications";
 
 /* =========================================================
    MAHASETU MODERN LANDING PAGE (PROBLEM STATEMENT 26129)
@@ -225,14 +216,14 @@ function Home() {
             </p>
 
             <div style={{ display: "flex", gap: "14px", flexWrap: "wrap", marginBottom: "36px" }}>
-              <Link to="/login">
+              <Link to="/interop">
                 <button style={{ background: "linear-gradient(135deg, #f59e0b, #d97706)", border: "none", color: "#000", padding: "14px 28px", borderRadius: "10px", fontSize: "15px", fontWeight: 800, cursor: "pointer", boxShadow: "0 8px 24px rgba(245, 158, 11, 0.3)", display: "flex", alignItems: "center", gap: "8px" }}>
-                  👤 Launch Citizen Single Window
+                  ⚡ Enter Middleware Studio (PS 26129)
                 </button>
               </Link>
-              <Link to="/interop">
+              <Link to="/login">
                 <button style={{ background: "rgba(30, 41, 59, 0.8)", border: "1px solid rgba(255, 255, 255, 0.2)", color: "#ffffff", padding: "14px 26px", borderRadius: "10px", fontSize: "15px", fontWeight: 700, cursor: "pointer", display: "flex", alignItems: "center", gap: "8px" }}>
-                  ⚡ Explore InterOp Studio &amp; Topology
+                  👤 Citizen Consent & Status Demo
                 </button>
               </Link>
             </div>
@@ -527,60 +518,67 @@ function Home() {
       <section style={{ padding: "60px 5%", maxWidth: "1280px", margin: "0 auto" }}>
         
         <div style={{ textAlign: "center", marginBottom: "40px" }}>
-          <div style={{ fontSize: "12px", fontWeight: 700, color: "#38bdf8", textTransform: "uppercase", letterSpacing: "1.5px", marginBottom: "8px" }}>
-            Federated User Journeys
+          <div style={{ fontSize: "12px", fontWeight: 700, color: "38bdf8", textTransform: "uppercase", letterSpacing: "1.5px", marginBottom: "8px", color: "#38bdf8" }}>
+            Three Layers of the Solution
           </div>
           <h2 style={{ fontSize: "32px", fontWeight: 800, color: "#ffffff" }}>
-            Unified Stakeholder Portals
+            Middleware Core · Admin Console · Citizen Thin Client
           </h2>
           <p style={{ fontSize: "15px", color: "#94a3b8", maxWidth: "680px", margin: "0 auto" }}>
-            Purpose-built workflows tailored for citizens, departmental nodal reviewers, and enterprise interoperability administrators.
+            MahaSetu has three distinct layers. The middleware is the product. The admin console demonstrates it working. The citizen interface shows how consuming portals interact with it.
           </p>
         </div>
 
         <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(340px, 1fr))", gap: "24px" }}>
           
-          {/* PERSONA 1: CITIZEN */}
-          <div style={{ background: "rgba(15, 23, 42, 0.7)", border: "1px solid rgba(255, 255, 255, 0.1)", borderRadius: "16px", padding: "28px", display: "flex", flexDirection: "column", justifyContent: "space-between" }}>
+          {/* LAYER 1: INTEROP STUDIO — THE MIDDLEWARE ITSELF */}
+          <div style={{ background: "rgba(15, 23, 42, 0.7)", border: "1px solid rgba(59, 130, 246, 0.5)", borderRadius: "16px", padding: "28px", display: "flex", flexDirection: "column", justifyContent: "space-between", boxShadow: "0 8px 30px rgba(59, 130, 246, 0.2)" }}>
             <div>
-              <div style={{ width: "50px", height: "50px", borderRadius: "12px", background: "rgba(37, 99, 235, 0.2)", border: "1px solid rgba(37, 99, 235, 0.4)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "24px", marginBottom: "18px" }}>
-                👤
+              <div style={{ display: "flex", alignItems: "center", gap: "10px", marginBottom: "12px" }}>
+                <div style={{ width: "50px", height: "50px", borderRadius: "12px", background: "rgba(59, 130, 246, 0.25)", border: "1px solid rgba(59, 130, 246, 0.5)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "24px" }}>
+                  ⚡
+                </div>
+                <span style={{ background: "rgba(59, 130, 246, 0.2)", border: "1px solid rgba(59, 130, 246, 0.4)", color: "#60a5fa", fontSize: "10px", padding: "3px 8px", borderRadius: "6px", fontWeight: 800, textTransform: "uppercase" }}>Layer 1 — The Product</span>
               </div>
-              <h3 style={{ fontSize: "20px", fontWeight: 800, color: "#ffffff", marginBottom: "8px" }}>
-                Citizen &amp; Business Single Window
+              <h3 style={{ fontSize: "20px", fontWeight: 800, color: "#38bdf8", marginBottom: "8px" }}>
+                Interoperability Middleware Studio
               </h3>
               <p style={{ fontSize: "14px", color: "#94a3b8", lineHeight: 1.6, marginBottom: "16px" }}>
-                Apply once for integrated services (e.g. Skill Stipend + DBT Clearance). 1-Click DEPA 2.0 Consent automatically populates verified records from DigiLocker and MahaDBT without re-typing.
+                The core middleware engine: API gateway, connector topology, live IndEA schema transformer, MDM Golden Record viewer, Dead-Letter Queue, DEPA 2.0 consent ledger. <strong style={{ color: "#60a5fa" }}>This is what PS 26129 asks for.</strong>
               </p>
               <div style={{ display: "flex", flexDirection: "column", gap: "8px", fontSize: "13px", color: "#cbd5e1", marginBottom: "24px" }}>
-                <div>✓ Universal Tracking ID (<code style={{ color: "#38bdf8" }}>MH-FED-2026</code>)</div>
-                <div>✓ DEPA 2.0 Consent Ledger &amp; Revocation</div>
-                <div>✓ Multi-Stage Real-Time Progress Visualizer</div>
+                <div>✓ API Gateway + 6 Live Departmental Connectors</div>
+                <div>✓ MDM Golden Record Engine (Jaro-Winkler)</div>
+                <div>✓ Dead-Letter Queue + SHA-256 Audit Chain</div>
+                <div>✓ AI Schema Mapper + NL Query Console</div>
               </div>
             </div>
-            <Link to="/login" style={{ textDecoration: "none" }}>
-              <button style={{ width: "100%", background: "#2563eb", color: "#ffffff", border: "none", padding: "12px", borderRadius: "8px", fontWeight: 700, fontSize: "14px", cursor: "pointer" }}>
-                Launch Citizen Portal ➔
+            <Link to="/interop" style={{ textDecoration: "none" }}>
+              <button style={{ width: "100%", background: "linear-gradient(135deg, #0284c7, #2563eb)", color: "#ffffff", border: "none", padding: "12px", borderRadius: "8px", fontWeight: 700, fontSize: "14px", cursor: "pointer" }}>
+                ⚡ Enter Middleware Studio ➔
               </button>
             </Link>
           </div>
 
-          {/* PERSONA 2: DEPARTMENT REVIEWER */}
-          <div style={{ background: "rgba(15, 23, 42, 0.7)", border: "1px solid rgba(255, 255, 255, 0.1)", borderRadius: "16px", padding: "28px", display: "flex", flexDirection: "column", justifyContent: "space-between" }}>
+          {/* LAYER 2: GOVERNMENT NODAL DESK */}
+          <div style={{ background: "rgba(15, 23, 42, 0.7)", border: "1px solid rgba(245, 158, 11, 0.3)", borderRadius: "16px", padding: "28px", display: "flex", flexDirection: "column", justifyContent: "space-between" }}>
             <div>
-              <div style={{ width: "50px", height: "50px", borderRadius: "12px", background: "rgba(245, 158, 11, 0.2)", border: "1px solid rgba(245, 158, 11, 0.4)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "24px", marginBottom: "18px" }}>
-                🏛️
+              <div style={{ display: "flex", alignItems: "center", gap: "10px", marginBottom: "12px" }}>
+                <div style={{ width: "50px", height: "50px", borderRadius: "12px", background: "rgba(245, 158, 11, 0.2)", border: "1px solid rgba(245, 158, 11, 0.4)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "24px" }}>
+                  🏛️
+                </div>
+                <span style={{ background: "rgba(245, 158, 11, 0.15)", border: "1px solid rgba(245, 158, 11, 0.3)", color: "#fbbf24", fontSize: "10px", padding: "3px 8px", borderRadius: "6px", fontWeight: 800, textTransform: "uppercase" }}>Layer 2 — Admin Console</span>
               </div>
               <h3 style={{ fontSize: "20px", fontWeight: 800, color: "#ffffff", marginBottom: "8px" }}>
                 Department Nodal Review Desk
               </h3>
               <p style={{ fontSize: "14px", color: "#94a3b8", lineHeight: 1.6, marginBottom: "16px" }}>
-                Consolidated 360° Beneficiary View across departments. Execute cross-departmental verification in 1-click, review AI duplicate flags, and monitor Maharashtra Right to Public Services SLAs.
+                The governance dashboard: consolidated 360° beneficiary view across all departments, SLA compliance monitor (RTS Act tiers), 36-district heatmap, MDM manual review queue, and DLQ exception panel.
               </p>
               <div style={{ display: "flex", flexDirection: "column", gap: "8px", fontSize: "13px", color: "#cbd5e1", marginBottom: "24px" }}>
-                <div>✓ Cross-Agency Verification Matrix</div>
+                <div>✓ 360° Cross-Department Beneficiary View</div>
+                <div>✓ SLA Compliance Monitor (RTS Act 7/15/30 days)</div>
                 <div>✓ AI Deduplication (84.2% Fraud Catch)</div>
-                <div>✓ 36-District SLA Heatmap &amp; RTS Countdown</div>
               </div>
             </div>
             <Link to="/login" style={{ textDecoration: "none" }}>
@@ -590,27 +588,30 @@ function Home() {
             </Link>
           </div>
 
-          {/* PERSONA 3: INTEROP STUDIO ADMIN */}
-          <div style={{ background: "rgba(15, 23, 42, 0.7)", border: "1px solid rgba(59, 130, 246, 0.3)", borderRadius: "16px", padding: "28px", display: "flex", flexDirection: "column", justifyContent: "space-between", boxShadow: "0 8px 30px rgba(59, 130, 246, 0.15)" }}>
+          {/* LAYER 3: CITIZEN THIN CLIENT */}
+          <div style={{ background: "rgba(15, 23, 42, 0.7)", border: "1px solid rgba(255, 255, 255, 0.1)", borderRadius: "16px", padding: "28px", display: "flex", flexDirection: "column", justifyContent: "space-between" }}>
             <div>
-              <div style={{ width: "50px", height: "50px", borderRadius: "12px", background: "rgba(59, 130, 246, 0.25)", border: "1px solid rgba(59, 130, 246, 0.5)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "24px", marginBottom: "18px" }}>
-                ⚡
+              <div style={{ display: "flex", alignItems: "center", gap: "10px", marginBottom: "12px" }}>
+                <div style={{ width: "50px", height: "50px", borderRadius: "12px", background: "rgba(37, 99, 235, 0.2)", border: "1px solid rgba(37, 99, 235, 0.4)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "24px" }}>
+                  👤
+                </div>
+                <span style={{ background: "rgba(100, 116, 139, 0.2)", border: "1px solid rgba(100, 116, 139, 0.3)", color: "#94a3b8", fontSize: "10px", padding: "3px 8px", borderRadius: "6px", fontWeight: 800, textTransform: "uppercase" }}>Layer 3 — Reference Consumer</span>
               </div>
-              <h3 style={{ fontSize: "20px", fontWeight: 800, color: "#38bdf8", marginBottom: "8px" }}>
-                State InterOp Gateway Studio
+              <h3 style={{ fontSize: "20px", fontWeight: 800, color: "#ffffff", marginBottom: "8px" }}>
+                Citizen Consent & Status Interface
               </h3>
               <p style={{ fontSize: "14px", color: "#94a3b8", lineHeight: 1.6, marginBottom: "16px" }}>
-                Live enterprise middleware management console. Live topology visualizer, IndEA schema transformer, Dead Letter Queue (DLQ), circuit breakers, and DEPA 2.0 immutable consent ledger.
+                A minimal demo client showing how any existing portal (MahaSwayam, Aaple Sarkar) would call the MahaSetu middleware APIs. DEPA 2.0 1-click consent auto-fill + universal federated tracking ID.
               </p>
-              <div style={{ display: "flex", flexDirection: "column", gap: "8px", fontSize: "13px", color: "#cbd5e1", marginBottom: "24px" }}>
-                <div>✓ Live Visual Interop Topology Grid</div>
-                <div>✓ Real-Time Data Exchange Audit Logs</div>
-                <div>✓ Interactive Exchange Simulator &amp; DLQ</div>
+              <div style={{ display: "flex", flexDirection: "column", gap: "8px", fontSize: "13px", color: "#94a3b8", marginBottom: "24px" }}>
+                <div>✓ DEPA 2.0 Consent Auto-Fill (1-click)</div>
+                <div>✓ Universal Tracking ID (MH-FED-2026-XXXX)</div>
+                <div style={{ color: "#64748b", fontSize: "12px" }}>ℹ This simulates how MahaSwayam / Aaple Sarkar would call our APIs</div>
               </div>
             </div>
-            <Link to="/interop" style={{ textDecoration: "none" }}>
-              <button style={{ width: "100%", background: "linear-gradient(135deg, #0284c7, #2563eb)", color: "#ffffff", border: "none", padding: "12px", borderRadius: "8px", fontWeight: 700, fontSize: "14px", cursor: "pointer" }}>
-                Enter InterOp Studio ➔
+            <Link to="/login" style={{ textDecoration: "none" }}>
+              <button style={{ width: "100%", background: "#334155", color: "#94a3b8", border: "1px solid rgba(255,255,255,0.1)", padding: "12px", borderRadius: "8px", fontWeight: 700, fontSize: "14px", cursor: "pointer" }}>
+                View Citizen Demo Client ➔
               </button>
             </Link>
           </div>
@@ -683,114 +684,34 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
 
-        {/* ================= CITIZEN SINGLE WINDOW ================= */}
+        {/* ================= CITIZEN INTERFACE (MINIMAL 2-SCREEN) ================= */}
         <Route
           path="/citizen"
           element={
-            <ProtectedRoute allowedRoles={["citizen"]}>
-              <CitizenDashboard />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/citizen/report"
-          element={
-            <ProtectedRoute allowedRoles={["citizen"]}>
-              <ReportProblem />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/citizen/problems"
-          element={
-            <ProtectedRoute allowedRoles={["citizen"]}>
-              <MyProblems />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/citizen/notifications"
-          element={
-            <ProtectedRoute allowedRoles={["citizen", "government", "university", "industry"]}>
-              <Notifications />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/notifications"
-          element={
-            <ProtectedRoute allowedRoles={["citizen", "government", "university", "industry"]}>
-              <Notifications />
+            <ProtectedRoute allowedRoles={["citizen", "government", "admin"]}>
+              <CitizenPortal />
             </ProtectedRoute>
           }
         />
 
-        {/* ================= GOVERNMENT NODAL DESK & OPERATIONS ================= */}
+        {/* ================= ADMIN & GOVERNMENT MIDDLEWARE DASHBOARD (7 TABS) ================= */}
         <Route
           path="/admin"
           element={
-            <ProtectedRoute allowedRoles={["government"]}>
+            <ProtectedRoute allowedRoles={["government", "admin"]}>
               <AdminDashboard />
             </ProtectedRoute>
           }
         />
-        <Route
-          path="/admin/problem/:id"
-          element={
-            <ProtectedRoute allowedRoles={["government"]}>
-              <ProblemDetails />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/problem/:id"
-          element={
-            <ProtectedRoute allowedRoles={["government", "citizen"]}>
-              <ProblemDetails />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/admin/review/:id"
-          element={
-            <ProtectedRoute allowedRoles={["government"]}>
-              <ProblemDetails />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/admin/advanced"
-          element={
-            <ProtectedRoute allowedRoles={["government"]}>
-              <AdvancedAdminCenter />
-            </ProtectedRoute>
-          }
-        />
-
-        {/* ================= MAHASETU INTEROPERABILITY STUDIO ================= */}
-        <Route
-          path="/admin/interop"
-          element={
-            <ProtectedRoute allowedRoles={["government"]}>
-              <InterOpHub />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/interop"
-          element={
-            <ProtectedRoute allowedRoles={["government"]}>
-              <InterOpHub />
-            </ProtectedRoute>
-          }
-        />
+        <Route path="/admin/interop" element={<Navigate to="/admin" replace />} />
+        <Route path="/interop" element={<Navigate to="/admin" replace />} />
 
         {/* ================= REDIRECTS FOR LEGACY PATHS ================= */}
         <Route path="/university/*" element={<Navigate to="/admin" replace />} />
         <Route path="/university" element={<Navigate to="/admin" replace />} />
         <Route path="/industry/*" element={<Navigate to="/admin" replace />} />
         <Route path="/industry" element={<Navigate to="/admin" replace />} />
-        <Route path="/collaboration" element={<Navigate to="/interop" replace />} />
+        <Route path="/collaboration" element={<Navigate to="/admin" replace />} />
 
         {/* CATCH-ALL REDIRECT */}
         <Route path="*" element={<Navigate to="/" replace />} />
