@@ -4,7 +4,6 @@
   "description": "MahaSetu - Maharashtra Unified Interoperability & Federated Service Delivery Grid (SIH 2026 Problem Statement ID: 26129)",
   "private": true,
   "scripts": {
-    "install": "npm --prefix server install",
     "start": "npm --prefix server start",
     "server": "npm --prefix server run dev",
     "server:start": "npm --prefix server start",

@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "buildCommand": "npm install --prefix server && npm install --prefix frontend && npm run build --prefix frontend",
+  "buildCommand": "npm install --prefix server && npm install --include=dev --prefix frontend && npm run build --prefix frontend",
   "outputDirectory": "frontend/dist",
   "rewrites": [
     { "source": "/api/(.*)", "destination": "/api/index.js" },
@@ -11,10 +11,5 @@
       "memory": 512,
       "maxDuration": 30
     }
-  },
-  "env": {
-    "NODE_ENV": "production",
-    "DB_DIALECT": "sqlite",
-    "DB_STORAGE": "/tmp/mahasetu.sqlite"
   }
 }
